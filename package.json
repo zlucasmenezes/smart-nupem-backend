@@ -11,10 +11,17 @@
     "lint": "tslint -c tslint.json -p tsconfig.json --fix"
   },
   "devDependencies": {
+    "@types/express": "^4.17.6",
+    "@types/mongoose": "^5.7.21",
     "@types/node": "^14.0.5",
     "nodemon": "^2.0.4",
     "sucrase": "^3.15.0",
     "tslint": "^6.1.2",
     "typescript": "^3.9.3"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "mongoose": "^5.9.16"
   }
 }
