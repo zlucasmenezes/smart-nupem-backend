@@ -1,0 +1,20 @@
+{
+  "name": "smart-nupem-backend",
+  "version": "0.0.0",
+  "main": "dist/server.js",
+  "repository": "https://github.com/zlucasmenezes/smart-nupem-backend.git",
+  "author": "zlucasmenezes",
+  "license": "MIT",
+  "scripts": {
+    "dev": "nodemon -e ts -w \"src/\" -x \"yarn lint && sucrase-node src/server.ts\"",
+    "build": "yarn lint && rm -rf dist && tsc",
+    "lint": "tslint -c tslint.json -p tsconfig.json --fix"
+  },
+  "devDependencies": {
+    "@types/node": "^14.0.5",
+    "nodemon": "^2.0.4",
+    "sucrase": "^3.15.0",
+    "tslint": "^6.1.2",
+    "typescript": "^3.9.3"
+  }
+}
