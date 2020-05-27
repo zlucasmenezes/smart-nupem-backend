@@ -1,6 +1,7 @@
 import mongoose from 'mongoose';
 import express from 'express';
 import cors from 'cors';
+import { Server } from 'http';
 
 class App {
 
@@ -14,13 +15,15 @@ class App {
     this.routes();
   }
 
-  public async start(): Promise<void> {
+  public async start(): Promise<Server> {
     await this.database();
 
     const server = this.app.listen(this.port);
 
     server.on('listening', () => console.log(`[APP] smart-nupem-backend listening at http://localhost:${this.port}`));
     server.on('error', (e: Error) => console.error(`[APP] ${e}`));
+
+    return server;
   }
 
   private middlewars(): void {
