@@ -1,13 +1,15 @@
 import mongoose from 'mongoose';
 import express from 'express';
 import cors from 'cors';
+import { environment, IEnvironment as Environment } from '../environments/environment';
 import { Server } from 'http';
 
 class App {
 
   private app: express.Application;
+  public environment: Environment = environment;
 
-  constructor(private port = 3000) {
+  constructor() {
     this.app = express();
     this.app.disable('x-powered-by');
 
@@ -18,9 +20,9 @@ class App {
   public async start(): Promise<Server> {
     await this.database();
 
-    const server = this.app.listen(this.port);
+    const server = this.app.listen(this.environment.port);
 
-    server.on('listening', () => console.log(`[APP] smart-nupem-backend listening at http://localhost:${this.port}`));
+    server.on('listening', () => console.log(`[APP] ${this.environment.name} v${this.environment.version} listening at http://localhost:${this.environment.port}`));
     server.on('error', (e: Error) => console.error(`[APP] ${e}`));
 
     return server;
@@ -33,7 +35,7 @@ class App {
 
   private routes(): void {
     this.app.get('/', (_, res) => {
-      res.send('Hello World!');
+      res.send(`${process.env.environment}: ${this.environment.name} v${this.environment.version}`);
     });
   }
 
