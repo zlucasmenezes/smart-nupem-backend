@@ -47,7 +47,7 @@ class App {
 
     const connect = async (attempt: number = 1, maximumNumberOfAttempts: number = Infinity): Promise<boolean > => {
       try {
-        await mongoose.connect('mongodb://dev:dev@localhost:27017/smart-nupem-dev?gssapiServiceName=mongodb', {
+        await mongoose.connect(`mongodb://${this.environment.database.user}:${this.environment.database.pwd}@${this.environment.database.host}:${this.environment.database.port}/${this.environment.database.db}?gssapiServiceName=mongodb`, {
           useCreateIndex: true,
           useUnifiedTopology: true,
           useNewUrlParser: true,

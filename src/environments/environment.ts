@@ -28,6 +28,7 @@ export interface IEnvironment extends IEnvironmentConfiguration {
 export interface IEnvironmentConfiguration {
   database: {
     host: string,
+    port: number,
     db: string,
     user: string,
     pwd: string
