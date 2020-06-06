@@ -64,6 +64,6 @@
             "spaces",
             2
         ],
-        "no-invalid-this": true
+        "no-invalid-this": false
     }
 }

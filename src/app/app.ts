@@ -1,19 +1,20 @@
 import mongoose from 'mongoose';
-import express from 'express';
+import express, { Application } from 'express';
 import cors from 'cors';
 import { environment, IEnvironment as Environment } from '../environments/environment';
 import { Server } from 'http';
+import { routes, IRouteConfig } from './routes/routes';
 
 class App {
 
-  private app: express.Application;
+  private app: Application;
   public environment: Environment = environment;
 
   constructor() {
     this.app = express();
     this.app.disable('x-powered-by');
 
-    this.middlewars();
+    this.middleware();
     this.routes();
   }
 
@@ -28,14 +29,14 @@ class App {
     return server;
   }
 
-  private middlewars(): void {
+  private middleware(): void {
     this.app.use(express.json());
     this.app.use(cors());
   }
 
   private routes(): void {
-    this.app.get('/', (_, res) => {
-      res.send(`${process.env.environment}: ${this.environment.name} v${this.environment.version}`);
+    routes.forEach((route: IRouteConfig) => {
+      this.app.use(route.routePath, route.childRoutes);
     });
   }
 
