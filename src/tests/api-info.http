@@ -1,12 +1,12 @@
 # DEV
 @host = localhost
 @port = 3000
-@baseUrl = http://{{host}}:{{port}}/api
 
 # # HMG
 # @host = localhost
 # @port = 3001
-# @baseUrl = http://{{host}}:{{port}}/api
+
+@baseUrl = http://{{host}}:{{port}}/api
 
 ### GET GENERAL INFO
 GET {{baseUrl}}

@@ -1,0 +1,52 @@
+
+# DEV
+@host = localhost
+@port = 3000
+
+# # HMG
+# @host = localhost
+# @port = 3001
+
+@baseUrl = http://{{host}}:{{port}}/api/users
+@userId = {{ AllUsers.response.body.$[0]._id }}
+# @userId = {{ createdUser.response.body.$._id }}
+
+### CREATE
+# @name createdUser
+POST {{baseUrl}}/auth/signup
+Content-Type: application/json
+
+{
+  "firstName": "Test",
+  "lastName": "Test",
+  "email": "test@test",
+  "username": "test",
+  "password": "123456"
+}
+
+
+### GET ALL USERS
+# @name AllUsers
+GET {{baseUrl}}
+
+
+### GET USER BY ID
+GET {{baseUrl}}/{{userId}}
+
+
+### UPDATE
+PUT {{baseUrl}}/{{userId}}
+Content-Type: application/json
+
+{
+  "_id": "{{userId}}",
+  "firstName": "Edited",
+  "lastName": "Edited",
+  "email": "test@test",
+  "username": "newUserName",
+  "password": "newPassword"
+}
+
+
+### REMOVE
+DELETE {{baseUrl}}/{{userId}}
