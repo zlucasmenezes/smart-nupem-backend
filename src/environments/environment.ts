@@ -1,5 +1,6 @@
 import * as dev from './environment.dev';
 import * as hmg from './environment.hmg';
+import { Secret, SignOptions } from 'jsonwebtoken';
 
 let environmentConfiguration: IEnvironmentConfiguration;
 
@@ -34,4 +35,8 @@ export interface IEnvironmentConfiguration {
     pwd: string
   };
   port: number;
+  authentication: {
+    key: Secret,
+    options: SignOptions,
+  };
 }

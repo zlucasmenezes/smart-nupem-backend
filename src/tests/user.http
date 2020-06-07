@@ -10,8 +10,9 @@
 @baseUrl = http://{{host}}:{{port}}/api/users
 @userId = {{ AllUsers.response.body.$[0]._id }}
 # @userId = {{ createdUser.response.body.$._id }}
+@token = {{tokenObject.response.body.$.token}}
 
-### CREATE
+### SIGNUP
 # @name createdUser
 POST {{baseUrl}}/auth/signup
 Content-Type: application/json
@@ -20,6 +21,17 @@ Content-Type: application/json
   "firstName": "Test",
   "lastName": "Test",
   "email": "test@test",
+  "username": "test",
+  "password": "123456"
+}
+
+
+### LOGIN
+# @name tokenObject
+POST {{baseUrl}}/auth/login
+Content-Type: application/json
+
+{
   "username": "test",
   "password": "123456"
 }

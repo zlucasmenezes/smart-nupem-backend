@@ -3,7 +3,7 @@ import User from '../schemas/user.schema';
 
 class UserController {
 
-    public async create(request: Request, response: Response): Promise<Response> {
+    public async signup(request: Request, response: Response): Promise<Response> {
         try {
             const user = new User(request.body);
             const createdUser = await user.save();
@@ -11,7 +11,17 @@ class UserController {
             return response.status(201).send(createdUser);
         }
         catch (error) {
-            return response.status(500).send(error.toString());
+            return response.status(500).send(error);
+        }
+    }
+
+    public async login(request: Request, response: Response): Promise<Response> {
+        try {
+            const token = await User.generateAuthToken(request.body.username, request.body.password);
+            return response.status(200).send({ token });
+        }
+        catch (error) {
+            return response.status(401).send(null);
         }
     }
 
@@ -21,7 +31,7 @@ class UserController {
             return response.status(200).send(users);
         }
         catch (error) {
-            return response.status(500).send(error.toString());
+            return response.status(500).send(error);
         }
     }
 
@@ -31,7 +41,7 @@ class UserController {
             return response.status(200).send(user);
         }
         catch (error) {
-            return response.status(500).send(error.toString());
+            return response.status(500).send(error);
         }
     }
 
@@ -40,20 +50,17 @@ class UserController {
             const user = await User.findById(request.params.id);
             const updatedUser = request.body;
 
-            let updated;
-            if (user) {
-                user.firstName = updatedUser.firstName;
-                user.lastName = updatedUser.lastName;
-                user.email = updatedUser.email;
-                user.username = updatedUser.username;
-                user.password = updatedUser.password;
-                updated = await user.save();
-            }
+            if (!user) { return response.status(404).send(null); }
+
+            user.firstName = updatedUser.firstName;
+            user.lastName = updatedUser.lastName;
+            user.email = updatedUser.email;
+            const updated = await user.save();
 
             return response.status(200).send(updated);
         }
         catch (error) {
-            return response.status(500).send(error.toString());
+            return response.status(500).send(error);
         }
     }
 
@@ -63,7 +70,7 @@ class UserController {
             return response.status(200).send(deleted);
         }
         catch (error) {
-            return response.status(500).send(error.toString());
+            return response.status(500).send(error);
         }
     }
 }

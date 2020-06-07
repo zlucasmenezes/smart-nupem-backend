@@ -1,15 +1,18 @@
 import { IBase } from './base.model';
 
-interface IUserSchema extends IBase {
+export interface IUser extends IUserSchema {
   firstName: string;
   lastName: string;
   email: string;
   username: string;
   password: string;
-  createdAt: Date;
-  updatedAt: Date;
 }
 
-export interface IUser extends IUserSchema {
+interface IUserSchema extends IBase {
   fullName: string;
+}
+
+export interface ITokenData {
+  userId: IUser['_id'];
+  username: IUser['username'];
 }
