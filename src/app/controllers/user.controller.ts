@@ -19,7 +19,7 @@ class UserController {
     public async login(request: Request, response: Response<IResponsePattern>): Promise<Response> {
         try {
             const token = await User.generateAuthToken(request.body.username, request.body.password);
-            return response.status(200).send(patternResponse({ token }));
+            return response.status(200).send(patternResponse({ token }, 'User authenticated'));
         }
         catch (error) {
             return response.status(401).send(patternError(error, error.message));
@@ -48,19 +48,17 @@ class UserController {
 
     public async update(request: Request, response: Response<IResponsePattern>): Promise<Response> {
         try {
-            if (request.token.userId !== request.params.id) { return response.status(401).send(patternError(new Error('Not authorized'))); }
-
             const user = await User.findById(request.params.id);
             const updatedUser = request.body;
 
-            if (!user) { return response.status(404).send(patternError(new Error('User not found'))); }
+            if (!user) { return response.status(404).send(patternError(undefined, 'User not found')); }
 
             user.firstName = updatedUser.firstName;
             user.lastName = updatedUser.lastName;
             user.email = updatedUser.email;
             const updated = await user.save();
 
-            return response.status(200).send(patternResponse(updated));
+            return response.status(200).send(patternResponse(updated, 'User updated'));
         }
         catch (error) {
             return response.status(500).send(patternError(error, error.message));
@@ -70,7 +68,7 @@ class UserController {
     public async delete(request: Request, response: Response<IResponsePattern>): Promise<Response> {
         try {
             const deleted = await User.deleteOne({ _id: request.params.id });
-            return response.status(200).send(patternResponse(deleted));
+            return response.status(200).send(patternResponse(deleted, 'User deleted'));
         }
         catch (error) {
             return response.status(500).send(patternError(error, error.message));

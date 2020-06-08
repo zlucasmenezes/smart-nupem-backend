@@ -8,8 +8,8 @@
 # @port = 3001
 
 @baseUrl = http://{{host}}:{{port}}/api/users
-# @userId = {{ AllUsers.response.body.$.data[0]._id }}
-@userId = {{ createdUser.response.body.$.data._id }}
+@userId = {{ AllUsers.response.body.$.data[0]._id }}
+# @userId = {{ createdUser.response.body.$.data._id }}
 @token = {{ tokenObject.response.body.$.data.token }}
 
 ### SIGNUP
