@@ -47,6 +47,8 @@ class UserController {
 
     public async update(request: Request, response: Response): Promise<Response> {
         try {
+            if (request.token.userId !== request.params.id) { return response.status(401).send('Not authorized!'); }
+
             const user = await User.findById(request.params.id);
             const updatedUser = request.body;
 

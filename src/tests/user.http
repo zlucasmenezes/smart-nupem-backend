@@ -40,25 +40,27 @@ Content-Type: application/json
 ### GET ALL USERS
 # @name AllUsers
 GET {{baseUrl}}
+Authorization: Bearer {{token}}
 
 
 ### GET USER BY ID
 GET {{baseUrl}}/{{userId}}
+Authorization: Bearer {{token}}
 
 
 ### UPDATE
 PUT {{baseUrl}}/{{userId}}
 Content-Type: application/json
+Authorization: Bearer {{token}}
 
 {
   "_id": "{{userId}}",
   "firstName": "Edited",
   "lastName": "Edited",
-  "email": "test@test",
-  "username": "newUserName",
-  "password": "newPassword"
+  "email": "test@test"
 }
 
 
 ### REMOVE
 DELETE {{baseUrl}}/{{userId}}
+Authorization: Bearer {{token}}

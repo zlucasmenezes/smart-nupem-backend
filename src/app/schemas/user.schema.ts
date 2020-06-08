@@ -43,12 +43,12 @@ const UserSchema = new Schema<IUser>(
 );
 
 UserSchema.virtual('fullName').get(
-  function(): string {
+  function(this: IUser): string {
     return `${this.firstName} ${this.lastName}`;
   }
 );
 
-UserSchema.pre<IUser>('save', async function (next: HookNextFunction) {
+UserSchema.pre<IUser>('save', async function (this: IUser, next: HookNextFunction) {
   if (this.isModified('password')) {
     if (this.isNew) {
       this.password = await bcrypt.hash(this.password, await bcrypt.genSalt());
@@ -57,8 +57,10 @@ UserSchema.pre<IUser>('save', async function (next: HookNextFunction) {
   }
 });
 
-UserSchema.statics.generateAuthToken = async function (username: string, password: string): Promise<string> {
-  const user: IUser = await this.findOne({ username});
+UserSchema.statics.generateAuthToken = async function (this: IUserModel, username: string, password: string): Promise<string> {
+  const user = await this.findOne({ username});
+  if (!user) { return Promise.reject('User not found'); }
+
   if (!await bcrypt.compare(password, user.password)) { return Promise.reject('Password incorrect'); }
 
   const token = jwt.sign(

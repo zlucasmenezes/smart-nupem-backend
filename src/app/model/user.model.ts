@@ -15,4 +15,6 @@ interface IUserSchema extends IBase {
 export interface ITokenData {
   userId: IUser['_id'];
   username: IUser['username'];
+  iat?: number;
+  exp?: number;
 }

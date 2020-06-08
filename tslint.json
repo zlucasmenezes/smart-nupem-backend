@@ -64,7 +64,7 @@
             "spaces",
             2
         ],
-        "no-invalid-this": false,
+        "no-invalid-this": true,
         "only-arrow-functions": false
     }
 }
