@@ -1,9 +1,10 @@
 import { Request, Response } from 'express';
 import { environment } from '../../environments/environment';
+import { IResponsePattern, patternResponse, patternError } from '../models/express.model';
 
 class ApiInfoController {
 
-    public async generalInfo(_: Request, response: Response): Promise<Response> {
+    public async generalInfo(_: Request, response: Response<IResponsePattern>): Promise<Response> {
       try {
         const apiInfo: IApiInfo = {
           environment: process.env.environment as string,
@@ -11,10 +12,10 @@ class ApiInfoController {
           version: environment.version,
         };
 
-        return response.status(200).send(apiInfo);
+        return response.status(200).send(patternResponse(apiInfo));
       }
       catch (error) {
-        return response.status(500).send(error.toString());
+        return response.status(500).send(patternError(error, error.message));
       }
     }
 

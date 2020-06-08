@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import * as jwt from 'jsonwebtoken';
 import { environment } from '../../../environments/environment';
-import { ITokenData } from '../../model/user.model';
+import { ITokenData } from '../../models/user.model';
 
 class AuthGuard {
 

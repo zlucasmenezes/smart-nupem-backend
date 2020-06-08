@@ -1,6 +1,6 @@
 import { model, Schema, HookNextFunction, Model } from 'mongoose';
-import { IUser, ITokenData } from '../model/user.model';
-import { environment } from './../../environments/environment';
+import { IUser, ITokenData } from '../models/user.model';
+import { environment } from '../../environments/environment';
 import * as bcrypt from 'bcrypt';
 import * as jwt from 'jsonwebtoken';
 
@@ -59,9 +59,9 @@ UserSchema.pre<IUser>('save', async function (this: IUser, next: HookNextFunctio
 
 UserSchema.statics.generateAuthToken = async function (this: IUserModel, username: string, password: string): Promise<string> {
   const user = await this.findOne({ username});
-  if (!user) { return Promise.reject('User not found'); }
+  if (!user) { return Promise.reject(new Error('User not found')); }
 
-  if (!await bcrypt.compare(password, user.password)) { return Promise.reject('Password incorrect'); }
+  if (!await bcrypt.compare(password, user.password)) { return Promise.reject(new Error('Invalid authentication credentials')); }
 
   const token = jwt.sign(
     {
