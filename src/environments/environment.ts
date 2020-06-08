@@ -17,7 +17,7 @@ export const environment: IEnvironment = {
   ...environmentConfiguration,
   ...{
     name: 'smart-nupem-backend',
-    version: '0.0.5'
+    version: '0.0.6'
   }
 };
 
