@@ -4,7 +4,7 @@ export const environmentConfiguration: IEnvironmentConfiguration = {
   database: {
     host: 'localhost',
     port: 27017,
-    db: 'smart-nupem-dev',
+    db: 'monica-dev',
     user: 'dev',
     pwd: 'dev'
   },

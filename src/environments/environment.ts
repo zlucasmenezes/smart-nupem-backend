@@ -16,8 +16,8 @@ switch (process.env.environment) {
 export const environment: IEnvironment = {
   ...environmentConfiguration,
   ...{
-    name: 'smart-nupem-backend',
-    version: '0.0.6'
+    name: 'monica-backend',
+    version: '0.0.7'
   }
 };
 

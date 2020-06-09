@@ -1,8 +1,8 @@
 {
-  "name": "smart-nupem-backend",
-  "version": "0.0.6",
+  "name": "monica-backend",
+  "version": "0.0.7",
   "main": "dist/server.js",
-  "repository": "https://github.com/zlucasmenezes/smart-nupem-backend.git",
+  "repository": "https://github.com/zlucasmenezes/monica-backend.git",
   "author": "zlucasmenezes",
   "license": "MIT",
   "scripts": {

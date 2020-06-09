@@ -4,7 +4,7 @@ export const environmentConfiguration: IEnvironmentConfiguration = {
   database: {
     host: 'localhost',
     port: 27017,
-    db: 'smart-nupem-hmg',
+    db: 'monica-hmg',
     user: 'hmg',
     pwd: 'hmg'
   },
