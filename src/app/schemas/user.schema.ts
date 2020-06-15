@@ -63,11 +63,12 @@ UserSchema.statics.generateAuthToken = async function (this: IUserModel, usernam
 
   if (!await bcrypt.compare(password, user.password)) { return Promise.reject(new Error('Invalid authentication credentials')); }
 
+  const tokenData: ITokenData = {
+    userId: user._id,
+  };
+
   const token = jwt.sign(
-    {
-      userId: user._id,
-      username: user.username,
-    } as ITokenData,
+    tokenData,
     environment.authentication.key,
     environment.authentication.options
   );
