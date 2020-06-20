@@ -12,9 +12,12 @@ interface IUserSchema extends IBase {
   fullName: string;
 }
 
-export interface ITokenData {
+export interface IDecodedToken {
   userId: IUser['_id'];
-  username: IUser['username'];
   iat?: number;
   exp?: number;
+}
+
+export interface IEncodedToken extends IDecodedToken {
+  token: string;
 }
