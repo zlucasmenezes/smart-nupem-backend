@@ -18,8 +18,8 @@ class UserController {
 
     public async login(request: Request, response: Response<IResponsePattern>): Promise<Response> {
         try {
-            const token = await User.generateAuthToken(request.body.username, request.body.password);
-            return response.status(200).send(patternResponse({ token }, 'User authenticated'));
+            const encodedToken = await User.generateAuthToken(request.body.username, request.body.password);
+            return response.status(200).send(patternResponse(encodedToken, 'User authenticated'));
         }
         catch (error) {
             return response.status(401).send(patternError(error, error.message));

@@ -1,5 +1,5 @@
 import { model, Schema, HookNextFunction, Model } from 'mongoose';
-import { IUser, ITokenData } from '../models/user.model';
+import { IUser, IDecodedToken, IEncodedToken } from '../models/user.model';
 import { environment } from '../../environments/environment';
 import * as bcrypt from 'bcrypt';
 import * as jwt from 'jsonwebtoken';
@@ -57,28 +57,28 @@ UserSchema.pre<IUser>('save', async function (this: IUser, next: HookNextFunctio
   }
 });
 
-UserSchema.statics.generateAuthToken = async function (this: IUserModel, username: string, password: string): Promise<string> {
+UserSchema.statics.generateAuthToken = async function (this: IUserModel, username: string, password: string): Promise<IEncodedToken> {
   const user = await this.findOne({ username});
   if (!user) { return Promise.reject(new Error('User not found')); }
 
   if (!await bcrypt.compare(password, user.password)) { return Promise.reject(new Error('Invalid authentication credentials')); }
 
-  const tokenData: ITokenData = {
+  const decodedTokenData: IDecodedToken = {
     userId: user._id,
   };
 
-  const token = jwt.sign(
-    tokenData,
-    environment.authentication.key,
-    environment.authentication.options
-  );
+  const encodedTokenData: IEncodedToken = {
+    userId: decodedTokenData.userId,
+    token: jwt.sign(decodedTokenData, environment.authentication.key, environment.authentication.options),
+    exp: Math.floor(Date.now() / 1000) + Number(environment.authentication.options.expiresIn)
+  };
 
-  return Promise.resolve<string>(token);
+  return Promise.resolve<IEncodedToken>(encodedTokenData);
 };
 
 const User: IUserModel = model<IUser, IUserModel>('User', UserSchema, 'users');
 export default User;
 
 interface IUserModel extends Model<IUser> {
-  generateAuthToken(username: string, password: string): Promise<string>;
+  generateAuthToken(username: string, password: string): Promise<IEncodedToken>;
 }

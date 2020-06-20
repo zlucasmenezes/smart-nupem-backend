@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import * as jwt from 'jsonwebtoken';
 import { environment } from '../../../environments/environment';
-import { ITokenData } from '../../models/user.model';
+import { IDecodedToken } from '../../models/user.model';
 import { IResponsePattern, patternError } from '../../models/express.model';
 import User from '../../schemas/user.schema';
 
@@ -12,7 +12,7 @@ class AuthGuard {
       const token = request.headers.authorization?.split(' ')[1];
       if (!token) { return response.status(401).send(patternError(undefined, 'Not authenticated')); }
 
-      request.token = jwt.verify(token, environment.authentication.key) as ITokenData;
+      request.token = jwt.verify(token, environment.authentication.key) as IDecodedToken;
 
       return next();
     }
