@@ -68,6 +68,7 @@ class UserController {
     public async delete(request: Request, response: Response<IResponsePattern>): Promise<Response> {
         try {
             const deleted = await User.deleteOne({ _id: request.params.id });
+
             return response.status(200).send(patternResponse(deleted, 'User deleted'));
         }
         catch (error) {

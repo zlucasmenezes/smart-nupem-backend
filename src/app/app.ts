@@ -1,9 +1,10 @@
 import mongoose from 'mongoose';
 import express, { Application } from 'express';
+import { Server } from 'http';
 import cors from 'cors';
 import { environment, IEnvironment as Environment } from '../environments/environment';
-import { Server } from 'http';
 import { routes, IRouteConfig } from './routes/routes';
+import { SocketIO } from './socket-io';
 
 class App {
 
@@ -25,6 +26,8 @@ class App {
 
     server.on('listening', () => console.log(`[APP] ${this.environment.name} v${this.environment.version} listening at http://localhost:${this.environment.port}`));
     server.on('error', (e: Error) => console.error(`[APP] ${e}`));
+
+    SocketIO.start(server);
 
     return server;
   }

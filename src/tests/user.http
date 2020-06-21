@@ -8,12 +8,10 @@
 # @port = 3001
 
 @baseUrl = http://{{host}}:{{port}}/api/users
-@userId = {{ AllUsers.response.body.$.data[0]._id }}
-# @userId = {{ createdUser.response.body.$.data._id }}
-@token = {{ tokenObject.response.body.$.data.token }}
+@userId = {{ login.response.body.$.data.userId }}
+@token = {{ login.response.body.$.data.token }}
 
 ### SIGNUP
-# @name createdUser
 POST {{baseUrl}}/auth/signup
 Content-Type: application/json
 
@@ -27,7 +25,7 @@ Content-Type: application/json
 
 
 ### LOGIN
-# @name tokenObject
+# @name login
 POST {{baseUrl}}/auth/login
 Content-Type: application/json
 
@@ -38,7 +36,6 @@ Content-Type: application/json
 
 
 ### GET ALL USERS
-# @name AllUsers
 GET {{baseUrl}}
 Authorization: Bearer {{token}}
 
