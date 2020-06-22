@@ -17,7 +17,7 @@ export const environment: IEnvironment = {
   ...environmentConfiguration,
   ...{
     name: 'monica-backend',
-    version: '0.0.8'
+    version: '0.0.9'
   }
 };
 
