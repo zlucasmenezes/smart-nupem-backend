@@ -1,0 +1,51 @@
+
+# DEV
+@host = localhost
+@port = 3000
+
+# # HMG
+# @host = localhost
+# @port = 3001
+
+@baseUrl = http://{{host}}:{{port}}/api/projects
+@projectId = {{ projects.response.body.$.data[0]._id }}
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI1ZWVlOTU3M2IwMGE1NzRlZjNiNGU1NTMiLCJpYXQiOjE1OTQxNzUwOTEsImV4cCI6MTU5NDc3OTg5MX0.Fw0KXoM0BzCnGvhvFODUcSFwMuTMEUeu7dXwVyQJ8bo
+
+### CREATE
+POST {{baseUrl}}
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "name": "Project One",
+  "privacy": "public"
+}
+
+
+### GET ALL PROJECTS
+# @name projects
+GET {{baseUrl}}
+Authorization: Bearer {{token}}
+
+
+### GET PROJECT BY ID
+GET {{baseUrl}}/{{projectId}}
+Authorization: Bearer {{token}}
+
+
+### UPDATE
+PUT {{baseUrl}}/{{projectId}}
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "name": "Project One Edited",
+  "description": "Project created for test purposes only",
+  "privacy": "private",
+  "users": ["5eee62ef3a4cc060ae3f6c58","5eee757f27ead8ae57b87395"]
+}
+
+
+### REMOVE
+DELETE {{baseUrl}}/{{projectId}}
+Authorization: Bearer {{token}}
