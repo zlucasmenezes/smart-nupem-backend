@@ -6,12 +6,17 @@ export interface IProjectPopulated extends IProject {
   users: IUser[];
 }
 
-export interface IProject extends IBase {
+export interface IProject extends IProjectSchema {
   name: string;
   description: string;
   privacy: Privacy;
   admin: IUser['_id'];
   users: IUser['_id'][];
+}
+
+export interface IProjectSchema extends IBase {
+  isAdmin(userId: IUser['_id']): boolean;
+  isUser(userId: IUser['_id']): boolean;
 }
 
 export type Privacy = 'private' | 'public';
