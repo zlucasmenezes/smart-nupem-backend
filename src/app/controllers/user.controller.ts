@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import User from '../schemas/user.schema';
 import { IResponsePattern, patternResponse, patternError } from '../models/express.model';
+import { SocketIO } from '../socket-io';
 
 class UserController {
 
@@ -9,6 +10,7 @@ class UserController {
             const user = new User(request.body);
             const createdUser = await user.save();
 
+            SocketIO.broadcast('user_created', user);
             return response.status(201).send(patternResponse(createdUser, 'User created'));
         }
         catch (error) {
