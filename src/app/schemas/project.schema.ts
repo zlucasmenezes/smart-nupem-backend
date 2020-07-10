@@ -1,4 +1,4 @@
-import { model, Schema, Model } from 'mongoose';
+import { model, Schema, Model, DocumentQuery } from 'mongoose';
 import { IProject, IProjectPopulated } from '../models/project.model';
 import { IUser } from '../models/user.model';
 
@@ -50,8 +50,24 @@ ProjectSchema.statics.findByIdAndPopulate = async function(this: IProjectModel, 
   return this.findById(id).populate('admin').populate('users').exec();
 };
 
-ProjectSchema.statics.findAndPopulate = async function(this: IProjectModel) {
-  return this.find().populate('admin').populate('users').exec();
+ProjectSchema.statics.findByUserAndPopulate = async function(this: IProjectModel, userId: IUser['_id']) {
+  return this.find({
+    '$or' : [
+      { admin: userId },
+      { users: userId },
+      { privacy: 'public' }
+    ]
+  }).populate('admin').populate('users').exec();
+};
+
+ProjectSchema.statics.findByUser = async function(this: IProjectModel, userId: IUser['_id']) {
+  return this.find({
+    '$or' : [
+      { admin: userId },
+      { users: userId },
+      { privacy: 'public' }
+    ]
+  });
 };
 
 const Project: IProjectModel = model<IProject, IProjectModel>('Project', ProjectSchema, 'projects');
@@ -59,5 +75,6 @@ export default Project;
 
 interface IProjectModel extends Model<IProject> {
   findByIdAndPopulate(projectId: string): Promise<IProjectPopulated>;
-  findAndPopulate(): Promise<IProjectPopulated[]>;
+  findByUserAndPopulate(userId: IUser['_id']): Promise<IProjectPopulated[]>;
+  findByUser(userId: IUser['_id']): DocumentQuery<IProject[], IProject, { }>;
 }

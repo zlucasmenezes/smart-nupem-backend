@@ -16,9 +16,9 @@ class ProjectController {
       }
     }
 
-    public async find(_: Request, response: Response<IResponsePattern>): Promise<Response> {
+    public async find(request: Request, response: Response<IResponsePattern>): Promise<Response> {
       try {
-        const projects = await Project.findAndPopulate();
+        const projects = await Project.findByUserAndPopulate(request.token.userId);
         return response.status(200).send(patternResponse(projects));
       }
       catch (error) {
