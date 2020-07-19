@@ -7,11 +7,14 @@ const ProjectSchema = new Schema<IProject>(
     name: {
       type: String,
       required: true,
+      unique: true,
       minlength: 4,
+      maxlength: 64
     },
     description: {
       type: String,
-      default: null
+      default: null,
+      maxlength: 240
     },
     admin: {
       type: Schema.Types.ObjectId,
