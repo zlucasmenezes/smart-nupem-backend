@@ -1,0 +1,99 @@
+
+# DEV
+@host = localhost
+@port = 3000
+
+# # HMG
+# @host = localhost
+# @port = 3001
+
+@baseUrl = http://{{host}}:{{port}}/api/sensors/types
+@sensorTypeId = {{ sensorTypes.response.body.$.data[0]._id }}
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI1ZWVlOTU3M2IwMGE1NzRlZjNiNGU1NTMiLCJpYXQiOjE1OTUyODc2MTMsImV4cCI6MTU5NTg5MjQxM30.QWKWCMzQBDHcm-70PV8VlyrfFjbsF8wyQ5UTW0EN8gg
+
+### CREATE
+POST {{baseUrl}}
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "type" : "Thermistor NTC",
+	"input" : "Analog",
+	"config" : [
+		{
+      "parameter": "Rn",
+			"description" : "Nominal resistance of NTC at nominal temperature",
+			"default" : 10000
+		},
+		{
+      "parameter": "Tn",
+			"description" : "Nominal temperature",
+			"default" : 25
+		},
+		{
+      "parameter": "beta",
+			"description" : "Beta",
+			"default" : 4300
+		},
+		{
+      "parameter": "Rs",
+			"description" : "Series resistor",
+			"default" : 10000
+		}
+	],
+	"function" : "var resistance = ((resolution*10000/value) - Rn);\nvar temperature = resistance / Rn;\ntemperature = Math.log(temperature);\ntemperature /= beta;\ntemperature += 1.0 / (Tn + 273.15);\ntemperature = 1 / temperature;\ntemperature -= 273.15;\n return temperature;"
+}
+### {
+###   "type" : "General Analog Sensor",
+### 	"input" : "Analog"
+### }
+
+
+### GET ALL SENSOR TYPES
+# @name sensorTypes
+GET {{baseUrl}}
+Authorization: Bearer {{token}}
+
+
+### GET SENSOR TYPE BY ID
+GET {{baseUrl}}/{{sensorTypeId}}
+Authorization: Bearer {{token}}
+
+
+### UPDATE
+PUT {{baseUrl}}/{{sensorTypeId}}
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "type" : "Thermistor NTC10K",
+	"input" : "Analog",
+	"config" : [
+		{
+      "parameter": "Rn",
+			"description" : "Nominal resistance of NTC at nominal temperature",
+			"default" : 10000
+		},
+		{
+      "parameter": "Tn",
+			"description" : "Nominal temperature",
+			"default" : 25
+		},
+		{
+      "parameter": "beta",
+			"description" : "Beta",
+			"default" : 4300
+		},
+		{
+      "parameter": "Rs",
+			"description" : "Series resistor",
+			"default" : 10000
+		}
+	],
+	"function" : "var resistance = ((resolution*10000/value) - Rn);\nvar temperature = resistance / Rn;\ntemperature = Math.log(temperature);\ntemperature /= beta;\ntemperature += 1.0 / (Tn + 273.15);\ntemperature = 1 / temperature;\ntemperature -= 273.15;\n return temperature;"
+}
+
+
+### REMOVE
+DELETE {{baseUrl}}/{{sensorTypeId}}
+Authorization: Bearer {{token}}
