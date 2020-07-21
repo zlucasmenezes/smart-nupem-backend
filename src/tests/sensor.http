@@ -1,0 +1,95 @@
+
+# DEV
+@host = localhost
+@port = 3000
+
+# # HMG
+# @host = localhost
+# @port = 3001
+
+@baseUrl = http://{{host}}:{{port}}/api/sensors
+@sensorId = {{ sensors.response.body.$.data[0]._id }}
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI1ZWVlOTU3M2IwMGE1NzRlZjNiNGU1NTMiLCJpYXQiOjE1OTUyODc2MTMsImV4cCI6MTU5NTg5MjQxM30.QWKWCMzQBDHcm-70PV8VlyrfFjbsF8wyQ5UTW0EN8gg
+
+### CREATE
+POST {{baseUrl}}
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "name" : "Temperature",
+	"type" : "5f162a2cfe0ff3c3d805f1fb",
+	"pin" : 34,
+	"pollTime" : 60000,
+	"input" : "Analog",
+	"store" : true,
+	"decimalPlaces" : 1,
+	"config" : [
+		{
+			"parameter": "Rn",
+			"value": 10000
+		},
+		{
+			"parameter": "Tn",
+			"value": 25
+		},
+		{
+			"parameter": "beta",
+			"value": 4300
+		},
+		{
+			"parameter": "Rs",
+			"value": 10000
+		}
+	]
+}
+
+
+### GET ALL SENSORS
+# @name sensors
+GET {{baseUrl}}
+Authorization: Bearer {{token}}
+
+
+### GET SENSOR BY ID
+GET {{baseUrl}}/{{sensorId}}
+Authorization: Bearer {{token}}
+
+
+### UPDATE
+PUT {{baseUrl}}/{{sensorId}}
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "name" : "Temperature NTC10K",
+	"type" : "5f162a2cfe0ff3c3d805f1fb",
+	"pin" : 34,
+	"pollTime" : 30000,
+	"input" : "Analog",
+	"store" : true,
+	"decimalPlaces" : 1,
+	"config" : [
+		{
+			"parameter": "Rn",
+			"value": 10000
+		},
+		{
+			"parameter": "Tn",
+			"value": 25
+		},
+		{
+			"parameter": "beta",
+			"value": 4300
+		},
+		{
+			"parameter": "Rs",
+			"value": 10000
+		}
+	]
+}
+
+
+### REMOVE
+DELETE {{baseUrl}}/{{sensorId}}
+Authorization: Bearer {{token}}
