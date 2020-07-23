@@ -1,13 +1,14 @@
 import { Router } from 'express';
 import thingController from '../controllers/thing.controller';
 import authGuard from '../middleware/guards/auth.guard';
+import projectGuard from '../middleware/guards/project.guard';
 
 const routes = Router();
 
-routes.post('/', authGuard.isAuthenticated, thingController.create);
-routes.get('/', authGuard.isAuthenticated, thingController.find);
-routes.get('/:id', authGuard.isAuthenticated, thingController.findOne);
-routes.put('/:id', authGuard.isAuthenticated, thingController.update);
-routes.delete('/:id', authGuard.isAuthenticated, thingController.delete);
+routes.post('/:projectId/', authGuard.isAuthenticated, projectGuard.isAdmin, thingController.create);
+routes.get('/:projectId/', authGuard.isAuthenticated, projectGuard.isUser, thingController.find);
+routes.get('/:projectId/:thingId', authGuard.isAuthenticated, projectGuard.isUser, thingController.findOne);
+routes.put('/:projectId/:thingId', authGuard.isAuthenticated, projectGuard.isAdmin, thingController.update);
+routes.delete('/:projectId/:thingId', authGuard.isAuthenticated, projectGuard.isAdmin, thingController.delete);
 
 export default routes;

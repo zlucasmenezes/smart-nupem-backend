@@ -6,7 +6,7 @@ class ProjectGuard {
 
   public async isAdmin(request: Request, response: Response<IResponsePattern>, next: NextFunction): Promise<Response | void> {
     try {
-      const project = await Project.findById(request.params.id);
+      const project = await Project.findById(request.params.projectId);
 
       if (!project) {
         return response.status(404).send(patternError(undefined, 'Project not found'));
@@ -25,7 +25,7 @@ class ProjectGuard {
 
   public async isUser(request: Request, response: Response<IResponsePattern>, next: NextFunction): Promise<Response | void> {
     try {
-      const project = await Project.findById(request.params.id);
+      const project = await Project.findById(request.params.projectId);
 
       if (!project) {
         return response.status(404).send(patternError(undefined, 'Project not found'));

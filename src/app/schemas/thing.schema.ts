@@ -30,12 +30,12 @@ const ThingSchema = new Schema<IThing>(
   }
 );
 
-ThingSchema.statics.findByIdAndPopulate = async function(this: IThingModel, id: string) {
-  return this.findById(id).populate('project').populate('sensors').exec();
+ThingSchema.statics.findByIdAndPopulate = async function(this: IThingModel, thingId: string) {
+  return this.findById(thingId).populate('project').populate('sensors').exec();
 };
 
-ThingSchema.statics.findAndPopulate = async function(this: IThingModel) {
-  return this.find().populate('project').populate('sensors').exec();
+ThingSchema.statics.findByProjectAndPopulate = async function(this: IThingModel, projectId: string) {
+  return this.find({ project: projectId }).populate('project').populate('sensors').exec();
 };
 
 const Thing: IThingModel = model<IThing, IThingModel>('Thing', ThingSchema, 'things');
@@ -43,5 +43,5 @@ export default Thing;
 
 interface IThingModel extends Model<IThing> {
   findByIdAndPopulate(thingId: string): Promise<IThingPopulated>;
-  findAndPopulate(): Promise<IThingPopulated[]>;
+  findByProjectAndPopulate(projectId: string): Promise<IThingPopulated[]>;
 }

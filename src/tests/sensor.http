@@ -7,7 +7,7 @@
 # @host = localhost
 # @port = 3001
 
-@baseUrl = http://{{host}}:{{port}}/api/sensors
+@baseUrl = http://{{host}}:{{port}}/api/sensors/5f053837466182e665e10074/5f18dd48538d2cd5efdb1410
 @sensorId = {{ sensors.response.body.$.data[0]._id }}
 @token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI1ZWVlOTU3M2IwMGE1NzRlZjNiNGU1NTMiLCJpYXQiOjE1OTUyODc2MTMsImV4cCI6MTU5NTg5MjQxM30.QWKWCMzQBDHcm-70PV8VlyrfFjbsF8wyQ5UTW0EN8gg
 
@@ -17,7 +17,7 @@ Content-Type: application/json
 Authorization: Bearer {{token}}
 
 {
-  "name" : "Temperature",
+  "name" : "Temperature 3",
 	"type" : "5f162a2cfe0ff3c3d805f1fb",
 	"pin" : 34,
 	"pollTime" : 60000,

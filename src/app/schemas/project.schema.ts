@@ -49,8 +49,8 @@ ProjectSchema.methods.isUser = function(this: IProject, userId: IUser['_id']): b
   });
 };
 
-ProjectSchema.statics.findByIdAndPopulate = async function(this: IProjectModel, id: string) {
-  return this.findById(id).populate('admin').populate('users').exec();
+ProjectSchema.statics.findByIdAndPopulate = async function(this: IProjectModel, projectId: string) {
+  return this.findById(projectId).populate('admin').populate('users').exec();
 };
 
 ProjectSchema.statics.findByUserAndPopulate = async function(this: IProjectModel, userId: IUser['_id']) {

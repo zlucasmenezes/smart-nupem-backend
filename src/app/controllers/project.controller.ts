@@ -28,7 +28,7 @@ class ProjectController {
 
     public async findOne(request: Request, response: Response<IResponsePattern>): Promise<Response> {
       try {
-        const project = await Project.findByIdAndPopulate(request.params.id);
+        const project = await Project.findByIdAndPopulate(request.params.projectId);
         return response.status(200).send(patternResponse(project));
       }
       catch (error) {
@@ -38,7 +38,7 @@ class ProjectController {
 
     public async update(request: Request, response: Response<IResponsePattern>): Promise<Response> {
       try {
-        const project = await Project.findById(request.params.id);
+        const project = await Project.findById(request.params.projectId);
         const updatedProject = request.body;
 
         if (!project) { return response.status(404).send(patternError(undefined, 'Project not found')); }
@@ -58,7 +58,7 @@ class ProjectController {
 
     public async delete(request: Request, response: Response<IResponsePattern>): Promise<Response> {
         try {
-            const deleted = await Project.deleteOne({ _id: request.params.id });
+            const deleted = await Project.deleteOne({ _id: request.params.projectId });
 
             return response.status(200).send(patternResponse(deleted, 'Project deleted'));
         }

@@ -8,6 +8,8 @@ class SensorController {
     public async create(request: Request, response: Response<IResponsePattern>): Promise<Response> {
       try {
         const sensor = new Sensor(request.body as ISensor);
+        sensor.project = request.params.projectId;
+        sensor.thing = request.params.thingId;
         const createdSensor = await sensor.save();
 
         return response.status(201).send(patternResponse(createdSensor, 'Sensor created'));
@@ -17,9 +19,9 @@ class SensorController {
       }
     }
 
-    public async find(_: Request, response: Response<IResponsePattern>): Promise<Response> {
+    public async find(request: Request, response: Response<IResponsePattern>): Promise<Response> {
       try {
-        const sensors: ISensor[] = await Sensor.find();
+        const sensors: ISensor[] = await Sensor.findByThingAndPopulate(request.params.thingId);
         return response.status(200).send(patternResponse(sensors));
       }
       catch (error) {
@@ -29,7 +31,7 @@ class SensorController {
 
     public async findOne(request: Request, response: Response<IResponsePattern>): Promise<Response> {
       try {
-        const sensor = await Sensor.findById(request.params.id) as ISensor;
+        const sensor = await Sensor.findByIdAndPopulate(request.params.sensorId) as ISensor;
         return response.status(200).send(patternResponse(sensor));
       }
       catch (error) {
@@ -39,7 +41,7 @@ class SensorController {
 
     public async update(request: Request, response: Response<IResponsePattern>): Promise<Response> {
       try {
-        const sensor = await Sensor.findById(request.params.id);
+        const sensor = await Sensor.findById(request.params.sensorId);
         const updatedSensor = request.body as ISensor;
 
         if (!sensor) { return response.status(404).send(patternError(undefined, 'Sensor not found')); }
@@ -59,7 +61,7 @@ class SensorController {
 
     public async delete(request: Request, response: Response<IResponsePattern>): Promise<Response> {
         try {
-            const deleted = await Sensor.deleteOne({ _id: request.params.id });
+            const deleted = await Sensor.deleteOne({ _id: request.params.sensorId });
 
             return response.status(200).send(patternResponse(deleted, 'Sensor deleted'));
         }
