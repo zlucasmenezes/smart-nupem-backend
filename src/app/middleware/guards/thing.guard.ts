@@ -6,7 +6,7 @@ class ThingGuard {
 
   public async isFromProject(request: Request, response: Response<IResponsePattern>, next: NextFunction): Promise<Response | void> {
     try {
-      const thing = await Thing.findById(request.params.projectId);
+      const thing = await Thing.findById(request.params.thingId);
 
       if (!thing) {
         return response.status(404).send(patternError(undefined, 'Thing not found'));

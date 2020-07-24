@@ -13,7 +13,7 @@ export interface ISensorPopulated extends ISensor {
   function: string;
   config: ISensorParameters[];
 }
-export interface ISensor extends IBase {
+export interface ISensor extends ISensorSchema {
   name: string;
   type: ISensorType['_id'];
   project: IProject['_id'];
@@ -24,6 +24,10 @@ export interface ISensor extends IBase {
   decimalPlaces: number;
   function: string;
   config: ISensorParameters[];
+}
+
+export interface ISensorSchema extends IBase {
+  isFromThing(thingId: IThing['_id']): boolean;
 }
 
 export interface ISensorType extends IBase {

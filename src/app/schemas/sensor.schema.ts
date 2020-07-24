@@ -1,5 +1,6 @@
 import { model, Schema, Model } from 'mongoose';
 import { ISensor, ISensorPopulated } from '../models/sensor.model';
+import { IThing } from '../models/thing.model';
 
 const SensorSchema = new Schema<ISensor>(
   {
@@ -79,6 +80,11 @@ SensorSchema.statics.findByIdAndPopulate = async function(this: ISensorModel, se
       model: 'SensorType',
     }
   ]).exec();
+};
+
+SensorSchema.methods.isFromThing = function(this: ISensor, thingId: IThing['_id']): boolean {
+  // tslint:disable-next-line: triple-equals
+  return this.thing == thingId;
 };
 
 SensorSchema.statics.findByThingAndPopulate = async function(this: ISensorModel, thingId: string) {
