@@ -1,5 +1,6 @@
 import { model, Schema, Model } from 'mongoose';
 import { IThing, IThingPopulated } from '../models/thing.model';
+import { IProject } from '../models/project.model';
 
 const ThingSchema = new Schema<IThing>(
   {
@@ -25,6 +26,11 @@ const ThingSchema = new Schema<IThing>(
     timestamps: true
   }
 );
+
+ThingSchema.methods.isFromProject = function(this: IThing, projectId: IProject['_id']): boolean {
+  // tslint:disable-next-line: triple-equals
+  return this.project == projectId;
+};
 
 ThingSchema.statics.findByIdAndPopulate = async function(this: IThingModel, thingId: string) {
   return this.findById(thingId).populate(
