@@ -19,11 +19,7 @@ const ThingSchema = new Schema<IThing>(
       type: Schema.Types.ObjectId,
       ref: 'Project',
       required: true
-    },
-    sensors: [{
-      type: Schema.Types.ObjectId,
-      ref: 'Sensor'
-    }],
+    }
   },
   {
     timestamps: true
@@ -31,11 +27,41 @@ const ThingSchema = new Schema<IThing>(
 );
 
 ThingSchema.statics.findByIdAndPopulate = async function(this: IThingModel, thingId: string) {
-  return this.findById(thingId).populate('project').populate('sensors').exec();
+  return this.findById(thingId).populate(
+    {
+      path:  'project',
+      model: 'Project',
+      populate: [
+        {
+          path:  'users',
+          model: 'User',
+        },
+        {
+          path:  'admin',
+          model: 'User',
+        }
+      ]
+    }
+  ).exec();
 };
 
 ThingSchema.statics.findByProjectAndPopulate = async function(this: IThingModel, projectId: string) {
-  return this.find({ project: projectId }).populate('project').populate('sensors').exec();
+  return this.find({ project: projectId }).populate(
+    {
+      path:  'project',
+      model: 'Project',
+      populate: [
+        {
+          path:  'users',
+          model: 'User',
+        },
+        {
+          path:  'admin',
+          model: 'User',
+        }
+      ]
+    }
+  ).exec();
 };
 
 const Thing: IThingModel = model<IThing, IThingModel>('Thing', ThingSchema, 'things');

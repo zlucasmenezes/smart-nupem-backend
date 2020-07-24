@@ -5,8 +5,8 @@ import projectGuard from '../middleware/guards/project.guard';
 
 const routes = Router();
 
-routes.post('/:projectId/', authGuard.isAuthenticated, projectGuard.isAdmin, thingController.create);
-routes.get('/:projectId/', authGuard.isAuthenticated, projectGuard.isUser, thingController.find);
+routes.post('/:projectId', authGuard.isAuthenticated, projectGuard.isAdmin, thingController.create);
+routes.get('/:projectId', authGuard.isAuthenticated, projectGuard.isUser, thingController.find);
 routes.get('/:projectId/:thingId', authGuard.isAuthenticated, projectGuard.isUser, thingController.findOne);
 routes.put('/:projectId/:thingId', authGuard.isAuthenticated, projectGuard.isAdmin, thingController.update);
 routes.delete('/:projectId/:thingId', authGuard.isAuthenticated, projectGuard.isAdmin, thingController.delete);

@@ -47,7 +47,6 @@ class ThingController {
 
         thing.name = updatedThing.name;
         thing.type = updatedThing.type;
-        thing.sensors = updatedThing.sensors;
         const updated = await thing.save();
 
         return response.status(200).send(patternResponse(updated, 'Thing updated'));

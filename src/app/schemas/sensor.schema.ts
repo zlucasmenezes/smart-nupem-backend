@@ -55,29 +55,57 @@ const SensorSchema = new Schema<ISensor>(
 );
 
 SensorSchema.statics.findByIdAndPopulate = async function(this: ISensorModel, sensorId: string) {
-  return this.findById(sensorId).populate(
+  return this.findById(sensorId).populate([
     {
       path: 'thing',
       model: 'Thing',
       populate: {
         path:  'project',
-        model: 'Project'
+        model: 'Project',
+        populate: [
+          {
+            path:  'users',
+            model: 'User',
+          },
+          {
+            path:  'admin',
+            model: 'User',
+          }
+        ]
       }
+    },
+    {
+      path: 'type',
+      model: 'SensorType',
     }
-  ).populate('type').exec();
+  ]).exec();
 };
 
 SensorSchema.statics.findByThingAndPopulate = async function(this: ISensorModel, thingId: string) {
-  return this.find({ thing: thingId }).populate(
+  return this.find({ thing: thingId }).populate([
     {
       path: 'thing',
       model: 'Thing',
       populate: {
         path:  'project',
-        model: 'Project'
+        model: 'Project',
+        populate: [
+          {
+            path:  'users',
+            model: 'User',
+          },
+          {
+            path:  'admin',
+            model: 'User',
+          }
+        ]
       }
+    },
+    {
+      path: 'type',
+      model: 'SensorType',
     }
-  ).populate('type').exec();
+  ]).exec();
 };
 
 const Sensor: ISensorModel = model<ISensor, ISensorModel>('Sensor', SensorSchema, 'sensors');

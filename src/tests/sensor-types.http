@@ -9,7 +9,7 @@
 
 @baseUrl = http://{{host}}:{{port}}/api/sensortypes
 @sensorTypeId = {{ sensorTypes.response.body.$.data[0]._id }}
-@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI1ZWVlOTU3M2IwMGE1NzRlZjNiNGU1NTMiLCJpYXQiOjE1OTUyODc2MTMsImV4cCI6MTU5NTg5MjQxM30.QWKWCMzQBDHcm-70PV8VlyrfFjbsF8wyQ5UTW0EN8gg
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI1ZjFhMzU4ZDE2YTYzNTY2YWMxNGU0MGEiLCJpYXQiOjE1OTU1NTMxNzMsImV4cCI6MTU5NjE1Nzk3M30.0wO_PC7gFcV9B6WjiyS2BoMGBfjdoCjB46NGp_cMMCQ
 
 ### CREATE
 POST {{baseUrl}}
