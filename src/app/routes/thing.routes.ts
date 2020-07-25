@@ -8,6 +8,7 @@ const routes = Router({ mergeParams: true });
 
 routes.post('/', authGuard.isAuthenticated, projectGuard.isAdmin, thingController.create);
 routes.get('/', authGuard.isAuthenticated, projectGuard.isUser, thingController.find);
+routes.get('/types', authGuard.isAuthenticated, projectGuard.isUser, thingController.getTypes);
 routes.get('/:thingId', authGuard.isAuthenticated, projectGuard.isUser, thingGuard.isFromProject, thingController.findOne);
 routes.put('/:thingId', authGuard.isAuthenticated, projectGuard.isAdmin, thingGuard.isFromProject, thingController.update);
 routes.delete('/:thingId', authGuard.isAuthenticated, projectGuard.isAdmin, thingGuard.isFromProject, thingController.delete);
