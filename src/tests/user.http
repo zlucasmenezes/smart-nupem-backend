@@ -7,7 +7,7 @@
 # @host = localhost
 # @port = 3001
 
-@baseUrl = http://{{host}}:{{port}}/api/users
+@baseUrl = http://{{host}}:{{port}}/api/user
 @userId = {{ login.response.body.$.data.userId }}
 @token = {{ login.response.body.$.data.token }}
 

@@ -7,7 +7,7 @@
 # @host = localhost
 # @port = 3001
 
-@baseUrl = http://{{host}}:{{port}}/api/projects
+@baseUrl = http://{{host}}:{{port}}/api/project
 @projectId = {{ projects.response.body.$.data[0]._id }}
 @token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI1ZjFhMzU4ZDE2YTYzNTY2YWMxNGU0MGEiLCJpYXQiOjE1OTU1NTMxNzMsImV4cCI6MTU5NjE1Nzk3M30.0wO_PC7gFcV9B6WjiyS2BoMGBfjdoCjB46NGp_cMMCQ
 
