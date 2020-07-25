@@ -38,6 +38,16 @@ class ThingController {
       }
     }
 
+    public async getTypes(request: Request, response: Response<IResponsePattern>): Promise<Response> {
+      try {
+        const types: string[] = await Thing.getTypes(request.params.projectId) as string[];
+        return response.status(200).send(patternResponse(types));
+      }
+      catch (error) {
+        return response.status(500).send(patternError(error, error.message));
+      }
+    }
+
     public async update(request: Request, response: Response<IResponsePattern>): Promise<Response> {
       try {
         const thing = await Thing.findById(request.params.thingId);
