@@ -14,5 +14,11 @@ export const environmentConfiguration: IEnvironmentConfiguration = {
     options: {
       expiresIn: 7 * 24 * 3600
     }
+  },
+  smtp: {
+    host: 'smtp.gmail.com',
+    port: 587,
+    email: 'email@gmail.com',
+    password: 'password'
   }
 };

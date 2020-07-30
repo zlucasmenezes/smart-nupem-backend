@@ -39,4 +39,10 @@ export interface IEnvironmentConfiguration {
     key: Secret,
     options: SignOptions,
   };
+  smtp: {
+    host: string,
+    port: number,
+    email: string,
+    password: string
+  };
 }

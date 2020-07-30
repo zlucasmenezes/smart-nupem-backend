@@ -5,6 +5,7 @@ import cors from 'cors';
 import { environment, IEnvironment as Environment } from '../environments/environment';
 import { routes, IRouteConfig } from './routes/routes';
 import { SocketIO } from './socket-io';
+import { EmailService } from './services/email.service';
 
 class App {
 
@@ -28,6 +29,8 @@ class App {
     server.on('error', (e: Error) => console.error(`[APP] ${e}`));
 
     SocketIO.start(server);
+
+    EmailService.start();
 
     return server;
   }
