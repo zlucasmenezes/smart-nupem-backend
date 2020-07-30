@@ -14,7 +14,10 @@ class UserController {
             const createdUser = await user.save();
 
             SocketIO.broadcast('user_created', user);
-            EmailService.send(environment.smtp.email.welcome, [createdUser.email], 'Welcome to Monica', EmailTemplate.welcome(createdUser.fullName));
+
+            EmailService.send(environment.smtp.email.welcome, [createdUser.email], 'Welcome to Monica', EmailTemplate.welcome(createdUser.fullName))
+            .catch(console.error);
+
             return response.status(201).send(patternResponse(createdUser, 'User created'));
         }
         catch (error) {

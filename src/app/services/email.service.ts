@@ -23,7 +23,7 @@ export class EmailService {
       await EmailService.transporter.sendMail({ from, to, subject, html });
     }
     catch (error) {
-      console.error(error);
+      throw error;
     }
   }
 
