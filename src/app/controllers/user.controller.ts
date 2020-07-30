@@ -4,6 +4,7 @@ import { IResponsePattern, patternResponse, patternError } from '../models/expre
 import { SocketIO } from '../socket-io';
 import { EmailService } from '../services/email.service';
 import { EmailTemplate } from '../utils/email-template';
+import { environment } from '../../environments/environment';
 
 class UserController {
 
@@ -13,7 +14,7 @@ class UserController {
             const createdUser = await user.save();
 
             SocketIO.broadcast('user_created', user);
-            EmailService.send([createdUser.email], 'Welcome to Monica', EmailTemplate.welcome(createdUser.fullName));
+            EmailService.send(environment.smtp.email.welcome, [createdUser.email], 'Welcome to Monica', EmailTemplate.welcome(createdUser.fullName));
             return response.status(201).send(patternResponse(createdUser, 'User created'));
         }
         catch (error) {

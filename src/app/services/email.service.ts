@@ -12,18 +12,15 @@ export class EmailService {
         host: environment.smtp.host,
         port: environment.smtp.port,
         secure: false,
-        auth: {
-            user: environment.smtp.email,
-            pass: environment.smtp.password
-        },
+        auth: environment.smtp.auth,
         tls: { rejectUnauthorized: false }
       }
     );
   }
 
-  public static async send(to: string[], subject: string, html: string): Promise<void> {
+  public static async send(from: string, to: string[], subject: string, html: string): Promise<void> {
     try {
-      await EmailService.transporter.sendMail({ to, subject, html });
+      await EmailService.transporter.sendMail({ from, to, subject, html });
     }
     catch (error) {
       console.error(error);

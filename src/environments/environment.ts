@@ -42,7 +42,12 @@ export interface IEnvironmentConfiguration {
   smtp: {
     host: string,
     port: number,
-    email: string,
-    password: string
+    auth: {
+      user: string,
+      pass: string,
+    },
+    email: {
+      welcome: string
+    }
   };
 }

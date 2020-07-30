@@ -16,9 +16,14 @@ export const environmentConfiguration: IEnvironmentConfiguration = {
     }
   },
   smtp: {
-    host: 'smtp.gmail.com',
+    host: 'smtp.mailtrap.io',
     port: 587,
-    email: 'email@gmail.com',
-    password: 'password'
+    auth: {
+      user: 'user',
+      pass: 'password',
+    },
+    email: {
+      welcome: 'noreply@monica.com',
+    }
   }
 };
