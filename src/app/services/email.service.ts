@@ -26,7 +26,7 @@ export class EmailService {
       await EmailService.transporter.sendMail({ to, subject, html });
     }
     catch (error) {
-      console.log(error);
+      console.error(error);
     }
   }
 
