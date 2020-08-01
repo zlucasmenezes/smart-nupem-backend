@@ -43,7 +43,7 @@ BoardSchema.statics.generateAuthToken
 BoardSchema.statics.createBoard
 = async function (this: IBoardModel, thing: IThing['_id']): Promise<IBoard> {
   try {
-    const board = new Board({ _id: thing, password: PasswordUtils.generate() });
+    const board = new Board({ _id: thing, password: PasswordUtils.generate(16, 'aA0!') });
     return await board.save();
   } catch (error) {
     console.log(error);

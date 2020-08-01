@@ -38,34 +38,6 @@ class BoardController {
             return response.status(401).send(patternError(error, error.message));
         }
     }
-
-    public async update(request: Request, response: Response<IResponsePattern>): Promise<Response> {
-        try {
-            const board = await Board.findById(request.params.boardId);
-            const updatedBoard = request.body;
-
-            if (!board) { return response.status(404).send(patternError(undefined, 'Board not found')); }
-
-            board.password = updatedBoard.password;
-            const updated = await board.save();
-
-            return response.status(200).send(patternResponse(updated, 'Board updated'));
-        }
-        catch (error) {
-            return response.status(500).send(patternError(error, error.message));
-        }
-    }
-
-    public async delete(request: Request, response: Response<IResponsePattern>): Promise<Response> {
-        try {
-            const deleted = await Board.deleteOne({ _id: request.params.boardId });
-
-            return response.status(200).send(patternResponse(deleted, 'Board deleted'));
-        }
-        catch (error) {
-            return response.status(500).send(patternError(error, error.message));
-        }
-    }
 }
 
 export default new BoardController();

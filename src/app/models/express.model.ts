@@ -1,10 +1,12 @@
 import { IDecodedToken } from './user.model';
+import { IBoardDecodedToken } from './board.model';
 
 declare global {
   namespace Express {
     // tslint:disable-next-line: interface-name
     interface Request {
       token: IDecodedToken;
+      boardToken: IBoardDecodedToken;
     }
   }
 }

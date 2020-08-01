@@ -5,6 +5,7 @@ import projectRoutes from './project.routes';
 import thingRoutes from './thing.routes';
 import sensorRoutes from './sensor.routes';
 import sensorTypeRoutes from './sensor-type.routes';
+import boardRoutes from './board.routes';
 
 export const routes: IRouteConfig[] = [
   { routePath: '/api', childRoutes: apiRoutes },
@@ -13,6 +14,7 @@ export const routes: IRouteConfig[] = [
   { routePath: '/api/project/:projectId/thing', childRoutes: thingRoutes },
   { routePath: '/api/project/:projectId/thing/:thingId/sensor', childRoutes: sensorRoutes },
   { routePath: '/api/sensortype', childRoutes: sensorTypeRoutes },
+  { routePath: '/api/board', childRoutes: boardRoutes },
 ];
 
 export interface IRouteConfig {

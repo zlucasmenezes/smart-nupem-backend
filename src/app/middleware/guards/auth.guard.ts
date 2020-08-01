@@ -35,7 +35,7 @@ class AuthGuard {
   private static async exists(request: Request, response: Response<IResponsePattern>, next: NextFunction): Promise<Response | void> {
     try {
       const user = await User.findById(request.token.userId);
-      if (!user) { return response.status(404).send(patternError(undefined, 'Not authenticated')); }
+      if (!user) { return response.status(404).send(patternError(undefined, 'User not found')); }
 
       return next();
     }
