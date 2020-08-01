@@ -29,7 +29,7 @@ class SensorTypeController {
 
     public async findOne(request: Request, response: Response<IResponsePattern>): Promise<Response> {
       try {
-        const sensorType = await SensorType.findById(request.params.id) as ISensorType;
+        const sensorType = await SensorType.findById(request.params.sensorId) as ISensorType;
         return response.status(200).send(patternResponse(sensorType));
       }
       catch (error) {
@@ -39,7 +39,7 @@ class SensorTypeController {
 
     public async update(request: Request, response: Response<IResponsePattern>): Promise<Response> {
       try {
-        const sensorType = await SensorType.findById(request.params.id);
+        const sensorType = await SensorType.findById(request.params.sensorId);
         const updatedSensorType = request.body as ISensorType;
 
         if (!sensorType) { return response.status(404).send(patternError(undefined, 'Sensor Type not found')); }
@@ -59,7 +59,7 @@ class SensorTypeController {
 
     public async delete(request: Request, response: Response<IResponsePattern>): Promise<Response> {
         try {
-            const deleted = await SensorType.deleteOne({ _id: request.params.id });
+            const deleted = await SensorType.deleteOne({ _id: request.params.sensorId });
 
             return response.status(200).send(patternResponse(deleted, 'Sensor Type deleted'));
         }

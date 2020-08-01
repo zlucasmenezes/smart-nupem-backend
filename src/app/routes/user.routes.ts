@@ -7,8 +7,8 @@ const routes = Router();
 routes.post('/auth/signup', userController.signup);
 routes.post('/auth/login', userController.login);
 routes.get('/', authGuard.isAuthenticated, userController.find);
-routes.get('/:id', authGuard.isAuthenticated, userController.findOne);
-routes.put('/:id', authGuard.isAuthenticated, authGuard.isHimSelf, userController.update);
-routes.delete('/:id', authGuard.isAuthenticated, authGuard.isHimSelf, userController.delete);
+routes.get('/:userId', authGuard.isAuthenticated, userController.findOne);
+routes.put('/:userId', authGuard.isAuthenticated, authGuard.isHimSelf, userController.update);
+routes.delete('/:userId', authGuard.isAuthenticated, authGuard.isHimSelf, userController.delete);
 
 export default routes;

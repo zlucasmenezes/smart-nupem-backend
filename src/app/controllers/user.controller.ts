@@ -15,7 +15,7 @@ class UserController {
 
             SocketIO.broadcast('user_created', user);
 
-            EmailService.send(environment.smtp.email.welcome, [createdUser.email], 'Welcome to Monica', EmailTemplate.welcome(createdUser.fullName))
+            EmailService.send(environment.smtp.email.default, [createdUser.email], 'Welcome to Monica', EmailTemplate.welcome(createdUser))
             .catch(console.error);
 
             return response.status(201).send(patternResponse(createdUser, 'User created'));
@@ -47,7 +47,7 @@ class UserController {
 
     public async findOne(request: Request, response: Response<IResponsePattern>): Promise<Response> {
         try {
-            const user = await User.findById(request.params.id);
+            const user = await User.findById(request.params.userId);
             return response.status(200).send(patternResponse(user));
         }
         catch (error) {
@@ -57,7 +57,7 @@ class UserController {
 
     public async update(request: Request, response: Response<IResponsePattern>): Promise<Response> {
         try {
-            const user = await User.findById(request.params.id);
+            const user = await User.findById(request.params.userId);
             const updatedUser = request.body;
 
             if (!user) { return response.status(404).send(patternError(undefined, 'User not found')); }
@@ -76,7 +76,7 @@ class UserController {
 
     public async delete(request: Request, response: Response<IResponsePattern>): Promise<Response> {
         try {
-            const deleted = await User.deleteOne({ _id: request.params.id });
+            const deleted = await User.deleteOne({ _id: request.params.userId });
 
             return response.status(200).send(patternResponse(deleted, 'User deleted'));
         }

@@ -1,17 +1,19 @@
-import { Request, Response } from 'express';
+import { Request, Response, NextFunction } from 'express';
 import { IResponsePattern, patternResponse, patternError } from '../models/express.model';
 import Thing from '../schemas/thing.schema';
 import { IThing, IThingPopulated } from '../models/thing.model';
 
 class ThingController {
 
-    public async create(request: Request, response: Response<IResponsePattern>): Promise<Response> {
+    public async create(request: Request, response: Response<IResponsePattern>, next: NextFunction): Promise<Response | void> {
       try {
         const thing = new Thing(request.body as IThing);
         thing.project = request.params.projectId;
-        const createdThing = await thing.save();
 
-        return response.status(201).send(patternResponse(createdThing, 'Thing created'));
+        const createdThing: IThingPopulated = await thing.save();
+        request.params.thingId = createdThing._id;
+
+        return next();
       }
       catch (error) {
         return response.status(500).send(patternError(error, error.message));

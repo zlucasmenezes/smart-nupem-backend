@@ -1,0 +1,61 @@
+import { model, Schema, Model } from 'mongoose';
+import { IBoard, IBoardEncodedToken, IBoardDecodedToken } from '../models/board.model';
+import { environment } from '../../environments/environment';
+import * as jwt from 'jsonwebtoken';
+import { IThing } from '../models/thing.model';
+import { PasswordUtils } from '../utils/password';
+
+const BoardSchema = new Schema<IBoard>(
+  {
+    _id: {
+      type: Schema.Types.ObjectId,
+      ref: 'Thing',
+      required: true
+    },
+    password: {
+      type: String,
+      required: true,
+    }
+  },
+  {
+    timestamps: true
+  }
+);
+
+BoardSchema.statics.generateAuthToken
+= async function (this: IBoardModel, boardId: string, password: string): Promise<IBoardEncodedToken> {
+
+  const board = await this.findById(boardId);
+  if (!board) { return Promise.reject(new Error('Board not found')); }
+
+  if (board.password !== password) { return Promise.reject(new Error('Invalid authentication credentials')); }
+
+  const decodedTokenData: IBoardDecodedToken = { boardId: board._id };
+
+  const encodedTokenData: IBoardEncodedToken = {
+    boardId: decodedTokenData.boardId,
+    token: jwt.sign(decodedTokenData, environment.authentication.board)
+  };
+
+  return Promise.resolve<IBoardEncodedToken>(encodedTokenData);
+};
+
+BoardSchema.statics.createBoard
+= async function (this: IBoardModel, thing: IThing['_id']): Promise<IBoard> {
+  try {
+    const board = new Board({ _id: thing, password: PasswordUtils.generate() });
+    return await board.save();
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+};
+
+const Board: IBoardModel
+= model<IBoard, IBoardModel>('Board', BoardSchema, 'boards');
+export default Board;
+
+interface IBoardModel extends Model<IBoard> {
+  generateAuthToken(boardId: string, password: string): Promise<IBoardEncodedToken>;
+  createBoard(thing: IThing['_id']): Promise<IBoard>;
+}

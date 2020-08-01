@@ -23,7 +23,7 @@ class AuthGuard {
 
   public async isHimSelf(request: Request, response: Response<IResponsePattern>, next: NextFunction): Promise<Response | void> {
     try {
-      if (request.token.userId !== request.params.id) { return response.status(401).send(patternError(undefined, 'Not authorized')); }
+      if (request.token.userId !== request.params.userId) { return response.status(401).send(patternError(undefined, 'Not authorized')); }
 
       return next();
     }

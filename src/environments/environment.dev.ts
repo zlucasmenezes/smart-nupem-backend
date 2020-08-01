@@ -11,9 +11,10 @@ export const environmentConfiguration: IEnvironmentConfiguration = {
   port: 3000,
   authentication: {
     key: 'DEV_SECRET_THIS_SHOULD_BE_LONGER',
+    board: 'DEV_SECRET_THIS_SHOULD_BE_LONGER_TOO',
     options: {
       expiresIn: 7 * 24 * 3600
-    }
+    },
   },
   smtp: {
     host: 'smtp.mailtrap.io',
@@ -23,7 +24,7 @@ export const environmentConfiguration: IEnvironmentConfiguration = {
       pass: 'password',
     },
     email: {
-      welcome: 'noreply@monica.com',
+      default: 'noreply@monica.com'
     }
   }
 };

@@ -3,10 +3,11 @@ import thingController from '../controllers/thing.controller';
 import authGuard from '../middleware/guards/auth.guard';
 import projectGuard from '../middleware/guards/project.guard';
 import thingGuard from '../middleware/guards/thing.guard';
+import boardController from '../controllers/board.controller';
 
 const routes = Router({ mergeParams: true });
 
-routes.post('/', authGuard.isAuthenticated, projectGuard.isAdmin, thingController.create);
+routes.post('/', authGuard.isAuthenticated, projectGuard.isAdmin, thingController.create, boardController.create);
 routes.get('/', authGuard.isAuthenticated, projectGuard.isUser, thingController.find);
 routes.get('/types', authGuard.isAuthenticated, projectGuard.isUser, thingController.getTypes);
 routes.get('/:thingId', authGuard.isAuthenticated, projectGuard.isUser, thingGuard.isFromProject, thingController.findOne);

@@ -37,6 +37,7 @@ export interface IEnvironmentConfiguration {
   port: number;
   authentication: {
     key: Secret,
+    board: Secret,
     options: SignOptions,
   };
   smtp: {
@@ -47,7 +48,7 @@ export interface IEnvironmentConfiguration {
       pass: string,
     },
     email: {
-      welcome: string
+      default: string
     }
   };
 }

@@ -1,10 +1,10 @@
 import { IBase } from './base.model';
-import { IProject } from './project.model';
+import { IProject, IProjectPopulated } from './project.model';
 
 export interface IThingPopulated extends IBase {
   name: string;
   type: string;
-  project: IProject;
+  project: IProjectPopulated;
 }
 
 export interface IThing extends IThingSchema {
