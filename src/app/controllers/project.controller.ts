@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import { IResponsePattern, patternResponse, patternError } from '../models/express.model';
 import Project from '../schemas/project.schema';
+import Thing from '../schemas/thing.schema';
 
 class ProjectController {
 
@@ -19,6 +20,11 @@ class ProjectController {
     public async find(request: Request, response: Response<IResponsePattern>): Promise<Response> {
       try {
         const projects = await Project.findByUserAndPopulate(request.token.userId);
+
+        for (const project of projects) {
+          project.things = await Thing.findByProject(project._id);
+        }
+
         return response.status(200).send(patternResponse(projects));
       }
       catch (error) {

@@ -60,7 +60,7 @@ ProjectSchema.statics.findByUserAndPopulate = async function(this: IProjectModel
       { users: userId },
       { privacy: 'public' }
     ]
-  }).populate('admin').populate('users').exec();
+  }).lean().populate('admin').populate('users').exec();
 };
 
 ProjectSchema.statics.findByUser = async function(this: IProjectModel, userId: IUser['_id']) {
