@@ -70,6 +70,10 @@ ThingSchema.statics.findByProjectAndPopulate = async function(this: IThingModel,
   ).exec();
 };
 
+ThingSchema.statics.findByProject = async function(this: IThingModel, projectId: string) {
+  return this.find({ project: projectId });
+};
+
 ThingSchema.statics.getTypes = async function(this: IThingModel, projectId: string) {
   const types = await this.find({ project: projectId }, { _id: false, type: true }).lean().exec();
   return  [...new Set(types.map((type: { type: string }) => type.type))];
@@ -81,5 +85,6 @@ export default Thing;
 interface IThingModel extends Model<IThing> {
   findByIdAndPopulate(thingId: string): Promise<IThingPopulated>;
   findByProjectAndPopulate(projectId: string): Promise<IThingPopulated[]>;
+  findByProject(projectId: string): Promise<IThing[]>;
   getTypes(projectId: string): Promise<string[]>;
 }
