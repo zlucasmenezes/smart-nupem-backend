@@ -9,7 +9,7 @@
 
 @baseUrl = http://{{host}}:{{port}}/api/project
 @projectId = {{ projects.response.body.$.data[0]._id }}
-@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI1ZjFhMzU4ZDE2YTYzNTY2YWMxNGU0MGEiLCJpYXQiOjE1OTYzMzgwNzksImV4cCI6MTU5Njk0Mjg3OX0.DBM1GkhrsUIyOwHiCrQmS24QjE1gIt-CZY-4l-DSvz4
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI1ZjFhMzU4ZDE2YTYzNTY2YWMxNGU0MGEiLCJpYXQiOjE1OTcwMzEwMjksImV4cCI6MTU5NzYzNTgyOX0.7FIYYku2yo0FpLqgUx2nG5UwT_J4gJTJ2aXK2rrWPV8
 
 ### CREATE
 POST {{baseUrl}}
