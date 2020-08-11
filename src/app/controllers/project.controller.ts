@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 import { IResponsePattern, patternResponse, patternError } from '../models/express.model';
 import Project from '../schemas/project.schema';
 import Thing from '../schemas/thing.schema';
+import { IProjectPopulated } from '../models/project.model';
 
 class ProjectController {
 
@@ -19,10 +20,22 @@ class ProjectController {
 
     public async find(request: Request, response: Response<IResponsePattern>): Promise<Response> {
       try {
-        const projects = await Project.findByUserAndPopulate(request.token.userId);
+        const fetchedProjects = await Project.findByUserAndPopulate(request.token.userId);
+        const projects: Partial<IProjectPopulated>[] = [];
 
-        for (const project of projects) {
-          project.things = await Thing.findByProject(project._id);
+        for (const fetchedProject of fetchedProjects) {
+          const project: Partial<IProjectPopulated> = {
+            _id: fetchedProject._id,
+            name: fetchedProject.name,
+            description: fetchedProject.description,
+            admin: fetchedProject.admin,
+            privacy: fetchedProject.privacy,
+            users: fetchedProject.users,
+            things: await Thing.findByProject(fetchedProject._id),
+            createdAt: fetchedProject.createdAt,
+            updatedAt: fetchedProject.updatedAt
+          };
+          projects.push(project);
         }
 
         return response.status(200).send(patternResponse(projects));
