@@ -8,7 +8,6 @@ class SensorController {
     public async create(request: Request, response: Response<IResponsePattern>): Promise<Response> {
       try {
         const sensor = new Sensor(request.body as ISensor);
-        sensor.project = request.params.projectId;
         sensor.thing = request.params.thingId;
         const createdSensor = await sensor.save();
 
@@ -49,7 +48,6 @@ class SensorController {
         sensor.pin = updatedSensor.pin;
         sensor.pollTime = updatedSensor.pollTime;
         sensor.store = updatedSensor.store;
-        sensor.decimalPlaces = updatedSensor.decimalPlaces;
         const updated = await sensor.save();
 
         return response.status(200).send(patternResponse(updated, 'Sensor updated'));

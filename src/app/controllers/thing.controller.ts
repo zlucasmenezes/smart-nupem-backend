@@ -2,6 +2,7 @@ import { Request, Response, NextFunction } from 'express';
 import { IResponsePattern, patternResponse, patternError } from '../models/express.model';
 import Thing from '../schemas/thing.schema';
 import { IThing, IThingPopulated } from '../models/thing.model';
+import Sensor from '../schemas/sensor.schema';
 
 class ThingController {
 
@@ -10,7 +11,7 @@ class ThingController {
         const thing = new Thing(request.body as IThing);
         thing.project = request.params.projectId;
 
-        const createdThing: IThingPopulated = await thing.save();
+        const createdThing = await thing.save();
         request.params.thingId = createdThing._id;
 
         return next();
@@ -22,7 +23,22 @@ class ThingController {
 
     public async find(request: Request, response: Response<IResponsePattern>): Promise<Response> {
       try {
-        const things: IThingPopulated[] = await Thing.findByProjectAndPopulate(request.params.projectId);
+        const fetchedThings = await Thing.findByProjectAndPopulate(request.params.projectId);
+        const things: Partial<IThingPopulated>[] = [];
+
+        for (const fetchedThing of fetchedThings) {
+          console.log(await Sensor.findByThingAndPopulate(fetchedThing._id));
+          const thing: Partial<IThingPopulated> = {
+            _id: fetchedThing._id,
+            name: fetchedThing.name,
+            type: fetchedThing.type,
+            project: fetchedThing.project,
+            sensors: await Sensor.findByThingAndPopulate(fetchedThing._id),
+            createdAt: fetchedThing.createdAt,
+            updatedAt: fetchedThing.updatedAt
+          };
+          things.push(thing);
+        }
         return response.status(200).send(patternResponse(things));
       }
       catch (error) {
