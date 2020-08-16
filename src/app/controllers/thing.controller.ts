@@ -1,17 +1,20 @@
-import { Request, Response } from 'express';
+import { Request, Response, NextFunction } from 'express';
 import { IResponsePattern, patternResponse, patternError } from '../models/express.model';
 import Thing from '../schemas/thing.schema';
 import { IThing, IThingPopulated } from '../models/thing.model';
+import Sensor from '../schemas/sensor.schema';
 
 class ThingController {
 
-    public async create(request: Request, response: Response<IResponsePattern>): Promise<Response> {
+    public async create(request: Request, response: Response<IResponsePattern>, next: NextFunction): Promise<Response | void> {
       try {
         const thing = new Thing(request.body as IThing);
         thing.project = request.params.projectId;
-        const createdThing = await thing.save();
 
-        return response.status(201).send(patternResponse(createdThing, 'Thing created'));
+        const createdThing = await thing.save();
+        request.params.thingId = createdThing._id;
+
+        return next();
       }
       catch (error) {
         return response.status(500).send(patternError(error, error.message));
@@ -20,7 +23,22 @@ class ThingController {
 
     public async find(request: Request, response: Response<IResponsePattern>): Promise<Response> {
       try {
-        const things: IThingPopulated[] = await Thing.findByProjectAndPopulate(request.params.projectId);
+        const fetchedThings = await Thing.findByProjectAndPopulate(request.params.projectId);
+        const things: Partial<IThingPopulated>[] = [];
+
+        for (const fetchedThing of fetchedThings) {
+          console.log(await Sensor.findByThingAndPopulate(fetchedThing._id));
+          const thing: Partial<IThingPopulated> = {
+            _id: fetchedThing._id,
+            name: fetchedThing.name,
+            type: fetchedThing.type,
+            project: fetchedThing.project,
+            sensors: await Sensor.findByThingAndPopulate(fetchedThing._id),
+            createdAt: fetchedThing.createdAt,
+            updatedAt: fetchedThing.updatedAt
+          };
+          things.push(thing);
+        }
         return response.status(200).send(patternResponse(things));
       }
       catch (error) {
