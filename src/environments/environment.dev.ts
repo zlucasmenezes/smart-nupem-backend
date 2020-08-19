@@ -24,7 +24,7 @@ export const environmentConfiguration: IEnvironmentConfiguration = {
       pass: 'password',
     },
     email: {
-      default: 'noreply@monica.com'
+      default: '"NO REPLY" <noreply@monica.com>'
     }
   }
 };

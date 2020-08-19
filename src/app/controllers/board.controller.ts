@@ -17,7 +17,7 @@ class BoardController {
 
             EmailService.send(
                 environment.smtp.email.default,
-                [thing.project.admin.email],
+                [thing.project.admin.getEmail()],
                 'New board credentials',
                 EmailTemplate.boardCredentials(thing.project.admin, board, thing)
             ).catch(console.error);

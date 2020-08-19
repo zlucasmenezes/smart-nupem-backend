@@ -49,6 +49,10 @@ UserSchema.virtual('fullName').get(
   }
 );
 
+UserSchema.methods.getEmail = function(this: IUser): string {
+  return `"${this.fullName}" <${this.email}>`;
+};
+
 UserSchema.pre<IUser>('save', async function (this: IUser, next: HookNextFunction) {
   if (this.isModified('password')) {
     if (this.isNew) {

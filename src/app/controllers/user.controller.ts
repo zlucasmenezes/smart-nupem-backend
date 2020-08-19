@@ -15,7 +15,7 @@ class UserController {
 
             SocketIO.broadcast('user_created', user);
 
-            EmailService.send(environment.smtp.email.default, [createdUser.email], 'Welcome to Monica', EmailTemplate.welcome(createdUser))
+            EmailService.send(environment.smtp.email.default, [createdUser.getEmail()], 'Welcome to Monica', EmailTemplate.welcome(createdUser))
             .catch(console.error);
 
             return response.status(201).send(patternResponse(createdUser, 'User created'));

@@ -10,6 +10,7 @@ export interface IUser extends IUserSchema {
 
 interface IUserSchema extends IBase {
   fullName: string;
+  getEmail(): string;
 }
 
 export interface IDecodedToken {
