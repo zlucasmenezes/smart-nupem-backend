@@ -8,12 +8,19 @@
 # @port = 3001
 
 @baseUrl = http://{{host}}:{{port}}/api/board
+@boardId = {{ login.response.body.$.data.boardId }}
+@token = {{ auth.response.body.$.data.token }}
 
 ### AUTH
+# @name auth
 POST {{baseUrl}}/auth
 Content-Type: application/json
 
 {
-  "board": "5f24f635f5f912712f2e96ed",
-	"password": "5mrjmskejfd"
+  "board": "5f30af651edba91d74deeb81",
+	"password": "+p-u7Ln3g=LEbEyJ"
 }
+
+### GET DEVICES
+GET {{baseUrl}}/device
+Authorization: Bearer {{token}}

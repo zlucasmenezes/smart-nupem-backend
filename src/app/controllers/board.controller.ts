@@ -1,3 +1,4 @@
+import { IBoard, IBoardDevices } from '../models/board.model';
 import { Request, Response } from 'express';
 import Board from '../schemas/board.schema';
 import Thing from '../schemas/thing.schema';
@@ -5,8 +6,8 @@ import { IResponsePattern, patternResponse, patternError } from '../models/expre
 import { EmailService } from '../services/email.service';
 import { environment } from '../../environments/environment';
 import { EmailTemplate } from '../utils/email-template';
-import { IBoard } from '../models/board.model';
 import { IThingPopulated } from '../models/thing.model';
+import Sensor from '../schemas/sensor.schema';
 
 class BoardController {
 
@@ -33,6 +34,28 @@ class BoardController {
         try {
             const encodedToken = await Board.generateAuthToken(request.body.board, request.body.password);
             return response.status(200).send(patternResponse(encodedToken, 'Board authenticated'));
+        }
+        catch (error) {
+            return response.status(401).send(patternError(error, error.message));
+        }
+    }
+
+    public async getDevices(request: Request, response: Response<IResponsePattern>): Promise<Response> {
+        try {
+            const sensors = (await Sensor.findByThingAndPopulate(request.boardToken.boardId));
+
+            const devices: IBoardDevices = {
+                sensors: sensors.map((sensor) => {
+                    return {
+                        sensor: sensor._id,
+                        type: sensor.type.type,
+                        input: sensor.type.input,
+                        pin: sensor.pin,
+                        pollTime: sensor.pollTime
+                    };
+                })
+            };
+            return response.status(200).send(patternResponse(devices));
         }
         catch (error) {
             return response.status(401).send(patternError(error, error.message));
