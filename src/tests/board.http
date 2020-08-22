@@ -24,7 +24,7 @@ Content-Type: application/json
 
 ### GET DEVICES
 # @name devices
-GET {{baseUrl}}/device
+GET {{baseUrl}}/devices
 Authorization: Bearer {{token}}
 
 
