@@ -10,6 +10,7 @@
 @baseUrl = http://{{host}}:{{port}}/api/board
 @boardId = {{ login.response.body.$.data.boardId }}
 @token = {{ auth.response.body.$.data.token }}
+@sensorId = {{ devices.response.body.$.data.sensors[0].sensor }}
 
 ### AUTH
 # @name auth
@@ -22,5 +23,14 @@ Content-Type: application/json
 }
 
 ### GET DEVICES
+# @name devices
 GET {{baseUrl}}/device
 Authorization: Bearer {{token}}
+
+
+### INSERT TS DATA
+POST {{baseUrl}}/ts/{{sensorId}}
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{ "value": 100 }
