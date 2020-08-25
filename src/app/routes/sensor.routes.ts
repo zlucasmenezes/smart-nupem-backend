@@ -4,22 +4,15 @@ import authGuard from '../middleware/guards/auth.guard';
 import projectGuard from '../middleware/guards/project.guard';
 import thingGuard from '../middleware/guards/thing.guard';
 import sensorGuard from '../middleware/guards/sensor.guard';
+import tsController from '../controllers/ts.controller';
 
 const routes = Router({ mergeParams: true });
 
 routes.post('/', authGuard.isAuthenticated, projectGuard.isAdmin, thingGuard.isFromProject, sensorController.create);
 routes.get('/', authGuard.isAuthenticated, projectGuard.isUser, thingGuard.isFromProject, sensorController.find);
-routes.get(
-  '/:sensorId',
-  authGuard.isAuthenticated, projectGuard.isUser, thingGuard.isFromProject, sensorGuard.isFromThing, sensorController.findOne
-);
-routes.put(
-  '/:sensorId',
-  authGuard.isAuthenticated, projectGuard.isAdmin, thingGuard.isFromProject, sensorGuard.isFromThing, sensorController.update
-);
-routes.delete(
-  '/:sensorId',
-  authGuard.isAuthenticated, projectGuard.isAdmin, thingGuard.isFromProject, sensorGuard.isFromThing, sensorController.delete
-);
+routes.get('/:sensorId/ts', authGuard.isAuthenticated, projectGuard.isUser, thingGuard.isFromProject, sensorGuard.isFromThing, tsController.get);
+routes.get('/:sensorId', authGuard.isAuthenticated, projectGuard.isUser, thingGuard.isFromProject, sensorGuard.isFromThing, sensorController.findOne);
+routes.put('/:sensorId', authGuard.isAuthenticated, projectGuard.isAdmin, thingGuard.isFromProject, sensorGuard.isFromThing, sensorController.update);
+routes.delete('/:sensorId', authGuard.isAuthenticated, projectGuard.isAdmin, thingGuard.isFromProject, sensorGuard.isFromThing, sensorController.delete);
 
 export default routes;
