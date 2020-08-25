@@ -16,3 +16,8 @@ interface ITSValue {
   timestamp: number;
   value: any;
 }
+
+export interface IMatchDate {
+  $gte?: Date;
+  $lte?: Date;
+}
