@@ -33,7 +33,7 @@ class TimeSeriesController {
           }
         );
 
-        return response.status(201).send(patternResponse(data, 'Time series data added'));
+        return response.status(201).send(patternResponse(data, 'ts data added'));
       }
       catch (error) {
         return response.status(500).send(patternError(error, error.message));

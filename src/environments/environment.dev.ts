@@ -20,8 +20,8 @@ export const environmentConfiguration: IEnvironmentConfiguration = {
     host: 'smtp.mailtrap.io',
     port: 587,
     auth: {
-      user: 'user',
-      pass: 'password',
+      user: '2ce53cab8b5b0b',
+      pass: 'f9a241e7fb6af4',
     },
     email: {
       default: '"NO REPLY" <noreply@monica.com>'

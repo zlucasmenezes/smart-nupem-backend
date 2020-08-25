@@ -14,6 +14,7 @@ class BoardGuard {
       if (!boardToken) { return response.status(401).send(patternError(undefined, 'Not authenticated')); }
 
       request.boardToken = jwt.verify(boardToken, environment.authentication.board) as IBoardDecodedToken;
+      request.params.boardId = request.params.thingId = request.boardToken.boardId;
 
       return BoardGuard.exists(request, response, next);
     }

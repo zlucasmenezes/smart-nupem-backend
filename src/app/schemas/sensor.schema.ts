@@ -55,6 +55,10 @@ const SensorSchema = new Schema<ISensor>(
   }
 );
 
+SensorSchema.methods.isFromThing = function(this: ISensor, thingId: IThing['_id']): boolean {
+  return String(this.thing) === String(thingId);
+};
+
 SensorSchema.statics.findByIdAndPopulate = async function(this: ISensorModel, sensorId: string) {
   return this.findById(sensorId).populate([
     {
@@ -80,11 +84,6 @@ SensorSchema.statics.findByIdAndPopulate = async function(this: ISensorModel, se
       model: 'SensorType',
     }
   ]).exec();
-};
-
-SensorSchema.methods.isFromThing = function(this: ISensor, thingId: IThing['_id']): boolean {
-  // tslint:disable-next-line: triple-equals
-  return this.thing == thingId;
 };
 
 SensorSchema.statics.findByThingAndPopulate = async function(this: ISensorModel, thingId: string) {
