@@ -27,7 +27,6 @@ class ThingController {
         const things: Partial<IThingPopulated>[] = [];
 
         for (const fetchedThing of fetchedThings) {
-          console.log(await Sensor.findByThingAndPopulate(fetchedThing._id));
           const thing: Partial<IThingPopulated> = {
             _id: fetchedThing._id,
             name: fetchedThing.name,

@@ -45,9 +45,12 @@ class SensorController {
 
         if (!sensor) { return response.status(404).send(patternError(undefined, 'Sensor not found')); }
 
+        sensor.name = updatedSensor.name;
         sensor.pin = updatedSensor.pin;
         sensor.pollTime = updatedSensor.pollTime;
         sensor.store = updatedSensor.store;
+        sensor.config = updatedSensor.config;
+        sensor.function = updatedSensor.function;
         const updated = await sensor.save();
 
         return response.status(200).send(patternResponse(updated, 'Sensor updated'));
