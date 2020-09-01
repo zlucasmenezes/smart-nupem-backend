@@ -28,11 +28,13 @@ export interface IEnvironment extends IEnvironmentConfiguration {
 
 export interface IEnvironmentConfiguration {
   database: {
+    prefix: string,
     host: string,
-    port: number,
+    port?: number,
     db: string,
     user: string,
-    pwd: string
+    pwd: string,
+    options: string
   };
   port: number;
   authentication: {

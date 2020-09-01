@@ -2,11 +2,15 @@ import { IEnvironmentConfiguration } from './environment';
 
 export const environmentConfiguration: IEnvironmentConfiguration = {
   database: {
-    host: 'localhost',
-    port: 27017,
+    prefix: 'mongodb+srv',
+    // prefix: 'mongodb',
+    host: 'monica.xoklz.gcp.mongodb.net',
+    // host: 'localhost',
     db: 'monica-dev',
     user: 'dev',
-    pwd: 'dev'
+    pwd: 'dev',
+    options: 'retryWrites=true&w=majority'
+    // options: 'gssapiServiceName=mongodb'
   },
   port: 3000,
   authentication: {
@@ -24,7 +28,7 @@ export const environmentConfiguration: IEnvironmentConfiguration = {
       pass: 'f9a241e7fb6af4',
     },
     email: {
-      default: '"NO REPLY" <noreply@monica.com>'
+      default: '"NO REPLY" <noreply@monica>'
     }
   }
 };
