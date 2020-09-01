@@ -5,6 +5,7 @@ export const environmentConfiguration: IEnvironmentConfiguration = {
     prefix: 'mongodb',
     host: 'localhost',
     db: 'monica-hmg',
+    port: 27017,
     user: 'hmg',
     pwd: 'hmg',
     options: 'gssapiServiceName=mongodb'

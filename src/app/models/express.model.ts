@@ -18,7 +18,7 @@ export interface IResponsePattern {
 }
 
 export const patternResponse = (
-  data: any = { },
+  data: any = null,
   message: string = 'OK'
   ): IResponsePattern => {
   return {

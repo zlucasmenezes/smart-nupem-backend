@@ -2,6 +2,7 @@ import { Request, Response, NextFunction } from 'express';
 import { IResponsePattern, patternError, patternResponse } from '../models/express.model';
 import TimeSeries from '../schemas/ts.schema';
 import moment from 'moment';
+import { Types } from 'mongoose';
 
 class TimeSeriesController {
 
@@ -58,6 +59,32 @@ class TimeSeriesController {
       .match(request.body.matchMoment);
 
       return response.status(201).send(patternResponse(data));
+    }
+    catch (error) {
+      return response.status(500).send(patternError(error, error.message));
+    }
+  }
+
+  public async getCurrentValue(request: Request, response: Response<IResponsePattern>, _: NextFunction): Promise<Response | void> {
+    try {
+      const data = await TimeSeries.aggregate()
+      .match({ sensor: new Types.ObjectId(request.params.sensorId) })
+      .sort({ last: -1 })
+      .limit(1)
+      .unwind('values')
+      .project({
+        _id: false,
+        sensor: '$sensor',
+        thing: '$thing',
+        ts: {
+          $toDate: '$values.timestamp'
+        },
+        value: '$values.value'
+      })
+      .sort({ ts: -1 })
+      .limit(1);
+
+      return response.status(201).send(patternResponse(data[0]));
     }
     catch (error) {
       return response.status(500).send(patternError(error, error.message));
