@@ -1,8 +1,8 @@
-import { IUser } from './user.model';
-
 export type SocketIOEvent =
 'user_connected' |
 'user_disconnected' |
-'user_created';
+string;
 
-export type SocketIOData = IUser | { _id: string};
+export type SocketIOData =
+{ _id: string} |
+{ ts: number, value: any };

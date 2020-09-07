@@ -20,6 +20,16 @@ export class SocketIO {
       socket.on('disconnect', () => {
         console.log('[IO] User disconnected -> ', socket.id);
       });
+
+      socket.on('join_room', (room) => {
+        console.log(`[IO] User ${socket.id} joining room  -> `, room);
+        socket.join(room);
+      });
+
+      socket.on('leave_room', (room) => {
+        console.log(`[IO] User ${socket.id} leaving room  -> `, room);
+        socket.leave(room);
+      });
     });
 
   }
@@ -30,6 +40,10 @@ export class SocketIO {
 
   public static sendTo(userId: string, event: SocketIOEvent, data: SocketIOData): void {
     SocketIO.io.to(userId).emit(event, data);
+  }
+
+  public static sendInRoom(room: string, event: SocketIOEvent, data: SocketIOData): void {
+    SocketIO.io.in(room).emit(event, data);
   }
 
   private static middleware(): void {

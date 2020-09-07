@@ -3,6 +3,7 @@ import { IResponsePattern, patternError, patternResponse } from '../models/expre
 import TimeSeries from '../schemas/ts.schema';
 import moment from 'moment';
 import { Types } from 'mongoose';
+import { SocketIO } from '../socket-io';
 
 class TimeSeriesController {
 
@@ -31,6 +32,15 @@ class TimeSeriesController {
         },
         {
           upsert: true
+        }
+      );
+
+      SocketIO.sendInRoom(
+        `thing:${request.boardToken.boardId}`,
+        request.params.sensorId,
+        {
+          ts,
+          value: request.body.value
         }
       );
 

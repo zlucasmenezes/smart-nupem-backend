@@ -6,6 +6,7 @@ export const environmentConfiguration: IEnvironmentConfiguration = {
     // prefix: 'mongodb',
     host: 'monica.xoklz.gcp.mongodb.net',
     // host: 'localhost',
+    // port: 27017,
     db: 'monica-dev',
     user: 'dev',
     pwd: 'dev',
