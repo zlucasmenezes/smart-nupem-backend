@@ -46,7 +46,6 @@ BoardSchema.statics.createBoard
     const board = new Board({ _id: thing, password: PasswordUtils.generate(16, 'aA0!') });
     return await board.save();
   } catch (error) {
-    console.log(error);
     throw error;
   }
 };

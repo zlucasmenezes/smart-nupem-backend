@@ -43,9 +43,10 @@ ProjectSchema.methods.isAdmin = function(this: IProject, userId: IUser['_id']): 
 ProjectSchema.methods.isUser = function(this: IProject, userId: IUser['_id']): boolean {
   if (this.isAdmin(userId)) { return true; }
 
+  if (this.privacy === 'public') { return true; }
+
   return this.users.some((id: IUser['_id']) => {
-    // tslint:disable-next-line: triple-equals
-    return id == userId;
+    return id as string === userId as string;
   });
 };
 

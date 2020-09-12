@@ -47,6 +47,18 @@ Authorization: Bearer {{token}}
 ###   "type" : "General Analog Sensor",
 ### 	"input" : "Analog"
 ### }
+### {
+###   "type" : "Lighting",
+### 	"input" : "Analog",
+### 	"config" : [
+### 		{
+###       "parameter": "L",
+### 			"description" : "Lighting index based on board reading (in percent)",
+### 			"default" : 30
+### 		}
+### 	],
+### 	"function" : "const result = (value/resolution) * 100;\nif (result >= L) { \n  return true;\n} else { \n  return false;\n}\n"
+### }
 
 
 ### GET ALL SENSOR TYPES

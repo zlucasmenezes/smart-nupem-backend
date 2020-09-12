@@ -14,14 +14,26 @@ export class SocketIO {
     SocketIO.middleware();
 
     SocketIO.io.on('connection', (socket) => {
-      console.log('[IO] User connected -> ', socket.id);
-      this.sendTo(socket.id, 'user_connected', { _id: socket.id });
+      const userId = socket.request.userId;
+
+      console.log(`[IO] ${userId} connected on ${socket.id}`);
+      this.sendTo(socket.id, 'user_connected', { userId });
+      socket.join(userId);
 
       socket.on('disconnect', () => {
-        console.log('[IO] User disconnected -> ', socket.id);
+        console.log(`[IO] ${userId} disconnected from ${socket.id}`);
+      });
+
+      socket.on('join_room', (room) => {
+        console.log(`[IO] ${userId} joining room ${room}`);
+        socket.join(room);
+      });
+
+      socket.on('leave_room', (room) => {
+        console.log(`[IO] ${userId} leaving room ${room}`);
+        socket.leave(room);
       });
     });
-
   }
 
   public static broadcast(event: SocketIOEvent, data: SocketIOData): void {
@@ -32,11 +44,15 @@ export class SocketIO {
     SocketIO.io.to(userId).emit(event, data);
   }
 
+  public static sendInRoom(room: string, event: SocketIOEvent, data: SocketIOData): void {
+    SocketIO.io.in(room).emit(event, data);
+  }
+
   private static middleware(): void {
     SocketIO.io.use(async function (socket: Socket, next) {
       try {
         const tokenData = await jwt.verify(socket.handshake.query.token, environment.authentication.key) as IDecodedToken;
-        socket.id = tokenData.userId;
+        socket.request.userId = tokenData.userId;
         next();
       }
       catch (error) {

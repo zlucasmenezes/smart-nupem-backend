@@ -7,12 +7,12 @@
 # @host = localhost
 # @port = 3001
 
-@projectId = 5f443e051a11b68a9322aea7
-@thingId = 5f443e121a11b68a9322aea8
+@projectId = 5f4da1ff7c14b1d12aa9601e
+@thingId = 5f4da2347c14b1d12aa9601f
 @baseUrl = http://{{host}}:{{port}}/api/project/{{projectId}}/thing/{{thingId}}/sensor
 # @sensorId = {{ sensors.response.body.$.data[0]._id }}
-@sensorId = 5f443e6d1a11b68a9322aeab
-@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI1ZjFhMzU4ZDE2YTYzNTY2YWMxNGU0MGEiLCJpYXQiOjE1OTgzMjYzMTcsImV4cCI6MTU5ODkzMTExN30.Jg_qZqlCpANbmneSr5QmCkmTL4IdOFy9f-Ca95JvehY
+@sensorId = 5f4ea296588fdf289fcdac59
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI1ZjRkOGVhOGU0MzU1ZWEwYmVjOWUxOTYiLCJpYXQiOjE1OTkwMDEzNDUsImV4cCI6MTU5OTYwNjE0NX0.tiOy9vUb-8XIZQHHGS2MV8n6_pduSNHiKxwZSansdwY
 
 ### CREATE
 POST {{baseUrl}}
@@ -60,7 +60,13 @@ Authorization: Bearer {{token}}
 
 
 ### GET TS DATA
-GET {{baseUrl}}/{{sensorId}}/ts?start=2020-08-25T03:00:30.000Z&end=2020-08-25T03:01:30.000Z
+GET {{baseUrl}}/{{sensorId}}/ts?start=2020-08-25T03:00:30.000Z&end=2020-08-29T03:01:30.000Z
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+
+### GET VALUE
+GET {{baseUrl}}/{{sensorId}}/value
 Content-Type: application/json
 Authorization: Bearer {{token}}
 

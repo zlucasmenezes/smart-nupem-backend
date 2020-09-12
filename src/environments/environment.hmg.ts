@@ -2,11 +2,13 @@ import { IEnvironmentConfiguration } from './environment';
 
 export const environmentConfiguration: IEnvironmentConfiguration = {
   database: {
+    prefix: 'mongodb',
     host: 'localhost',
-    port: 27017,
     db: 'monica-hmg',
+    port: 27017,
     user: 'hmg',
-    pwd: 'hmg'
+    pwd: 'hmg',
+    options: 'gssapiServiceName=mongodb'
   },
   port: 3001,
   authentication: {
@@ -24,7 +26,7 @@ export const environmentConfiguration: IEnvironmentConfiguration = {
       pass: 'password',
     },
     email: {
-      default: '"NO REPLY" <noreply@monica.com>'
+      default: '"NO REPLY" <noreply@monica>'
     }
   }
 };

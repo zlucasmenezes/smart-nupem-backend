@@ -1,7 +1,6 @@
 import { Request, Response } from 'express';
 import User from '../schemas/user.schema';
 import { IResponsePattern, patternResponse, patternError } from '../models/express.model';
-import { SocketIO } from '../socket-io';
 import { EmailService } from '../services/email.service';
 import { EmailTemplate } from '../utils/email-template';
 import { environment } from '../../environments/environment';
@@ -12,8 +11,6 @@ class UserController {
         try {
             const user = new User(request.body);
             const createdUser = await user.save();
-
-            SocketIO.broadcast('user_created', user);
 
             EmailService.send(environment.smtp.email.default, [createdUser.getEmail()], 'Welcome to Monica', EmailTemplate.welcome(createdUser))
             .catch(console.error);
