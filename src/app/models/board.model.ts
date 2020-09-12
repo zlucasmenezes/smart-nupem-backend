@@ -4,6 +4,7 @@ import { InputType } from './sensor.model';
 
 export interface IBoardDevices {
   sensors: IBoardSensor[];
+  relays: IBoardRelay[];
 }
 
 interface IBoardSensor {
@@ -12,6 +13,11 @@ interface IBoardSensor {
   input: InputType;
   pin: number;
   pollTime: number;
+}
+
+interface IBoardRelay {
+  relay: string;
+  pin: number;
 }
 
 export interface IBoard extends IBase {

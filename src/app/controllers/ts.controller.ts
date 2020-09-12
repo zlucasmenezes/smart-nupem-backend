@@ -4,18 +4,21 @@ import TimeSeries from '../schemas/ts.schema';
 import moment from 'moment';
 import { Types } from 'mongoose';
 import { SocketIO } from '../socket-io';
+import { RouteUtils } from '../utils/route-utils';
 
 class TimeSeriesController {
 
   public async insert(request: Request, response: Response<IResponsePattern>, _: NextFunction): Promise<Response | void> {
     try {
+      const deviceType = RouteUtils.getDeviceType(request.params);
+
       const today = moment().startOf('day').toDate();
       const ts = moment().toDate().getTime();
 
       const data = await TimeSeries.updateOne(
         {
           thing: request.boardToken.boardId,
-          sensor: request.params.sensorId,
+          [deviceType]: request.params[`${deviceType}Id`],
           n: { $lt: 200 },
           day: today
         },
@@ -37,7 +40,7 @@ class TimeSeriesController {
 
       SocketIO.sendInRoom(
         `thing:${request.boardToken.boardId}`,
-        request.params.sensorId,
+        request.params[`${deviceType}Id`],
         {
           ts,
           value: request.body.value
@@ -53,12 +56,14 @@ class TimeSeriesController {
 
   public async get(request: Request, response: Response<IResponsePattern>, _: NextFunction): Promise<Response | void> {
     try {
+      const deviceType = RouteUtils.getDeviceType(request.params);
+
       const data = await TimeSeries.aggregate()
       .match(request.body.matchDay)
       .unwind('values')
       .project({
         _id: false,
-        sensor: '$sensor',
+        [deviceType]: `$${deviceType}`,
         thing: '$thing',
         ts: {
           $toDate: '$values.timestamp'
@@ -77,14 +82,16 @@ class TimeSeriesController {
 
   public async getCurrentValue(request: Request, response: Response<IResponsePattern>, _: NextFunction): Promise<Response | void> {
     try {
+      const deviceType = RouteUtils.getDeviceType(request.params);
+
       const data = await TimeSeries.aggregate()
-      .match({ sensor: new Types.ObjectId(request.params.sensorId) })
+      .match({ [deviceType]: new Types.ObjectId(request.params[`${deviceType}Id`]) })
       .sort({ last: -1 })
       .limit(1)
       .unwind('values')
       .project({
         _id: false,
-        sensor: '$sensor',
+        [deviceType]: `$${deviceType}`,
         thing: '$thing',
         ts: {
           $toDate: '$values.timestamp'

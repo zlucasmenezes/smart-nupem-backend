@@ -8,6 +8,7 @@ import { environment } from '../../environments/environment';
 import { EmailTemplate } from '../utils/email-template';
 import { IThingPopulated } from '../models/thing.model';
 import Sensor from '../schemas/sensor.schema';
+import Relay from '../schemas/relay.schema';
 
 class BoardController {
 
@@ -43,6 +44,7 @@ class BoardController {
     public async getDevices(request: Request, response: Response<IResponsePattern>): Promise<Response> {
         try {
             const sensors = (await Sensor.findByThingAndPopulate(request.boardToken.boardId));
+            const relays = (await Relay.findByThingAndPopulate(request.boardToken.boardId));
 
             const devices: IBoardDevices = {
                 sensors: sensors.map((sensor) => {
@@ -52,6 +54,12 @@ class BoardController {
                         input: sensor.type.input,
                         pin: sensor.pin,
                         pollTime: sensor.pollTime
+                    };
+                }),
+                relays: relays.map((relay) => {
+                    return {
+                        relay: relay._id,
+                        pin: relay.pin
                     };
                 })
             };

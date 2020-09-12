@@ -3,11 +3,14 @@ import { IResponsePattern, patternError } from '../models/express.model';
 import { IMatchDate } from '../models/ts.model';
 import moment from 'moment';
 import { Types } from 'mongoose';
+import { RouteUtils } from '../utils/route-utils';
 
 class TSResolver {
 
   public async matchDatesQuery(request: Request, response: Response<IResponsePattern>, next: NextFunction): Promise<Response | void> {
     try {
+      const deviceType = RouteUtils.getDeviceType(request.params);
+
       const day: IMatchDate = { };
       const ts: IMatchDate = { };
 
@@ -24,8 +27,8 @@ class TSResolver {
         hasQuery = true;
       }
 
-      const matchDay: { sensor: Types.ObjectId, day?: IMatchDate } = {
-        sensor: new Types.ObjectId(request.params.sensorId),
+      const matchDay: { sensor?: Types.ObjectId, relay?: Types.ObjectId, day?: IMatchDate } = {
+        [deviceType]: new Types.ObjectId(request.params[`${deviceType}Id`]),
       };
       const matchMoment: { ts?: IMatchDate } = { };
 

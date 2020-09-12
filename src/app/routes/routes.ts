@@ -4,6 +4,7 @@ import userRoutes from './user.routes';
 import projectRoutes from './project.routes';
 import thingRoutes from './thing.routes';
 import sensorRoutes from './sensor.routes';
+import relayRoutes from './relay.routes';
 import sensorTypeRoutes from './sensor-type.routes';
 import boardRoutes from './board.routes';
 
@@ -13,6 +14,7 @@ export const routes: IRouteConfig[] = [
   { routePath: '/api/project', childRoutes: projectRoutes },
   { routePath: '/api/project/:projectId/thing', childRoutes: thingRoutes },
   { routePath: '/api/project/:projectId/thing/:thingId/sensor', childRoutes: sensorRoutes },
+  { routePath: '/api/project/:projectId/thing/:thingId/relay', childRoutes: relayRoutes },
   { routePath: '/api/sensortype', childRoutes: sensorTypeRoutes },
   { routePath: '/api/board', childRoutes: boardRoutes },
 ];

@@ -10,8 +10,11 @@ const TSSchema = new Schema<ITS>(
     },
     sensor: {
       type: Schema.Types.ObjectId,
-      ref: 'Sensor',
-      required: true
+      ref: 'Sensor'
+    },
+    relay: {
+      type: Schema.Types.ObjectId,
+      ref: 'Relay'
     },
     n: {
       type: Number,

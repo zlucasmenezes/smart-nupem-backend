@@ -1,0 +1,66 @@
+
+# DEV
+@host = localhost
+@port = 3000
+
+# # HMG
+# @host = localhost
+# @port = 3001
+
+@projectId = 5f4da1ff7c14b1d12aa9601e
+@thingId = 5f4da2347c14b1d12aa9601f
+@baseUrl = http://{{host}}:{{port}}/api/project/{{projectId}}/thing/{{thingId}}/relay
+# @relayId = {{ relays.response.body.$.data[0]._id }}
+@relayId = 5f5d430dcee4131df705241e
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI1ZjRkOGVhOGU0MzU1ZWEwYmVjOWUxOTYiLCJpYXQiOjE1OTk5NDc0NjEsImV4cCI6MTYwMDU1MjI2MX0.q6ygLsDwOY8thi-Sdc35X6f21zfduFjwo4zfsv00Ygw
+
+### CREATE
+POST {{baseUrl}}
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "name" : "Light 1",
+	"pin" : 2,
+	"store" : true
+}
+
+
+### GET ALL RELAYS
+# @name relays
+GET {{baseUrl}}
+Authorization: Bearer {{token}}
+
+
+### GET RELAY BY ID
+GET {{baseUrl}}/{{relayId}}
+Authorization: Bearer {{token}}
+
+
+### GET TS DATA
+GET {{baseUrl}}/{{relayId}}/ts?start=2020-09-12T03:00:30.000Z&end=2020-09-13T03:00:30.000Z
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+
+### GET VALUE
+GET {{baseUrl}}/{{relayId}}/value
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+
+### UPDATE
+PUT {{baseUrl}}/{{relayId}}
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "name" : "Light 1",
+	"pin" : 16,
+	"store" : true
+}
+
+
+### REMOVE
+DELETE {{baseUrl}}/{{relayId}}
+Authorization: Bearer {{token}}

@@ -11,6 +11,8 @@
 @boardId = {{ login.response.body.$.data.boardId }}
 @token = {{ auth.response.body.$.data.token }}
 @sensorId = {{ devices.response.body.$.data.sensors[0].sensor }}
+# @relayId = {{ devices.response.body.$.data.relays[0].relay }}
+@relayId = 5f5d430dcee4131df705241e
 
 ### AUTH
 # @name auth
@@ -18,8 +20,8 @@ POST {{baseUrl}}/auth
 Content-Type: application/json
 
 {
-  "board": "5f30af651edba91d74deeb81",
-	"password": "+p-u7Ln3g=LEbEyJ"
+  "board": "5f4da2347c14b1d12aa9601f",
+	"password": "M09OJYWXf3A4&7vk"
 }
 
 ### GET DEVICES
@@ -28,9 +30,20 @@ GET {{baseUrl}}/devices
 Authorization: Bearer {{token}}
 
 
-### INSERT TS DATA
-POST {{baseUrl}}/ts/{{sensorId}}
+### INSERT SENSOR TS DATA
+POST {{baseUrl}}/ts/sensor/{{sensorId}}
 Authorization: Bearer {{token}}
 Content-Type: application/json
 
-{ "value": 100 }
+{ 
+  "value": 2000,
+  "resolution": 4095
+}
+
+
+### INSERT RELAY TS DATA
+POST {{baseUrl}}/ts/relay/{{relayId}}
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{ "value": false }

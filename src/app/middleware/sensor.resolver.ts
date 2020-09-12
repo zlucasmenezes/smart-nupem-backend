@@ -1,7 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import Sensor from '../schemas/sensor.schema';
 import { IResponsePattern, patternError } from '../models/express.model';
-import { isNumber } from 'util';
 
 class SensorResolver {
 
@@ -22,7 +21,7 @@ class SensorResolver {
         const configParamsValues = configParams.map((param) => sensor.config.find((c) => c.parameter === param)?.value);
 
         const value = sensorFunction(...configParamsValues, request.body.value, request.body.resolution);
-        request.body.value = isNumber(value) ? Number(value.toFixed(1)) : value;
+        request.body.value = typeof value === 'number' ? Number(value.toFixed(1)) : value;
       }
 
       next();
