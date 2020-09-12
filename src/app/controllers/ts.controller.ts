@@ -15,28 +15,32 @@ class TimeSeriesController {
       const today = moment().startOf('day').toDate();
       const ts = moment().toDate().getTime();
 
-      const data = await TimeSeries.updateOne(
-        {
-          thing: request.boardToken.boardId,
-          [deviceType]: request.params[`${deviceType}Id`],
-          n: { $lt: 200 },
-          day: today
-        },
-        {
-          $push: {
-            values: {
-              value: request.body.value,
-              timestamp: ts
-            }
+      let data;
+
+      if (request.storeData) {
+        data = await TimeSeries.updateOne(
+          {
+            thing: request.boardToken.boardId,
+            [deviceType]: request.params[`${deviceType}Id`],
+            n: { $lt: 200 },
+            day: today
           },
-          $min: { first: ts },
-          $max: { last: ts },
-          $inc: { n: 1 }
-        },
-        {
-          upsert: true
-        }
-      );
+          {
+            $push: {
+              values: {
+                value: request.body.value,
+                timestamp: ts
+              }
+            },
+            $min: { first: ts },
+            $max: { last: ts },
+            $inc: { n: 1 }
+          },
+          {
+            upsert: true
+          }
+        );
+      }
 
       SocketIO.sendInRoom(
         `thing:${request.boardToken.boardId}`,

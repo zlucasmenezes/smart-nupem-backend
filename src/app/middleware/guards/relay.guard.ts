@@ -16,6 +16,8 @@ class RelayGuard {
         return response.status(401).send(patternError(undefined, 'Not authorized'));
       }
 
+      request.storeData = relay.store;
+
       return next();
     }
     catch (error) {

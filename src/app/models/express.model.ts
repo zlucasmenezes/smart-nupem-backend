@@ -7,6 +7,7 @@ declare global {
     interface Request {
       token: IDecodedToken;
       boardToken: IBoardDecodedToken;
+      storeData: boolean;
     }
   }
 }

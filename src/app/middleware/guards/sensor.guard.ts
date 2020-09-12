@@ -16,6 +16,8 @@ class SensorGuard {
         return response.status(401).send(patternError(undefined, 'Not authorized'));
       }
 
+      request.storeData = sensor.store;
+
       return next();
     }
     catch (error) {
