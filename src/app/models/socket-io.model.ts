@@ -4,5 +4,5 @@ export type SocketIOEvent =
 string;
 
 export type SocketIOData =
-{ _id: string} |
+{ userId: string} |
 { ts: number, value: any };
