@@ -1,3 +1,4 @@
+import { IBoardDecodedToken } from './models/board.model';
 import { Server as HttpServer } from 'http';
 import * as jwt from 'jsonwebtoken';
 import SocketIOStatic, { Server, Socket } from 'socket.io';
@@ -14,23 +15,23 @@ export class SocketIO {
     SocketIO.middleware();
 
     SocketIO.io.on('connection', (socket) => {
-      const userId = socket.request.userId;
+      const id = socket.request.id;
 
-      console.log(`[IO] ${userId} connected on ${socket.id}`);
-      this.sendTo(socket.id, 'user_connected', { userId });
-      socket.join(userId);
+      console.log(`[IO] ${id} connected on ${socket.id}`);
+      this.sendTo(socket.id, 'user_connected', { id });
+      socket.join(id);
 
       socket.on('disconnect', () => {
-        console.log(`[IO] ${userId} disconnected from ${socket.id}`);
+        console.log(`[IO] ${id} disconnected from ${socket.id}`);
       });
 
       socket.on('join_room', (room) => {
-        console.log(`[IO] ${userId} joining room ${room}`);
+        console.log(`[IO] ${id} joining room ${room}`);
         socket.join(room);
       });
 
       socket.on('leave_room', (room) => {
-        console.log(`[IO] ${userId} leaving room ${room}`);
+        console.log(`[IO] ${id} leaving room ${room}`);
         socket.leave(room);
       });
     });
@@ -51,8 +52,14 @@ export class SocketIO {
   private static middleware(): void {
     SocketIO.io.use(async function (socket: Socket, next) {
       try {
-        const tokenData = await jwt.verify(socket.handshake.query.token, environment.authentication.key) as IDecodedToken;
-        socket.request.userId = tokenData.userId;
+        if (socket.handshake.query.user) {
+          const userTokenData = await jwt.verify(socket.handshake.query.user, environment.authentication.key) as IDecodedToken;
+          socket.request.id = userTokenData.userId;
+        }
+        if (socket.handshake.query.board) {
+          const boardTokenData = await jwt.verify(socket.handshake.query.board, environment.authentication.board) as IBoardDecodedToken;
+          socket.request.id = boardTokenData.boardId;
+        }
         next();
       }
       catch (error) {
