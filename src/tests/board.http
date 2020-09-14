@@ -46,4 +46,4 @@ POST {{baseUrl}}/ts/relay/{{relayId}}
 Authorization: Bearer {{token}}
 Content-Type: application/json
 
-{ "value": false }
+{ "value": true }

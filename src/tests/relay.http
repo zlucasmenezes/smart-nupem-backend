@@ -43,6 +43,14 @@ Content-Type: application/json
 Authorization: Bearer {{token}}
 
 
+### INSERT RELAY TS DATA
+POST {{baseUrl}}/{{relayId}}/ts
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{ "value": true }
+
+
 ### GET VALUE
 GET {{baseUrl}}/{{relayId}}/value
 Content-Type: application/json

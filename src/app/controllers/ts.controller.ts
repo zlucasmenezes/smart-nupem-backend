@@ -20,7 +20,7 @@ class TimeSeriesController {
       if (request.storeData) {
         data = await TimeSeries.updateOne(
           {
-            thing: request.boardToken.boardId,
+            thing: request.params.thingId,
             [deviceType]: request.params[`${deviceType}Id`],
             n: { $lt: 200 },
             day: today
@@ -43,7 +43,7 @@ class TimeSeriesController {
       }
 
       SocketIO.sendInRoom(
-        `thing:${request.boardToken.boardId}`,
+        `thing:${request.params.thingId}`,
         request.params[`${deviceType}Id`],
         {
           ts,
@@ -53,7 +53,7 @@ class TimeSeriesController {
 
       if (deviceType === 'relay') {
         SocketIO.sendInRoom(
-          `board:${request.boardToken.boardId}`,
+          `board:${request.params.thingId}`,
           request.params[`${deviceType}Id`],
           {
             relay: request.params[`${deviceType}Id`],
