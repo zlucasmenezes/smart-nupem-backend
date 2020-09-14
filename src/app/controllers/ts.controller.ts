@@ -51,6 +51,17 @@ class TimeSeriesController {
         }
       );
 
+      if (deviceType === 'relay') {
+        SocketIO.sendInRoom(
+          `board:${request.boardToken.boardId}`,
+          request.params[`${deviceType}Id`],
+          {
+            relay: request.params[`${deviceType}Id`],
+            value: request.body.value
+          }
+        );
+      }
+
       return response.status(201).send(patternResponse(data, 'ts data added'));
     }
     catch (error) {

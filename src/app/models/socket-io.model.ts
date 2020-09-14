@@ -4,5 +4,6 @@ export type SocketIOEvent =
 string;
 
 export type SocketIOData =
-{ id: string} |
-{ ts?: number, value: any };
+{ id: string } |
+{ ts: number, value: any } |
+{ relay: string, value: boolean };
