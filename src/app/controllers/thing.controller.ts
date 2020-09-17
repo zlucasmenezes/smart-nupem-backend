@@ -1,8 +1,9 @@
-import { Request, Response, NextFunction } from 'express';
-import { IResponsePattern, patternResponse, patternError } from '../models/express.model';
-import Thing from '../schemas/thing.schema';
+import { NextFunction, Request, Response } from 'express';
+import { IResponsePattern, patternError, patternResponse } from '../models/express.model';
 import { IThing, IThingPopulated } from '../models/thing.model';
+import Relay from '../schemas/relay.schema';
 import Sensor from '../schemas/sensor.schema';
+import Thing from '../schemas/thing.schema';
 
 class ThingController {
 
@@ -33,6 +34,7 @@ class ThingController {
             type: fetchedThing.type,
             project: fetchedThing.project,
             sensors: await Sensor.findByThingAndPopulate(fetchedThing._id),
+            relays: await Relay.findByThingAndPopulate(fetchedThing._id),
             createdAt: fetchedThing.createdAt,
             updatedAt: fetchedThing.updatedAt
           };
