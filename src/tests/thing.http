@@ -6,10 +6,11 @@
 # @host = localhost
 # @port = 3001
 
-@projectId = 5f1a35fe16a63566ac14e40d
+@projectId = 5f4da1ff7c14b1d12aa9601e
 @baseUrl = http://{{host}}:{{port}}/api/project/{{projectId}}/thing
-@thingId = {{ things.response.body.$.data[0]._id }}
-@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI1ZjFhMzU4ZDE2YTYzNTY2YWMxNGU0MGEiLCJpYXQiOjE1OTcwMzEwMjksImV4cCI6MTU5NzYzNTgyOX0.7FIYYku2yo0FpLqgUx2nG5UwT_J4gJTJ2aXK2rrWPV8
+# @thingId = {{ things.response.body.$.data[0]._id }}
+@thingId = 5f4da2347c14b1d12aa9601f
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI1ZjRkOGVhOGU0MzU1ZWEwYmVjOWUxOTYiLCJpYXQiOjE2MDAzODc5NzMsImV4cCI6MTYwMDk5Mjc3M30.S2SEUuJYHm-3ctigdztke3zAUwe5VxIoS3lPbLY2cKw
 
 ### CREATE
 POST {{baseUrl}}
@@ -30,6 +31,11 @@ Authorization: Bearer {{token}}
 
 ### GET THING BY ID
 GET {{baseUrl}}/{{thingId}}
+Authorization: Bearer {{token}}
+
+
+### GET BOARD STATUS
+GET {{baseUrl}}/{{thingId}}/board
 Authorization: Bearer {{token}}
 
 

@@ -4,6 +4,7 @@ import { IThing, IThingPopulated } from '../models/thing.model';
 import Relay from '../schemas/relay.schema';
 import Sensor from '../schemas/sensor.schema';
 import Thing from '../schemas/thing.schema';
+import { SocketIO } from './../socket-io';
 
 class ThingController {
 
@@ -51,6 +52,20 @@ class ThingController {
       try {
         const thing: IThingPopulated = await Thing.findByIdAndPopulate(request.params.thingId) as IThingPopulated;
         return response.status(200).send(patternResponse(thing));
+      }
+      catch (error) {
+        return response.status(500).send(patternError(error, error.message));
+      }
+    }
+
+    public async getBoardStatus(request: Request, response: Response<IResponsePattern>): Promise<Response> {
+      try {
+        const boardStatus = {
+          board: request.params.thingId,
+          status: SocketIO.isBoardConnected(request.params.thingId)
+        };
+
+        return response.status(200).send(patternResponse(boardStatus));
       }
       catch (error) {
         return response.status(500).send(patternError(error, error.message));

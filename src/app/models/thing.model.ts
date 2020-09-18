@@ -20,3 +20,8 @@ export interface IThing extends IThingSchema {
 export interface IThingSchema extends IBase {
   isFromProject(projectId: IProject['_id']): boolean;
 }
+
+export interface IBoardStatus {
+  board: string;
+  status: boolean;
+}
