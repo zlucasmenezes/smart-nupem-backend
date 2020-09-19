@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
-import { IResponsePattern, patternResponse, patternError } from '../models/express.model';
-import Relay from '../schemas/relay.schema';
+import { IResponsePattern, patternError, patternResponse } from '../models/express.model';
 import { IRelay } from '../models/relay.model';
+import Relay from '../schemas/relay.schema';
 
 class RelayController {
 
@@ -48,6 +48,7 @@ class RelayController {
         relay.name = updatedRelay.name;
         relay.pin = updatedRelay.pin;
         relay.store = updatedRelay.store;
+        relay.nc = updatedRelay.nc;
         const updated = await relay.save();
 
         return response.status(200).send(patternResponse(updated, 'Relay updated'));

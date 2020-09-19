@@ -1,14 +1,14 @@
-import { IBoard, IBoardDevices } from '../models/board.model';
 import { Request, Response } from 'express';
-import Board from '../schemas/board.schema';
-import Thing from '../schemas/thing.schema';
-import { IResponsePattern, patternResponse, patternError } from '../models/express.model';
-import { EmailService } from '../services/email.service';
 import { environment } from '../../environments/environment';
-import { EmailTemplateUtils } from '../utils/email-template-utils';
+import { IBoard, IBoardDevices } from '../models/board.model';
+import { IResponsePattern, patternError, patternResponse } from '../models/express.model';
 import { IThingPopulated } from '../models/thing.model';
-import Sensor from '../schemas/sensor.schema';
+import Board from '../schemas/board.schema';
 import Relay from '../schemas/relay.schema';
+import Sensor from '../schemas/sensor.schema';
+import Thing from '../schemas/thing.schema';
+import { EmailService } from '../services/email.service';
+import { EmailTemplateUtils } from '../utils/email-template-utils';
 
 class BoardController {
 
@@ -59,7 +59,8 @@ class BoardController {
                 relays: relays.map((relay) => {
                     return {
                         relay: relay._id,
-                        pin: relay.pin
+                        pin: relay.pin,
+                        nc: relay.nc
                     };
                 })
             };

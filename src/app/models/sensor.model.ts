@@ -2,14 +2,8 @@ import { IBase } from './base.model';
 import { IThing } from './thing.model';
 
 export interface ISensorPopulated extends ISensor {
-  name: string;
   type: ISensorType;
   thing: IThing;
-  pin: number;
-  pollTime: number;
-  store: boolean;
-  function: string;
-  config: ISensorParameters[];
 }
 export interface ISensor extends ISensorSchema {
   name: string;

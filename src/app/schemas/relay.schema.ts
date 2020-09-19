@@ -1,4 +1,4 @@
-import { model, Schema, Model } from 'mongoose';
+import { model, Model, Schema } from 'mongoose';
 import { IRelay, IRelayPopulated } from '../models/relay.model';
 import { IThing } from '../models/thing.model';
 
@@ -20,6 +20,10 @@ const RelaySchema = new Schema<IRelay>(
       min: 1
     },
     store: {
+      type: Boolean,
+      required: true,
+    },
+    nc: {
       type: Boolean,
       required: true,
     }
