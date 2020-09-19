@@ -97,6 +97,12 @@ class TSController {
 
   public async getCurrentValue(request: Request, response: Response<IResponsePattern>, _: NextFunction): Promise<Response | void> {
     try {
+      if (!request.storeData) {
+        return response.status(201).send(patternResponse({
+          value: null
+        }));
+      }
+
       const deviceType = RouteUtils.getDeviceType(request.params);
 
       const data = await TS.aggregate()
