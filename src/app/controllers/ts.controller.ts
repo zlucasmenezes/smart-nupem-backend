@@ -1,12 +1,12 @@
 import { Request, Response, NextFunction } from 'express';
 import { IResponsePattern, patternError, patternResponse } from '../models/express.model';
-import TimeSeries from '../schemas/ts.schema';
+import TS from '../schemas/ts.schema';
 import moment from 'moment';
 import { Types } from 'mongoose';
 import { SocketIO } from '../socket-io';
 import { RouteUtils } from '../utils/route-utils';
 
-class TimeSeriesController {
+class TSController {
 
   public async insert(request: Request, response: Response<IResponsePattern>, _: NextFunction): Promise<Response | void> {
     try {
@@ -18,7 +18,7 @@ class TimeSeriesController {
       let data;
 
       if (request.storeData) {
-        data = await TimeSeries.updateOne(
+        data = await TS.updateOne(
           {
             thing: request.params.thingId,
             [deviceType]: request.params[`${deviceType}Id`],
@@ -73,7 +73,7 @@ class TimeSeriesController {
     try {
       const deviceType = RouteUtils.getDeviceType(request.params);
 
-      const data = await TimeSeries.aggregate()
+      const data = await TS.aggregate()
       .match(request.body.matchDay)
       .unwind('values')
       .project({
@@ -99,7 +99,7 @@ class TimeSeriesController {
     try {
       const deviceType = RouteUtils.getDeviceType(request.params);
 
-      const data = await TimeSeries.aggregate()
+      const data = await TS.aggregate()
       .match({ [deviceType]: new Types.ObjectId(request.params[`${deviceType}Id`]) })
       .sort({ last: -1 })
       .limit(1)
@@ -124,4 +124,4 @@ class TimeSeriesController {
   }
 }
 
-export default new TimeSeriesController();
+export default new TSController();

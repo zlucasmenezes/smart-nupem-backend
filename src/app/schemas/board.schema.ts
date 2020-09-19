@@ -3,7 +3,7 @@ import { IBoard, IBoardEncodedToken, IBoardDecodedToken } from '../models/board.
 import { environment } from '../../environments/environment';
 import * as jwt from 'jsonwebtoken';
 import { IThing } from '../models/thing.model';
-import { PasswordUtils } from '../utils/password';
+import { PasswordUtils } from '../utils/password-utils';
 
 const BoardSchema = new Schema<IBoard>(
   {

@@ -2,7 +2,7 @@ import { IBoard } from '../models/board.model';
 import { IThingPopulated } from '../models/thing.model';
 import { IUser } from '../models/user.model';
 
-export class EmailTemplate {
+export class EmailTemplateUtils {
 
   public static welcome(user: IUser) {
     return `<!doctype html>

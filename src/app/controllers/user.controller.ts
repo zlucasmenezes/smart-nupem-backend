@@ -2,7 +2,7 @@ import { Request, Response } from 'express';
 import User from '../schemas/user.schema';
 import { IResponsePattern, patternResponse, patternError } from '../models/express.model';
 import { EmailService } from '../services/email.service';
-import { EmailTemplate } from '../utils/email-template';
+import { EmailTemplateUtils } from '../utils/email-template-utils';
 import { environment } from '../../environments/environment';
 
 class UserController {
@@ -12,7 +12,7 @@ class UserController {
             const user = new User(request.body);
             const createdUser = await user.save();
 
-            EmailService.send(environment.smtp.email.default, [createdUser.getEmail()], 'Welcome to Monica', EmailTemplate.welcome(createdUser))
+            EmailService.send(environment.smtp.email.default, [createdUser.getEmail()], 'Welcome to Monica', EmailTemplateUtils.welcome(createdUser))
             .catch(console.error);
 
             return response.status(201).send(patternResponse(createdUser, 'User created'));

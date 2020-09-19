@@ -5,6 +5,8 @@ import { environment } from '../environments/environment';
 import { IBoardDecodedToken } from './models/board.model';
 import { SocketIOData, SocketIOEvent } from './models/socket-io.model';
 import { IDecodedToken } from './models/user.model';
+import { RelayUtils } from './utils/relay-utils';
+import { SensorUtils } from './utils/sensor-utils';
 
 export class SocketIO {
 
@@ -37,6 +39,9 @@ export class SocketIO {
           this.boards.delete(id);
           this.sendInRoom(`thing:${id}`, 'board_status', { board: id, status: false });
           console.log(`[IO] board ${id} disconnected from ${socket.id}`);
+
+          RelayUtils.updateAll(id);
+          SensorUtils.updateAll(id);
         } else {
           console.log(`[IO] ${id} disconnected from ${socket.id}`);
         }

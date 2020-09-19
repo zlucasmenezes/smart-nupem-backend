@@ -5,7 +5,7 @@ import Thing from '../schemas/thing.schema';
 import { IResponsePattern, patternResponse, patternError } from '../models/express.model';
 import { EmailService } from '../services/email.service';
 import { environment } from '../../environments/environment';
-import { EmailTemplate } from '../utils/email-template';
+import { EmailTemplateUtils } from '../utils/email-template-utils';
 import { IThingPopulated } from '../models/thing.model';
 import Sensor from '../schemas/sensor.schema';
 import Relay from '../schemas/relay.schema';
@@ -21,7 +21,7 @@ class BoardController {
                 environment.smtp.email.default,
                 [thing.project.admin.getEmail()],
                 'New board credentials',
-                EmailTemplate.boardCredentials(thing.project.admin, board, thing)
+                EmailTemplateUtils.boardCredentials(thing.project.admin, board, thing)
             ).catch(console.error);
 
             return response.status(200).send(patternResponse(board, 'Board authentication credentials created'));

@@ -43,6 +43,7 @@ const TSSchema = new Schema<ITS>(
       value: {
         type: Schema.Types.Mixed,
         required: true,
+        default: null
       },
     }],
   }
