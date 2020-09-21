@@ -1,10 +1,11 @@
-import { Request, Response, NextFunction } from 'express';
+import { NextFunction, Request, Response } from 'express';
 import * as jwt from 'jsonwebtoken';
 import { environment } from '../../../environments/environment';
+import { IBoardDecodedToken } from '../../models/board.model';
 import { IResponsePattern, patternError } from '../../models/express.model';
 import Board from '../../schemas/board.schema';
-import { IBoardDecodedToken } from '../../models/board.model';
 import Thing from '../../schemas/thing.schema';
+import { SocketIO } from './../../socket-io';
 
 class BoardGuard {
 
@@ -17,6 +18,19 @@ class BoardGuard {
       request.params.boardId = request.params.thingId = request.boardToken.boardId;
 
       return BoardGuard.exists(request, response, next);
+    }
+    catch (error) {
+      return response.status(500).send(patternError(error, error.message));
+    }
+  }
+
+  public async isConnected(request: Request, response: Response<IResponsePattern>, next: NextFunction): Promise<Response | void> {
+    try {
+      if (SocketIO.isBoardConnected(request.body.board)) {
+        return response.status(401).send(patternError(undefined, 'Board is already connected'));
+      }
+
+      next();
     }
     catch (error) {
       return response.status(500).send(patternError(error, error.message));

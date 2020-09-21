@@ -15,7 +15,7 @@ export class SocketIO {
 
   public static start(server: HttpServer): void {
     SocketIO.io = SocketIOStatic.listen(server, {
-      pingInterval: 10000,
+      pingInterval: 15000,
       pingTimeout: 5000
     });
     SocketIO.middleware();

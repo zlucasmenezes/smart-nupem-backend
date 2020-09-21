@@ -8,11 +8,11 @@
 # @port = 3001
 
 @projectId = 5f4da1ff7c14b1d12aa9601e
-@thingId = 5f4da2347c14b1d12aa9601f
+@thingId = 5f652b1ccdbcd52003a7dce4
 @baseUrl = http://{{host}}:{{port}}/api/project/{{projectId}}/thing/{{thingId}}/relay
 # @relayId = {{ relays.response.body.$.data[0]._id }}
-@relayId = 5f5d430dcee4131df705241e
-@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI1ZjRkOGVhOGU0MzU1ZWEwYmVjOWUxOTYiLCJpYXQiOjE1OTk5NDc0NjEsImV4cCI6MTYwMDU1MjI2MX0.q6ygLsDwOY8thi-Sdc35X6f21zfduFjwo4zfsv00Ygw
+@relayId = 5f652c49cdbcd52003a7dce5
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI1ZjRkOGVhOGU0MzU1ZWEwYmVjOWUxOTYiLCJpYXQiOjE2MDA2MjAyMzYsImV4cCI6MTYwMTIyNTAzNn0.ZTbOixilwEHC-EoVnb0VWjPj3RUZ04LjxdOQo0znPbo
 
 ### CREATE
 POST {{baseUrl}}
@@ -38,7 +38,8 @@ Authorization: Bearer {{token}}
 
 
 ### GET TS DATA
-GET {{baseUrl}}/{{relayId}}/ts?start=2020-09-12T03:00:30.000Z&end=2020-09-13T03:00:30.000Z
+GET {{baseUrl}}/{{relayId}}/ts
+# GET {{baseUrl}}/{{relayId}}/ts?start=2020-09-12T03:00:30.000Z&end=2020-09-13T03:00:30.000Z
 Content-Type: application/json
 Authorization: Bearer {{token}}
 
