@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import { IResponsePattern, patternError } from '../models/express.model';
 import { IMatchDate } from '../models/ts.model';
-import moment from 'moment';
+import dayjs from 'dayjs';
 import { Types } from 'mongoose';
 import { RouteUtils } from '../utils/route-utils';
 
@@ -17,13 +17,13 @@ class TSResolver {
       let hasQuery = false;
 
       if (request.query.start) {
-        day.$gte = moment(String(request.query.start)).startOf('day').toDate();
-        ts.$gte = moment(String(request.query.start)).toDate();
+        day.$gte = dayjs(String(request.query.start)).startOf('day').toDate();
+        ts.$gte = dayjs(String(request.query.start)).toDate();
         hasQuery = true;
       }
       if (request.query.end) {
-        day.$lte = moment(String(request.query.end)).startOf('day').toDate();
-        ts.$lte = moment(String(request.query.end)).toDate();
+        day.$lte = dayjs(String(request.query.end)).startOf('day').toDate();
+        ts.$lte = dayjs(String(request.query.end)).toDate();
         hasQuery = true;
       }
 

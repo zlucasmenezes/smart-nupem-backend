@@ -1,4 +1,4 @@
-import moment from 'moment';
+import dayjs from 'dayjs';
 import Relay from '../schemas/relay.schema';
 import TS from '../schemas/ts.schema';
 import { SocketIO } from '../socket-io';
@@ -9,8 +9,8 @@ export class RelayUtils {
     const relays = await Relay.findByThingAndPopulate(thingId);
 
     relays.forEach(async (relay) => {
-      const today = moment().startOf('day').toDate();
-      const ts = moment().toDate().getTime();
+      const today = dayjs().startOf('day').toDate();
+      const ts = dayjs().toDate().getTime();
 
       if (relay.store) {
         await TS.updateOne(

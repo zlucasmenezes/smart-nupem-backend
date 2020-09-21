@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import { IResponsePattern, patternError, patternResponse } from '../models/express.model';
 import TS from '../schemas/ts.schema';
-import moment from 'moment';
+import dayjs from 'dayjs';
 import { Types } from 'mongoose';
 import { SocketIO } from '../socket-io';
 import { RouteUtils } from '../utils/route-utils';
@@ -12,8 +12,8 @@ class TSController {
     try {
       const deviceType = RouteUtils.getDeviceType(request.params);
 
-      const today = moment().startOf('day').toDate();
-      const ts = moment().toDate().getTime();
+      const today = dayjs().startOf('day').toDate();
+      const ts = dayjs().toDate().getTime();
 
       let data;
 

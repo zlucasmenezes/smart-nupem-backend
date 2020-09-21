@@ -1,4 +1,4 @@
-import moment from 'moment';
+import dayjs from 'dayjs';
 import Sensor from '../schemas/sensor.schema';
 import TS from '../schemas/ts.schema';
 import { SocketIO } from '../socket-io';
@@ -9,8 +9,8 @@ export class SensorUtils {
     const sensors = await Sensor.findByThingAndPopulate(thingId);
 
     sensors.forEach(async (sensor) => {
-      const today = moment().startOf('day').toDate();
-      const ts = moment().toDate().getTime();
+      const today = dayjs().startOf('day').toDate();
+      const ts = dayjs().toDate().getTime();
 
       if (sensor.store) {
         await TS.updateOne(
