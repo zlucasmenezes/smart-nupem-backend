@@ -47,6 +47,7 @@ class RelayController {
 
         relay.name = updatedRelay.name;
         relay.pin = updatedRelay.pin;
+        relay.button = updatedRelay.button;
         relay.store = updatedRelay.store;
         relay.nc = updatedRelay.nc;
         const updated = await relay.save();

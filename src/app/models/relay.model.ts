@@ -8,6 +8,7 @@ export interface IRelay extends IRelaySchema {
   name: string;
   thing: IThing['_id'];
   pin: number;
+  button: number;
   store: boolean;
   nc: boolean;
 }

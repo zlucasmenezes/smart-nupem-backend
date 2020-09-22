@@ -19,6 +19,11 @@ const RelaySchema = new Schema<IRelay>(
       required: true,
       min: 1
     },
+    button: {
+      type: Number,
+      min: 1,
+      default: null
+    },
     store: {
       type: Boolean,
       required: true,
