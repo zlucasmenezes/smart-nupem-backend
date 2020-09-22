@@ -60,7 +60,8 @@ class BoardController {
                     return {
                         relay: relay._id,
                         pin: relay.pin,
-                        nc: relay.nc
+                        nc: relay.nc,
+                        button: relay.button
                     };
                 })
             };
