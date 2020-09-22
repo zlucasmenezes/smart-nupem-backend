@@ -50,7 +50,19 @@ class ThingController {
 
     public async findOne(request: Request, response: Response<IResponsePattern>): Promise<Response> {
       try {
-        const thing: IThingPopulated = await Thing.findByIdAndPopulate(request.params.thingId) as IThingPopulated;
+        const fetchedThing: IThingPopulated = await Thing.findByIdAndPopulate(request.params.thingId) as IThingPopulated;
+
+        const thing: Partial<IThingPopulated> = {
+          _id: fetchedThing._id,
+          name: fetchedThing.name,
+          type: fetchedThing.type,
+          project: fetchedThing.project,
+          sensors: await Sensor.findByThingAndPopulate(fetchedThing._id),
+          relays: await Relay.findByThingAndPopulate(fetchedThing._id),
+          createdAt: fetchedThing.createdAt,
+          updatedAt: fetchedThing.updatedAt
+        };
+
         return response.status(200).send(patternResponse(thing));
       }
       catch (error) {
