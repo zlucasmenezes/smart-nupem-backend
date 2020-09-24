@@ -9,14 +9,13 @@ import { RelayUtils } from './utils/relay-utils';
 import { SensorUtils } from './utils/sensor-utils';
 
 export class SocketIO {
-
   private static io: Server;
   static boards = new Set();
 
   public static start(server: HttpServer): void {
     SocketIO.io = SocketIOStatic.listen(server, {
       pingInterval: 15000,
-      pingTimeout: 5000
+      pingTimeout: 5000,
     });
     SocketIO.middleware();
 
@@ -79,21 +78,19 @@ export class SocketIO {
     SocketIO.io.use(async function (socket: Socket, next) {
       try {
         if (socket.handshake.query.user) {
-          const userTokenData = await jwt.verify(socket.handshake.query.user, environment.authentication.key) as IDecodedToken;
+          const userTokenData = (await jwt.verify(socket.handshake.query.user, environment.authentication.key)) as IDecodedToken;
           socket.request.id = userTokenData.userId;
           socket.request.isBoard = false;
         }
         if (socket.handshake.query.board) {
-          const boardTokenData = await jwt.verify(socket.handshake.query.board, environment.authentication.board) as IBoardDecodedToken;
+          const boardTokenData = (await jwt.verify(socket.handshake.query.board, environment.authentication.board)) as IBoardDecodedToken;
           socket.request.id = boardTokenData.boardId;
           socket.request.isBoard = true;
         }
         next();
-      }
-      catch (error) {
+      } catch (error) {
         next(new Error('Not authorized!'));
       }
     });
   }
-
 }

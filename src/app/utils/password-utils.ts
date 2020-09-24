@@ -1,7 +1,5 @@
 export class PasswordUtils {
-
   public static generate(length: number, mask: maskType): string {
-
     let characters = '';
     if (mask.indexOf('a') > -1) {
       characters += 'abcdefghijklmnopqrstuvwxyz';
@@ -23,7 +21,6 @@ export class PasswordUtils {
 
     return password;
   }
-
 }
 
 type maskType = '0' | 'aA0' | 'aA0!';

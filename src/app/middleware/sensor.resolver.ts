@@ -1,9 +1,8 @@
-import { Request, Response, NextFunction } from 'express';
-import Sensor from '../schemas/sensor.schema';
+import { NextFunction, Request, Response } from 'express';
 import { IResponsePattern, patternError } from '../models/express.model';
+import Sensor from '../schemas/sensor.schema';
 
 class SensorResolver {
-
   public async getValue(request: Request, response: Response<IResponsePattern>, next: NextFunction): Promise<Response | void> {
     try {
       const sensor = await Sensor.findByIdAndPopulate(request.params.sensorId);
@@ -13,7 +12,6 @@ class SensorResolver {
 
         const value = sensorFunction(request.body.value, request.body.resolution);
         request.body.value = isNaN(value) ? value : Number(value.toFixed(1));
-
       } else if (sensor.type.function) {
         const configParams: string[] = sensor.type.config.map((config) => config.parameter);
         const sensorFunction = new Function(...configParams, 'value', 'resolution', sensor.type.function);
@@ -25,11 +23,9 @@ class SensorResolver {
       }
 
       next();
-    }
-    catch (error) {
+    } catch (error) {
       return response.status(500).send(patternError(error, error.message));
     }
   }
-
 }
 export default new SensorResolver();

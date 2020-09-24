@@ -1,12 +1,12 @@
 import { Router } from 'express';
 import apiRoutes from './api-info.routes';
-import userRoutes from './user.routes';
+import boardRoutes from './board.routes';
 import projectRoutes from './project.routes';
-import thingRoutes from './thing.routes';
-import sensorRoutes from './sensor.routes';
 import relayRoutes from './relay.routes';
 import sensorTypeRoutes from './sensor-type.routes';
-import boardRoutes from './board.routes';
+import sensorRoutes from './sensor.routes';
+import thingRoutes from './thing.routes';
+import userRoutes from './user.routes';
 
 export const routes: IRouteConfig[] = [
   { routePath: '/api', childRoutes: apiRoutes },

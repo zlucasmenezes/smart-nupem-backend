@@ -1,6 +1,6 @@
+import { Secret, SignOptions } from 'jsonwebtoken';
 import * as dev from './environment.dev';
 import * as hmg from './environment.hmg';
-import { Secret, SignOptions } from 'jsonwebtoken';
 
 let environmentConfiguration: IEnvironmentConfiguration;
 
@@ -17,8 +17,8 @@ export const environment: IEnvironment = {
   ...environmentConfiguration,
   ...{
     name: 'monica-backend',
-    version: '0.0.22'
-  }
+    version: '0.0.22',
+  },
 };
 
 export interface IEnvironment extends IEnvironmentConfiguration {
@@ -28,29 +28,29 @@ export interface IEnvironment extends IEnvironmentConfiguration {
 
 export interface IEnvironmentConfiguration {
   database: {
-    prefix: string,
-    host: string,
-    port?: number,
-    db: string,
-    user: string,
-    pwd: string,
-    options: string
+    prefix: string;
+    host: string;
+    port?: number;
+    db: string;
+    user: string;
+    pwd: string;
+    options: string;
   };
   port: number;
   authentication: {
-    key: Secret,
-    board: Secret,
-    options: SignOptions,
+    key: Secret;
+    board: Secret;
+    options: SignOptions;
   };
   smtp: {
-    host: string,
-    port: number,
+    host: string;
+    port: number;
     auth: {
-      user: string,
-      pass: string,
-    },
+      user: string;
+      pass: string;
+    };
     email: {
-      default: string
-    }
+      default: string;
+    };
   };
 }

@@ -1,9 +1,8 @@
-import { Request, Response, NextFunction } from 'express';
+import { NextFunction, Request, Response } from 'express';
 import { IResponsePattern, patternError } from '../../models/express.model';
 import Sensor from '../../schemas/sensor.schema';
 
 class SensorGuard {
-
   public async isFromThing(request: Request, response: Response<IResponsePattern>, next: NextFunction): Promise<Response | void> {
     try {
       const sensor = await Sensor.findById(request.params.sensorId);
@@ -19,11 +18,9 @@ class SensorGuard {
       request.storeData = sensor.store;
 
       return next();
-    }
-    catch (error) {
+    } catch (error) {
       return response.status(500).send(patternError(error, error.message));
     }
   }
-
 }
 export default new SensorGuard();

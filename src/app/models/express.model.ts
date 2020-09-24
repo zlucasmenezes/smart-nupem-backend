@@ -1,5 +1,5 @@
-import { IDecodedToken } from './user.model';
 import { IBoardDecodedToken } from './board.model';
+import { IDecodedToken } from './user.model';
 
 declare global {
   namespace Express {
@@ -18,22 +18,16 @@ export interface IResponsePattern {
   data?: any;
 }
 
-export const patternResponse = (
-  data: any = null,
-  message: string = 'OK'
-  ): IResponsePattern => {
+export const patternResponse = (data: any = null, message: string = 'OK'): IResponsePattern => {
   return {
     message,
-    data
+    data,
   };
 };
 
-export const patternError = (
-  error: any = new Error('An error ocurred'),
-  message: string = 'An error ocurred'
-  ): IResponsePattern => {
+export const patternError = (error: any = new Error('An error ocurred'), message: string = 'An error ocurred'): IResponsePattern => {
   return {
     message,
-    error
+    error,
   };
 };

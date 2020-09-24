@@ -1,13 +1,12 @@
-import { Request, Response, NextFunction } from 'express';
+import dayjs from 'dayjs';
+import { NextFunction, Request, Response } from 'express';
+import { Types } from 'mongoose';
 import { IResponsePattern, patternError, patternResponse } from '../models/express.model';
 import TS from '../schemas/ts.schema';
-import dayjs from 'dayjs';
-import { Types } from 'mongoose';
 import { SocketIO } from '../socket-io';
 import { RouteUtils } from '../utils/route-utils';
 
 class TSController {
-
   public async insert(request: Request, response: Response<IResponsePattern>, _: NextFunction): Promise<Response | void> {
     try {
       const deviceType = RouteUtils.getDeviceType(request.params);
@@ -23,48 +22,39 @@ class TSController {
             thing: request.params.thingId,
             [deviceType]: request.params[`${deviceType}Id`],
             n: { $lt: 200 },
-            day: today
+            day: today,
           },
           {
             $push: {
               values: {
                 value: request.body.value,
-                timestamp: ts
-              }
+                timestamp: ts,
+              },
             },
             $min: { first: ts },
             $max: { last: ts },
-            $inc: { n: 1 }
+            $inc: { n: 1 },
           },
           {
-            upsert: true
+            upsert: true,
           }
         );
       }
 
-      SocketIO.sendInRoom(
-        `thing:${request.params.thingId}`,
-        request.params[`${deviceType}Id`],
-        {
-          ts,
-          value: request.body.value
-        }
-      );
+      SocketIO.sendInRoom(`thing:${request.params.thingId}`, request.params[`${deviceType}Id`], {
+        ts,
+        value: request.body.value,
+      });
 
       if (deviceType === 'relay') {
-        SocketIO.sendInRoom(
-          `board:${request.params.thingId}`,
-          request.params[`${deviceType}Id`],
-          {
-            relay: request.params[`${deviceType}Id`],
-            value: request.body.value
-          }
-        );
+        SocketIO.sendInRoom(`board:${request.params.thingId}`, request.params[`${deviceType}Id`], {
+          relay: request.params[`${deviceType}Id`],
+          value: request.body.value,
+        });
       }
 
       return response.status(201).send(patternResponse(data, 'ts data added'));
-    }
-    catch (error) {
+    } catch (error) {
       return response.status(500).send(patternError(error, error.message));
     }
   }
@@ -74,23 +64,22 @@ class TSController {
       const deviceType = RouteUtils.getDeviceType(request.params);
 
       const data = await TS.aggregate()
-      .match(request.body.matchDay)
-      .unwind('values')
-      .project({
-        _id: false,
-        [deviceType]: `$${deviceType}`,
-        thing: '$thing',
-        ts: {
-          $toDate: '$values.timestamp'
-        },
-        value: '$values.value'
-      })
-      .sort({ ts: 1 })
-      .match(request.body.matchMoment);
+        .match(request.body.matchDay)
+        .unwind('values')
+        .project({
+          _id: false,
+          [deviceType]: `$${deviceType}`,
+          thing: '$thing',
+          ts: {
+            $toDate: '$values.timestamp',
+          },
+          value: '$values.value',
+        })
+        .sort({ ts: 1 })
+        .match(request.body.matchMoment);
 
       return response.status(201).send(patternResponse(data));
-    }
-    catch (error) {
+    } catch (error) {
       return response.status(500).send(patternError(error, error.message));
     }
   }
@@ -98,33 +87,34 @@ class TSController {
   public async getCurrentValue(request: Request, response: Response<IResponsePattern>, _: NextFunction): Promise<Response | void> {
     try {
       if (!request.storeData) {
-        return response.status(201).send(patternResponse({
-          value: null
-        }));
+        return response.status(201).send(
+          patternResponse({
+            value: null,
+          })
+        );
       }
 
       const deviceType = RouteUtils.getDeviceType(request.params);
 
       const data = await TS.aggregate()
-      .match({ [deviceType]: new Types.ObjectId(request.params[`${deviceType}Id`]) })
-      .sort({ last: -1 })
-      .limit(1)
-      .unwind('values')
-      .project({
-        _id: false,
-        [deviceType]: `$${deviceType}`,
-        thing: '$thing',
-        ts: {
-          $toDate: '$values.timestamp'
-        },
-        value: '$values.value'
-      })
-      .sort({ ts: -1 })
-      .limit(1);
+        .match({ [deviceType]: new Types.ObjectId(request.params[`${deviceType}Id`]) })
+        .sort({ last: -1 })
+        .limit(1)
+        .unwind('values')
+        .project({
+          _id: false,
+          [deviceType]: `$${deviceType}`,
+          thing: '$thing',
+          ts: {
+            $toDate: '$values.timestamp',
+          },
+          value: '$values.value',
+        })
+        .sort({ ts: -1 })
+        .limit(1);
 
       return response.status(201).send(patternResponse(data[0]));
-    }
-    catch (error) {
+    } catch (error) {
       return response.status(500).send(patternError(error, error.message));
     }
   }

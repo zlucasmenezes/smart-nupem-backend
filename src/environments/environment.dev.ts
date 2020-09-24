@@ -10,7 +10,7 @@ export const environmentConfiguration: IEnvironmentConfiguration = {
     db: 'monica-dev',
     user: 'dev',
     pwd: 'dev',
-    options: 'retryWrites=true&w=majority'
+    options: 'retryWrites=true&w=majority',
     // options: 'gssapiServiceName=mongodb'
   },
   port: 3000,
@@ -18,7 +18,7 @@ export const environmentConfiguration: IEnvironmentConfiguration = {
     key: 'DEV_SECRET_THIS_SHOULD_BE_LONGER',
     board: 'DEV_SECRET_THIS_SHOULD_BE_LONGER_TOO',
     options: {
-      expiresIn: 7 * 24 * 3600
+      expiresIn: 7 * 24 * 3600,
     },
   },
   smtp: {
@@ -29,7 +29,7 @@ export const environmentConfiguration: IEnvironmentConfiguration = {
       pass: 'f9a241e7fb6af4',
     },
     email: {
-      default: '"NO REPLY" <noreply@monica>'
-    }
-  }
+      default: '"NO REPLY" <noreply@monica>',
+    },
+  },
 };

@@ -4,7 +4,6 @@ import TS from '../schemas/ts.schema';
 import { SocketIO } from '../socket-io';
 
 export class SensorUtils {
-
   public static async updateAll(thingId: string, value?: any): Promise<void> {
     const sensors = await Sensor.findByThingAndPopulate(thingId);
 
@@ -18,21 +17,21 @@ export class SensorUtils {
             thing: thingId,
             sensor: sensor._id,
             n: { $lt: 200 },
-            day: today
+            day: today,
           },
           {
             $push: {
               values: {
                 value,
-                timestamp: ts
-              }
+                timestamp: ts,
+              },
             },
             $min: { first: ts },
             $max: { last: ts },
-            $inc: { n: 1 }
+            $inc: { n: 1 },
           },
           {
-            upsert: true
+            upsert: true,
           }
         );
       }

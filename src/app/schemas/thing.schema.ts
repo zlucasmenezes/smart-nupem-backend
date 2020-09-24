@@ -1,6 +1,6 @@
-import { model, Schema, Model } from 'mongoose';
-import { IThing, IThingPopulated } from '../models/thing.model';
+import { model, Model, Schema } from 'mongoose';
 import { IProject } from '../models/project.model';
+import { IThing, IThingPopulated } from '../models/thing.model';
 
 const ThingSchema = new Schema<IThing>(
   {
@@ -8,75 +8,75 @@ const ThingSchema = new Schema<IThing>(
       type: String,
       required: true,
       minlength: 4,
-      maxlength: 64
+      maxlength: 64,
     },
     type: {
       type: String,
       required: true,
       minlength: 4,
-      maxlength: 64
+      maxlength: 64,
     },
     project: {
       type: Schema.Types.ObjectId,
       ref: 'Project',
-      required: true
-    }
+      required: true,
+    },
   },
   {
-    timestamps: true
+    timestamps: true,
   }
 );
 
-ThingSchema.methods.isFromProject = function(this: IThing, projectId: IProject['_id']): boolean {
+ThingSchema.methods.isFromProject = function (this: IThing, projectId: IProject['_id']): boolean {
   // tslint:disable-next-line: triple-equals
   return this.project == projectId;
 };
 
-ThingSchema.statics.findByIdAndPopulate = async function(this: IThingModel, thingId: string) {
-  return this.findById(thingId).populate(
-    {
-      path:  'project',
+ThingSchema.statics.findByIdAndPopulate = async function (this: IThingModel, thingId: string) {
+  return this.findById(thingId)
+    .populate({
+      path: 'project',
       model: 'Project',
       populate: [
         {
-          path:  'users',
+          path: 'users',
           model: 'User',
         },
         {
-          path:  'admin',
+          path: 'admin',
           model: 'User',
-        }
-      ]
-    }
-  ).exec();
+        },
+      ],
+    })
+    .exec();
 };
 
-ThingSchema.statics.findByProjectAndPopulate = async function(this: IThingModel, projectId: string) {
-  return this.find({ project: projectId }).populate(
-    {
-      path:  'project',
+ThingSchema.statics.findByProjectAndPopulate = async function (this: IThingModel, projectId: string) {
+  return this.find({ project: projectId })
+    .populate({
+      path: 'project',
       model: 'Project',
       populate: [
         {
-          path:  'users',
+          path: 'users',
           model: 'User',
         },
         {
-          path:  'admin',
+          path: 'admin',
           model: 'User',
-        }
-      ]
-    }
-  ).exec();
+        },
+      ],
+    })
+    .exec();
 };
 
-ThingSchema.statics.findByProject = async function(this: IThingModel, projectId: string) {
+ThingSchema.statics.findByProject = async function (this: IThingModel, projectId: string) {
   return this.find({ project: projectId });
 };
 
-ThingSchema.statics.getTypes = async function(this: IThingModel, projectId: string) {
+ThingSchema.statics.getTypes = async function (this: IThingModel, projectId: string) {
   const types = await this.find({ project: projectId }, { _id: false, type: true }).lean().exec();
-  return  [...new Set(types.map((type: { type: string }) => type.type))];
+  return [...new Set(types.map((type: { type: string }) => type.type))];
 };
 
 const Thing: IThingModel = model<IThing, IThingModel>('Thing', ThingSchema, 'things');

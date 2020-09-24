@@ -6,9 +6,10 @@
   "author": "zlucasmenezes",
   "license": "MIT",
   "scripts": {
-    "dev": "nodemon -e ts -w \"src/\" -x \"yarn lint && environment=dev sucrase-node src/server.ts\"",
-    "build": "yarn lint && rm -rf dist && tsc",
-    "lint": "tslint -c tslint.json -p tsconfig.json --fix"
+    "dev": "yarn prettier && yarn lint && nodemon -e ts -w \"src/\" -x \"environment=dev sucrase-node src/server.ts\"",
+    "build": "yarn prettier && yarn lint && rm -rf dist && tsc",
+    "lint": "tslint -c tslint.json -p tsconfig.json --fix",
+    "prettier": "prettier --write ."
   },
   "dependencies": {
     "bcrypt": "^5.0.0",
@@ -30,6 +31,8 @@
     "@types/nodemailer": "^6.4.0",
     "@types/socket.io": "^2.1.8",
     "nodemon": "^2.0.4",
+    "prettier": "^2.1.2",
+    "prettier-plugin-organize-imports": "^1.1.1",
     "sucrase": "^3.15.0",
     "tslint": "^6.1.2",
     "typescript": "^4.0.3"

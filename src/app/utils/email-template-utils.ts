@@ -3,7 +3,6 @@ import { IThingPopulated } from '../models/thing.model';
 import { IUser } from '../models/user.model';
 
 export class EmailTemplateUtils {
-
   public static welcome(user: IUser) {
     return `<!doctype html>
     <html lang="en">
@@ -117,5 +116,4 @@ export class EmailTemplateUtils {
     </body>
     </html>`;
   }
-
 }

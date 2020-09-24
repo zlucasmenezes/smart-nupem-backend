@@ -1,8 +1,8 @@
-import { model, Schema, HookNextFunction, Model } from 'mongoose';
-import { IUser, IDecodedToken, IEncodedToken } from '../models/user.model';
-import { environment } from '../../environments/environment';
 import * as bcrypt from 'bcrypt';
 import * as jwt from 'jsonwebtoken';
+import { HookNextFunction, model, Model, Schema } from 'mongoose';
+import { environment } from '../../environments/environment';
+import { IDecodedToken, IEncodedToken, IUser } from '../models/user.model';
 
 const UserSchema = new Schema<IUser>(
   {
@@ -35,21 +35,19 @@ const UserSchema = new Schema<IUser>(
       type: String,
       required: true,
       minlength: 6,
-    }
+    },
   },
   {
     timestamps: true,
-    toJSON: { virtuals: true }
+    toJSON: { virtuals: true },
   }
 );
 
-UserSchema.virtual('fullName').get(
-  function(this: IUser): string {
-    return `${this.firstName} ${this.lastName}`;
-  }
-);
+UserSchema.virtual('fullName').get(function (this: IUser): string {
+  return `${this.firstName} ${this.lastName}`;
+});
 
-UserSchema.methods.getEmail = function(this: IUser): string {
+UserSchema.methods.getEmail = function (this: IUser): string {
   return `"${this.fullName}" <${this.email}>`;
 };
 
@@ -63,10 +61,14 @@ UserSchema.pre<IUser>('save', async function (this: IUser, next: HookNextFunctio
 });
 
 UserSchema.statics.generateAuthToken = async function (this: IUserModel, username: string, password: string): Promise<IEncodedToken> {
-  const user = await this.findOne({ username});
-  if (!user) { return Promise.reject(new Error('User not found')); }
+  const user = await this.findOne({ username });
+  if (!user) {
+    return Promise.reject(new Error('User not found'));
+  }
 
-  if (!await bcrypt.compare(password, user.password)) { return Promise.reject(new Error('Invalid authentication credentials')); }
+  if (!(await bcrypt.compare(password, user.password))) {
+    return Promise.reject(new Error('Invalid authentication credentials'));
+  }
 
   const decodedTokenData: IDecodedToken = {
     userId: user._id,
@@ -75,7 +77,7 @@ UserSchema.statics.generateAuthToken = async function (this: IUserModel, usernam
   const encodedTokenData: IEncodedToken = {
     userId: decodedTokenData.userId,
     token: jwt.sign(decodedTokenData, environment.authentication.key, environment.authentication.options),
-    exp: Math.floor(Date.now() / 1000) + Number(environment.authentication.options.expiresIn)
+    exp: Math.floor(Date.now() / 1000) + Number(environment.authentication.options.expiresIn),
   };
 
   return Promise.resolve<IEncodedToken>(encodedTokenData);

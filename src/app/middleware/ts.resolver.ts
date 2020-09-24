@@ -1,18 +1,17 @@
-import { Request, Response, NextFunction } from 'express';
+import dayjs from 'dayjs';
+import { NextFunction, Request, Response } from 'express';
+import { Types } from 'mongoose';
 import { IResponsePattern, patternError } from '../models/express.model';
 import { IMatchDate } from '../models/ts.model';
-import dayjs from 'dayjs';
-import { Types } from 'mongoose';
 import { RouteUtils } from '../utils/route-utils';
 
 class TSResolver {
-
   public async matchDatesQuery(request: Request, response: Response<IResponsePattern>, next: NextFunction): Promise<Response | void> {
     try {
       const deviceType = RouteUtils.getDeviceType(request.params);
 
-      const day: IMatchDate = { };
-      const ts: IMatchDate = { };
+      const day: IMatchDate = {};
+      const ts: IMatchDate = {};
 
       let hasQuery = false;
 
@@ -27,10 +26,10 @@ class TSResolver {
         hasQuery = true;
       }
 
-      const matchDay: { sensor?: Types.ObjectId, relay?: Types.ObjectId, day?: IMatchDate } = {
+      const matchDay: { sensor?: Types.ObjectId; relay?: Types.ObjectId; day?: IMatchDate } = {
         [deviceType]: new Types.ObjectId(request.params[`${deviceType}Id`]),
       };
-      const matchMoment: { ts?: IMatchDate } = { };
+      const matchMoment: { ts?: IMatchDate } = {};
 
       if (hasQuery) {
         matchDay.day = day;
@@ -41,11 +40,9 @@ class TSResolver {
       request.body.matchMoment = matchMoment;
 
       next();
-    }
-    catch (error) {
+    } catch (error) {
       return response.status(500).send(patternError(error, error.message));
     }
   }
-
 }
 export default new TSResolver();

@@ -4,7 +4,6 @@ import TS from '../schemas/ts.schema';
 import { SocketIO } from '../socket-io';
 
 export class RelayUtils {
-
   public static async updateAll(thingId: string, value?: boolean): Promise<void> {
     const relays = await Relay.findByThingAndPopulate(thingId);
 
@@ -18,21 +17,21 @@ export class RelayUtils {
             thing: thingId,
             relay: relay._id,
             n: { $lt: 200 },
-            day: today
+            day: today,
           },
           {
             $push: {
               values: {
                 value,
-                timestamp: ts
-              }
+                timestamp: ts,
+              },
             },
             $min: { first: ts },
             $max: { last: ts },
-            $inc: { n: 1 }
+            $inc: { n: 1 },
           },
           {
-            upsert: true
+            upsert: true,
           }
         );
       }

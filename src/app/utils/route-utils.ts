@@ -1,11 +1,8 @@
-
 export class RouteUtils {
-
   public static getDeviceType(params: { [key: string]: string }): string {
-    const types: { [key: string]: string } =
-    {
+    const types: { [key: string]: string } = {
       sensorId: 'sensor',
-      relayId: 'relay'
+      relayId: 'relay',
     };
 
     for (const type of Object.keys(types)) {

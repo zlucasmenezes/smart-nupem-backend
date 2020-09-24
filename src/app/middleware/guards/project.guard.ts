@@ -1,9 +1,8 @@
-import { Request, Response, NextFunction } from 'express';
+import { NextFunction, Request, Response } from 'express';
 import { IResponsePattern, patternError } from '../../models/express.model';
 import Project from '../../schemas/project.schema';
 
 class ProjectGuard {
-
   public async isAdmin(request: Request, response: Response<IResponsePattern>, next: NextFunction): Promise<Response | void> {
     try {
       const project = await Project.findById(request.params.projectId);
@@ -17,8 +16,7 @@ class ProjectGuard {
       }
 
       return next();
-    }
-    catch (error) {
+    } catch (error) {
       return response.status(500).send(patternError(error, error.message));
     }
   }
@@ -36,11 +34,9 @@ class ProjectGuard {
       }
 
       return next();
-    }
-    catch (error) {
+    } catch (error) {
       return response.status(500).send(patternError(error, error.message));
     }
   }
-
 }
 export default new ProjectGuard();

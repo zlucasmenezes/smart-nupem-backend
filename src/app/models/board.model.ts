@@ -1,6 +1,6 @@
 import { IBase } from './base.model';
-import { IThing } from './thing.model';
 import { InputType } from './sensor.model';
+import { IThing } from './thing.model';
 
 export interface IBoardDevices {
   sensors: IBoardSensor[];
