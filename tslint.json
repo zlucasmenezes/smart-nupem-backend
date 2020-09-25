@@ -41,7 +41,7 @@
     "unnecessary-else": true,
     "variable-name": false,
     "align": [true, "arguments", "elements", "members", "parameters", "statements"],
-    "arrow-parens": true,
+    "arrow-parens": false,
     "import-spacing": true,
     "indent": [true, "spaces", 2],
     "no-invalid-this": true,

@@ -13,10 +13,10 @@ class SensorResolver {
         const value = sensorFunction(request.body.value, request.body.resolution);
         request.body.value = isNaN(value) ? value : Number(value.toFixed(1));
       } else if (sensor.type.function) {
-        const configParams: string[] = sensor.type.config.map((config) => config.parameter);
+        const configParams: string[] = sensor.type.config.map(config => config.parameter);
         const sensorFunction = new Function(...configParams, 'value', 'resolution', sensor.type.function);
 
-        const configParamsValues = configParams.map((param) => sensor.config.find((c) => c.parameter === param)?.value);
+        const configParamsValues = configParams.map(param => sensor.config.find(c => c.parameter === param)?.value);
 
         const value = sensorFunction(...configParamsValues, request.body.value, request.body.resolution);
         request.body.value = typeof value === 'number' ? Number(value.toFixed(1)) : value;

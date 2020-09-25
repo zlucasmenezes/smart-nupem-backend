@@ -7,7 +7,7 @@ export class RelayUtils {
   public static async updateAll(thingId: string, value?: boolean): Promise<void> {
     const relays = await Relay.findByThingAndPopulate(thingId);
 
-    relays.forEach(async (relay) => {
+    relays.forEach(async relay => {
       const today = dayjs().startOf('day').toDate();
       const ts = dayjs().toDate().getTime();
 

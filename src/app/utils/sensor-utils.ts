@@ -7,7 +7,7 @@ export class SensorUtils {
   public static async updateAll(thingId: string, value?: any): Promise<void> {
     const sensors = await Sensor.findByThingAndPopulate(thingId);
 
-    sensors.forEach(async (sensor) => {
+    sensors.forEach(async sensor => {
       const today = dayjs().startOf('day').toDate();
       const ts = dayjs().toDate().getTime();
 

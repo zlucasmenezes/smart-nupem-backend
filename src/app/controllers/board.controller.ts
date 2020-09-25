@@ -44,7 +44,7 @@ class BoardController {
       const relays = await Relay.findByThingAndPopulate(request.boardToken.boardId);
 
       const devices: IBoardDevices = {
-        sensors: sensors.map((sensor) => {
+        sensors: sensors.map(sensor => {
           return {
             sensor: sensor._id,
             type: sensor.type.type,
@@ -53,7 +53,7 @@ class BoardController {
             pollTime: sensor.pollTime,
           };
         }),
-        relays: relays.map((relay) => {
+        relays: relays.map(relay => {
           return {
             relay: relay._id,
             pin: relay.pin,

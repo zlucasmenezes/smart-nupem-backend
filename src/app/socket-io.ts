@@ -19,7 +19,7 @@ export class SocketIO {
     });
     SocketIO.middleware();
 
-    SocketIO.io.on('connection', (socket) => {
+    SocketIO.io.on('connection', socket => {
       const id = socket.request.id;
 
       if (socket.request.isBoard) {
@@ -46,12 +46,12 @@ export class SocketIO {
         }
       });
 
-      socket.on('join_room', (room) => {
+      socket.on('join_room', room => {
         console.log(`[IO] ${id} joining room ${room}`);
         socket.join(room);
       });
 
-      socket.on('leave_room', (room) => {
+      socket.on('leave_room', room => {
         console.log(`[IO] ${id} leaving room ${room}`);
         socket.leave(room);
       });
