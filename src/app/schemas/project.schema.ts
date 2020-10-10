@@ -51,9 +51,7 @@ ProjectSchema.methods.isUser = function (this: IProject, userId: IUser['_id']): 
     return true;
   }
 
-  return this.users.some((id: IUser['_id']) => {
-    return (id as string) === (userId as string);
-  });
+  return this.users.includes(userId);
 };
 
 ProjectSchema.statics.findByIdAndPopulate = async function (this: IProjectModel, projectId: string) {
