@@ -21,6 +21,15 @@ routes.get(
   tsController.get
 );
 routes.get(
+  '/:sensorId/ts/download',
+  authGuard.isAuthenticated,
+  projectGuard.isUser,
+  thingGuard.isFromProject,
+  sensorGuard.isFromThing,
+  tsResolver.matchDatesQuery,
+  tsController.download
+);
+routes.get(
   '/:sensorId/value',
   authGuard.isAuthenticated,
   projectGuard.isUser,

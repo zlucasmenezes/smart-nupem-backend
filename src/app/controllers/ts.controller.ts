@@ -1,7 +1,12 @@
 import dayjs from 'dayjs';
 import { NextFunction, Request, Response } from 'express';
+import { Parser } from 'json2csv';
 import { Types } from 'mongoose';
 import { IResponsePattern, patternError, patternResponse } from '../models/express.model';
+import { IRelay } from '../models/relay.model';
+import { ISensor } from '../models/sensor.model';
+import Relay from '../schemas/relay.schema';
+import Sensor from '../schemas/sensor.schema';
 import TS from '../schemas/ts.schema';
 import { SocketIO } from '../socket-io';
 import { RouteUtils } from '../utils/route-utils';
@@ -54,6 +59,62 @@ class TSController {
       }
 
       return response.status(201).send(patternResponse(data, 'ts data added'));
+    } catch (error) {
+      return response.status(500).send(patternError(error, error.message));
+    }
+  }
+
+  public async download(request: Request, response: Response<any>, _: NextFunction): Promise<Response | void> {
+    try {
+      const deviceType = RouteUtils.getDeviceType(request.params);
+
+      let device: ISensor | IRelay | null;
+
+      if (deviceType === 'sensor') {
+        device = await Sensor.findById(request.params.sensorId);
+      } else {
+        device = await Relay.findById(request.params.relayId);
+      }
+
+      const data = await TS.aggregate()
+        .match(request.body.matchDay)
+        .unwind('values')
+        .project({
+          _id: false,
+          [deviceType]: `$${deviceType}`,
+          thing: '$thing',
+          ts: {
+            $toDate: '$values.timestamp',
+          },
+          value: '$values.value',
+        })
+        .sort({ ts: 1 })
+        .match(request.body.matchMoment);
+
+      const csv = new Parser({
+        fields: [
+          {
+            label: 'Timestamp',
+            value: 'ts',
+          },
+          {
+            label: device?.name,
+            value: 'value',
+          },
+        ],
+      }).parse(
+        data.map(d => {
+          if (typeof d.value === 'boolean') {
+            d.value = d.value ? 1 : 0;
+          }
+
+          return d;
+        })
+      );
+
+      response.setHeader('Content-Type', 'text/csv');
+      response.setHeader('Content-Disposition', `attachment; filename="${deviceType}-${device?.name}-${Date.now()}.csv"`);
+      return response.status(200).send(csv);
     } catch (error) {
       return response.status(500).send(patternError(error, error.message));
     }

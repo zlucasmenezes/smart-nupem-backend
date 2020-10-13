@@ -10,6 +10,14 @@ import tsResolver from '../middleware/ts.resolver';
 const routes = Router({ mergeParams: true });
 
 routes.post('/', authGuard.isAuthenticated, projectGuard.isAdmin, thingGuard.isFromProject, relayController.create);
+routes.post(
+  '/:relayId/ts',
+  authGuard.isAuthenticated,
+  projectGuard.isUser,
+  thingGuard.isFromProject,
+  relayGuard.isFromThing,
+  tsController.insert
+);
 routes.get('/', authGuard.isAuthenticated, projectGuard.isUser, thingGuard.isFromProject, relayController.find);
 routes.get(
   '/:relayId/ts',
@@ -20,13 +28,14 @@ routes.get(
   tsResolver.matchDatesQuery,
   tsController.get
 );
-routes.post(
-  '/:relayId/ts',
+routes.get(
+  '/:relayId/ts/download',
   authGuard.isAuthenticated,
   projectGuard.isUser,
   thingGuard.isFromProject,
   relayGuard.isFromThing,
-  tsController.insert
+  tsResolver.matchDatesQuery,
+  tsController.download
 );
 routes.get(
   '/:relayId/value',
