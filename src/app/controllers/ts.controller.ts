@@ -113,7 +113,8 @@ class TSController {
       );
 
       response.setHeader('Content-Type', 'text/csv');
-      response.setHeader('Content-Disposition', `attachment; filename="${deviceType}-${device?.name}-${Date.now()}.csv"`);
+      response.setHeader('Content-Disposition', `attachment; filename="${deviceType}-${device?.name}.csv"`);
+      response.setHeader('Access-Control-Expose-Headers', 'Content-Disposition');
       return response.status(200).send(csv);
     } catch (error) {
       return response.status(500).send(patternError(error, error.message));
