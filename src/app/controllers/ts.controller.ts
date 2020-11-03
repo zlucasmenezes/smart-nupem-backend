@@ -91,6 +91,11 @@ class TSController {
         .sort({ ts: 1 })
         .match(request.body.matchMoment);
 
+      if (data.length === 0) {
+        const error = new Error(`There is no ${device?.name} ${deviceType} data for this period`);
+        return response.status(404).send(patternError(error, error.message));
+      }
+
       const csv = new Parser({
         fields: [
           {
@@ -139,6 +144,11 @@ class TSController {
         })
         .sort({ ts: 1 })
         .match(request.body.matchMoment);
+
+      if (data.length === 0) {
+        const error = new Error(`There is no ${deviceType} data for this period`);
+        return response.status(404).send(patternError(error, error.message));
+      }
 
       return response.status(201).send(patternResponse(data));
     } catch (error) {
