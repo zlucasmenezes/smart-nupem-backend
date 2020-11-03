@@ -1,12 +1,12 @@
 import { Secret, SignOptions } from 'jsonwebtoken';
 import * as dev from './environment.dev';
-import * as hmg from './environment.hmg';
+import * as test from './environment.test';
 
 let environmentConfiguration: IEnvironmentConfiguration;
 
 switch (process.env.environment) {
-  case 'hmg':
-    environmentConfiguration = hmg.environmentConfiguration;
+  case 'test':
+    environmentConfiguration = test.environmentConfiguration;
     break;
   default:
     environmentConfiguration = dev.environmentConfiguration;
@@ -17,7 +17,7 @@ export const environment: IEnvironment = {
   ...environmentConfiguration,
   ...{
     name: 'monica-backend',
-    version: '0.0.23',
+    version: '0.0.24',
   },
 };
 
