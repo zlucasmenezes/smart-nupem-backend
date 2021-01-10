@@ -14,6 +14,16 @@ export interface ISensor extends ISensorSchema {
   store: boolean;
   function: string;
   config: ISensorParameters[];
+  upcomingChanges: ISensorChanges;
+}
+
+interface ISensorChanges {
+  name: string;
+  pin: number;
+  pollTime: number;
+  store: boolean;
+  function: string;
+  config: ISensorParameters[];
 }
 
 export interface ISensorSchema extends IBase {

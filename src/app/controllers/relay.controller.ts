@@ -43,11 +43,13 @@ class RelayController {
         return response.status(404).send(patternError(undefined, 'Relay not found'));
       }
 
-      relay.name = updatedRelay.name;
-      relay.pin = updatedRelay.pin;
-      relay.button = updatedRelay.button;
-      relay.store = updatedRelay.store;
-      relay.nc = updatedRelay.nc;
+      relay.upcomingChanges = {
+        name: updatedRelay.name,
+        pin: updatedRelay.pin,
+        button: updatedRelay.button,
+        store: updatedRelay.store,
+        nc: updatedRelay.nc,
+      };
       const updated = await relay.save();
 
       return response.status(200).send(patternResponse(updated, 'Relay updated'));

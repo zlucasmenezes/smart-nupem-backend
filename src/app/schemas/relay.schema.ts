@@ -32,6 +32,34 @@ const RelaySchema = new Schema<IRelay>(
       type: Boolean,
       required: true,
     },
+    upcomingChanges: {
+      type: {
+        name: {
+          type: String,
+          required: true,
+          maxlength: 64,
+        },
+        pin: {
+          type: Number,
+          required: true,
+          min: 1,
+        },
+        button: {
+          type: Number,
+          min: 1,
+          default: null,
+        },
+        store: {
+          type: Boolean,
+          required: true,
+        },
+        nc: {
+          type: Boolean,
+          required: true,
+        },
+      },
+      default: null,
+    },
   },
   {
     timestamps: true,

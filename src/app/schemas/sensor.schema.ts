@@ -51,6 +51,48 @@ const SensorSchema = new Schema<ISensor>(
         },
       },
     ],
+    upcomingChanges: {
+      type: {
+        name: {
+          type: String,
+          required: true,
+          maxlength: 64,
+        },
+        pin: {
+          type: Number,
+          required: true,
+          min: 1,
+        },
+        pollTime: {
+          type: Number,
+          required: true,
+          min: 1000,
+        },
+        store: {
+          type: Boolean,
+          required: true,
+        },
+        function: {
+          type: String,
+          default: null,
+        },
+        config: [
+          {
+            _id: false,
+            parameter: {
+              type: String,
+              required: true,
+              maxlength: 64,
+            },
+            value: {
+              type: Number,
+              required: true,
+            },
+          },
+        ],
+      },
+      default: null,
+    },
   },
   {
     timestamps: true,
