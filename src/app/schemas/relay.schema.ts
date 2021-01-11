@@ -120,10 +120,15 @@ RelaySchema.statics.findByThingAndPopulate = async function (this: IRelayModel, 
     .exec();
 };
 
+RelaySchema.statics.findByThing = async function (this: IRelayModel, thingId: string) {
+  return this.find({ thing: thingId });
+};
+
 const Relay: IRelayModel = model<IRelay, IRelayModel>('Relay', RelaySchema, 'relays');
 export default Relay;
 
 interface IRelayModel extends Model<IRelay> {
   findByIdAndPopulate(relayId: string): Promise<IRelayPopulated>;
   findByThingAndPopulate(thingId: string): Promise<IRelayPopulated[]>;
+  findByThing(thingId: string): Promise<IRelay[]>;
 }

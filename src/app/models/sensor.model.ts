@@ -14,7 +14,7 @@ export interface ISensor extends ISensorSchema {
   store: boolean;
   function: string;
   config: ISensorParameters[];
-  upcomingChanges: ISensorChanges;
+  upcomingChanges: ISensorChanges | null;
 }
 
 interface ISensorChanges {

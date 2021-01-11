@@ -11,7 +11,7 @@ export interface IRelay extends IRelaySchema {
   button: number;
   store: boolean;
   nc: boolean;
-  upcomingChanges: IRelayChanges;
+  upcomingChanges: IRelayChanges | null;
 }
 interface IRelayChanges {
   name: string;

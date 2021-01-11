@@ -161,10 +161,15 @@ SensorSchema.statics.findByThingAndPopulate = async function (this: ISensorModel
     .exec();
 };
 
+SensorSchema.statics.findByThing = async function (this: ISensorModel, thingId: string) {
+  return this.find({ thing: thingId });
+};
+
 const Sensor: ISensorModel = model<ISensor, ISensorModel>('Sensor', SensorSchema, 'sensors');
 export default Sensor;
 
 interface ISensorModel extends Model<ISensor> {
   findByIdAndPopulate(sensorId: string): Promise<ISensorPopulated>;
   findByThingAndPopulate(thingId: string): Promise<ISensorPopulated[]>;
+  findByThing(thingId: string): Promise<ISensor[]>;
 }
