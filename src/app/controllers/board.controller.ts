@@ -72,6 +72,12 @@ class BoardController {
   public async updateDevicesUpcomingChanges(request: Request, response: Response<IResponsePattern>): Promise<Response> {
     try {
       SocketIO.sendInRoom(`board:${request.params.thingId}`, 'update_devices', null);
+
+      if (!request.upcomingChanges.updatedSuccessfully) {
+        throw new Error(request.upcomingChanges.statusMessage);
+      }
+
+      response.status(200).send(patternResponse(null, request.upcomingChanges.statusMessage));
     } catch (error) {
       return response.status(401).send(patternError(error, error.message));
     }

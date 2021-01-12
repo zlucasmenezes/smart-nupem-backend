@@ -8,6 +8,10 @@ declare global {
       token: IDecodedToken;
       boardToken: IBoardDecodedToken;
       storeData: boolean;
+      upcomingChanges: {
+        updatedSuccessfully: boolean;
+        statusMessage: string;
+      };
     }
   }
 }
