@@ -5,7 +5,7 @@ import { IRelay, IRelaySchema } from '../models/relay.model';
 import { ISensor, ISensorSchema } from '../models/sensor.model';
 import Relay from '../schemas/relay.schema';
 import Sensor from '../schemas/sensor.schema';
-
+import { SocketIO } from '../socket-io';
 class ThingResolver {
   public async applyUpcomingChanges(request: Request, response: Response<IResponsePattern>, next: NextFunction): Promise<Response | void> {
     try {
@@ -33,6 +33,7 @@ class ThingResolver {
           console.log(`[THING] ${request.params.thingId}: Can't apply all upcoming changes`);
         })
         .finally(() => {
+          SocketIO.sendInRoom(`thing:${request.params.thingId}`, 'update_devices', null);
           next();
         });
     } catch (error) {

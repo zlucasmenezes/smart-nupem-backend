@@ -8,6 +8,13 @@ import thingGuard from '../middleware/guards/thing.guard';
 const routes = Router({ mergeParams: true });
 
 routes.post('/', authGuard.isAuthenticated, projectGuard.isAdmin, thingController.create, boardController.create);
+routes.post(
+  '/:thingId/board/update',
+  authGuard.isAuthenticated,
+  projectGuard.isAdmin,
+  thingGuard.isFromProject,
+  boardController.updateDevicesUpcomingChanges
+);
 routes.get('/', authGuard.isAuthenticated, projectGuard.isUser, thingController.find);
 routes.get('/types', authGuard.isAuthenticated, projectGuard.isUser, thingController.getTypes);
 routes.get('/:thingId', authGuard.isAuthenticated, projectGuard.isUser, thingGuard.isFromProject, thingController.findOne);

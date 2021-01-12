@@ -8,6 +8,7 @@ import Relay from '../schemas/relay.schema';
 import Sensor from '../schemas/sensor.schema';
 import Thing from '../schemas/thing.schema';
 import { EmailService } from '../services/email.service';
+import { SocketIO } from '../socket-io';
 import { EmailTemplateUtils } from '../utils/email-template-utils';
 
 class BoardController {
@@ -63,6 +64,14 @@ class BoardController {
         }),
       };
       return response.status(200).send(patternResponse(devices));
+    } catch (error) {
+      return response.status(401).send(patternError(error, error.message));
+    }
+  }
+
+  public async updateDevicesUpcomingChanges(request: Request, response: Response<IResponsePattern>): Promise<Response> {
+    try {
+      SocketIO.sendInRoom(`board:${request.params.thingId}`, 'update_devices', null);
     } catch (error) {
       return response.status(401).send(patternError(error, error.message));
     }
