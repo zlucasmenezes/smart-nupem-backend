@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from 'express';
-import { Model } from 'mongoose';
+import { Model, Query } from 'mongoose';
 import { IResponsePattern, patternError } from '../models/express.model';
 import { IRelay, IRelaySchema } from '../models/relay.model';
 import { ISensor, ISensorSchema } from '../models/sensor.model';
@@ -13,14 +13,14 @@ class ThingResolver {
       const sensors = await Sensor.findByThing(request.params.thingId);
       const relays = await Relay.findByThing(request.params.thingId);
 
-      const updates: Promise<IRelay | ISensor>[] = [];
+      const updates: Query<ISensor | IRelay>[] = [];
 
-      const updateDevices = (devices: (IRelay | ISensor)[], model: Model<IRelaySchema | ISensorSchema>) => {
+      const updateDevices = async (devices: (IRelay | ISensor)[], model: Model<IRelaySchema | ISensorSchema>) => {
         for (const device of devices) {
           if (!device.upcomingChanges) {
             continue;
           }
-          updates.push(model.updateOne({ _id: device._id }, { ...device.upcomingChanges, upcomingChanges: null }).exec());
+          updates.push(model.updateOne({ _id: device._id }, { ...device.upcomingChanges, upcomingChanges: null }));
         }
       };
       updateDevices(sensors, Sensor);
@@ -38,7 +38,7 @@ class ThingResolver {
           request.upcomingChanges = { updatedSuccessfully: false, statusMessage };
         })
         .finally(() => {
-          SocketIO.sendInRoom(`thing:${request.params.thingId}`, 'update_devices', null);
+          SocketIO.sendInRoom(`thing:${request.params.thingId}`, 'update_devices', { id: request.params.thingId });
           next();
         });
     } catch (error) {
