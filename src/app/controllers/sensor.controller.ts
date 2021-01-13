@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 import { IResponsePattern, patternError, patternResponse } from '../models/express.model';
 import { ISensor } from '../models/sensor.model';
 import Sensor from '../schemas/sensor.schema';
+import { SocketIO } from '../socket-io';
 
 class SensorController {
   public async create(request: Request, response: Response<IResponsePattern>): Promise<Response> {
@@ -52,6 +53,8 @@ class SensorController {
         function: updatedSensor.function,
       };
       const updated = await sensor.save();
+
+      SocketIO.sendInRoom(`thing:${request.params.thingId}`, 'upcoming_changes', { id: request.params.thingId });
 
       return response.status(200).send(patternResponse(updated, 'Sensor updated'));
     } catch (error) {

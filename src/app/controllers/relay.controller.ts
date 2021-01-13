@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 import { IResponsePattern, patternError, patternResponse } from '../models/express.model';
 import { IRelay } from '../models/relay.model';
 import Relay from '../schemas/relay.schema';
+import { SocketIO } from '../socket-io';
 
 class RelayController {
   public async create(request: Request, response: Response<IResponsePattern>): Promise<Response> {
@@ -51,6 +52,8 @@ class RelayController {
         nc: updatedRelay.nc,
       };
       const updated = await relay.save();
+
+      SocketIO.sendInRoom(`thing:${request.params.thingId}`, 'upcoming_changes', { id: request.params.thingId });
 
       return response.status(200).send(patternResponse(updated, 'Relay updated'));
     } catch (error) {
