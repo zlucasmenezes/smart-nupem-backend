@@ -28,7 +28,7 @@ class ThingResolver {
 
       Promise.all(updates)
         .then(devices => {
-          const statusMessage = `Upcoming changes applied to ${devices.length} devices`;
+          const statusMessage = `Upcoming changes applied to ${devices.length} ${devices.length === 1 ? 'device' : 'devices'}`;
           console.log(`[THING] ${request.params.thingId}: ${statusMessage}`);
           request.upcomingChanges = { updatedSuccessfully: true, statusMessage };
         })
