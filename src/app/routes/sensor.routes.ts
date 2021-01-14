@@ -53,6 +53,14 @@ routes.put(
   sensorGuard.isFromThing,
   sensorController.update
 );
+routes.patch(
+  '/:sensorId/discardUpcomingChanges',
+  authGuard.isAuthenticated,
+  projectGuard.isAdmin,
+  thingGuard.isFromProject,
+  sensorGuard.isFromThing,
+  sensorController.discardUpcomingChanges
+);
 routes.delete(
   '/:sensorId',
   authGuard.isAuthenticated,

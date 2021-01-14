@@ -62,6 +62,25 @@ class SensorController {
     }
   }
 
+  public async discardUpcomingChanges(request: Request, response: Response<IResponsePattern>): Promise<Response> {
+    try {
+      const sensor = await Sensor.findById(request.params.sensorId);
+
+      if (!sensor) {
+        return response.status(404).send(patternError(undefined, 'Sensor not found'));
+      }
+
+      sensor.upcomingChanges = null;
+      const updated = await sensor.save();
+
+      SocketIO.sendInRoom(`thing:${request.params.thingId}`, 'upcoming_changes', { id: request.params.thingId });
+
+      return response.status(200).send(patternResponse(updated, 'Sensor updated'));
+    } catch (error) {
+      return response.status(500).send(patternError(error, error.message));
+    }
+  }
+
   public async delete(request: Request, response: Response<IResponsePattern>): Promise<Response> {
     try {
       const deleted = await Sensor.deleteOne({ _id: request.params.sensorId });

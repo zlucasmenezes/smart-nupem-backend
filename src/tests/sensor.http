@@ -11,8 +11,8 @@
 @thingId = 5f4da2347c14b1d12aa9601f
 @baseUrl = http://{{host}}:{{port}}/api/project/{{projectId}}/thing/{{thingId}}/sensor
 # @sensorId = {{ sensors.response.body.$.data[0]._id }}
-@sensorId = 5f4ea296588fdf289fcdac59
-@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI1ZjRkOGVhOGU0MzU1ZWEwYmVjOWUxOTYiLCJpYXQiOjE1OTkwMDEzNDUsImV4cCI6MTU5OTYwNjE0NX0.tiOy9vUb-8XIZQHHGS2MV8n6_pduSNHiKxwZSansdwY
+@sensorId = 5f5812ed48661304c891fa2b
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI1ZjRkOGVhOGU0MzU1ZWEwYmVjOWUxOTYiLCJpYXQiOjE2MTA2NjQ3MjksImV4cCI6MTYxMTI2OTUyOX0.vXtfXxXOS-22Sj5dv_th5dMmYLdwqfW-F-0rzBax0ww
 
 ### CREATE
 POST {{baseUrl}}
@@ -103,6 +103,11 @@ Authorization: Bearer {{token}}
 		}
 	]
 }
+
+### UPDATE
+PATCH {{baseUrl}}/{{sensorId}}/discardUpcomingChanges
+Content-Type: application/json
+Authorization: Bearer {{token}}
 
 
 ### REMOVE

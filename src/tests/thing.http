@@ -10,7 +10,7 @@
 @baseUrl = http://{{host}}:{{port}}/api/project/{{projectId}}/thing
 # @thingId = {{ things.response.body.$.data[0]._id }}
 @thingId = 5f4da2347c14b1d12aa9601f
-@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI1ZjRkOGVhOGU0MzU1ZWEwYmVjOWUxOTYiLCJpYXQiOjE2MDAzODc5NzMsImV4cCI6MTYwMDk5Mjc3M30.S2SEUuJYHm-3ctigdztke3zAUwe5VxIoS3lPbLY2cKw
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI1ZjRkOGVhOGU0MzU1ZWEwYmVjOWUxOTYiLCJpYXQiOjE2MTA2NjQ3MjksImV4cCI6MTYxMTI2OTUyOX0.vXtfXxXOS-22Sj5dv_th5dMmYLdwqfW-F-0rzBax0ww
 
 ### CREATE
 POST {{baseUrl}}
@@ -36,6 +36,11 @@ Authorization: Bearer {{token}}
 
 ### GET BOARD STATUS
 GET {{baseUrl}}/{{thingId}}/board
+Authorization: Bearer {{token}}
+
+
+### APPLY UPCOMING CHANGES AND SEND TO BOARD
+PATCH {{baseUrl}}/{{thingId}}/board/update
 Authorization: Bearer {{token}}
 
 
