@@ -104,7 +104,7 @@ Authorization: Bearer {{token}}
 	]
 }
 
-### UPDATE
+### DISCARD UPCOMING CHANGES
 PATCH {{baseUrl}}/{{sensorId}}/discardUpcomingChanges
 Content-Type: application/json
 Authorization: Bearer {{token}}

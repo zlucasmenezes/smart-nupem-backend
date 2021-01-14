@@ -61,6 +61,25 @@ class RelayController {
     }
   }
 
+  public async discardUpcomingChanges(request: Request, response: Response<IResponsePattern>): Promise<Response> {
+    try {
+      const relay = await Relay.findById(request.params.relayId);
+
+      if (!relay) {
+        return response.status(404).send(patternError(undefined, 'Relay not found'));
+      }
+
+      relay.upcomingChanges = null;
+      const updated = await relay.save();
+
+      SocketIO.sendInRoom(`thing:${request.params.thingId}`, 'upcoming_changes', { id: request.params.thingId });
+
+      return response.status(200).send(patternResponse(updated, 'Relay updated'));
+    } catch (error) {
+      return response.status(500).send(patternError(error, error.message));
+    }
+  }
+
   public async delete(request: Request, response: Response<IResponsePattern>): Promise<Response> {
     try {
       const deleted = await Relay.deleteOne({ _id: request.params.relayId });

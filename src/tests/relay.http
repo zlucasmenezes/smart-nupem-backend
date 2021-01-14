@@ -70,6 +70,12 @@ Authorization: Bearer {{token}}
 }
 
 
+### DISCARD UPCOMING CHANGES
+PATCH {{baseUrl}}/{{relayId}}/discardUpcomingChanges
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+
 ### REMOVE
 DELETE {{baseUrl}}/{{relayId}}
 Authorization: Bearer {{token}}

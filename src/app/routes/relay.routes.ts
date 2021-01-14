@@ -61,6 +61,14 @@ routes.put(
   relayGuard.isFromThing,
   relayController.update
 );
+routes.patch(
+  '/:relayId/discardUpcomingChanges',
+  authGuard.isAuthenticated,
+  projectGuard.isAdmin,
+  thingGuard.isFromProject,
+  relayGuard.isFromThing,
+  relayController.discardUpcomingChanges
+);
 routes.delete(
   '/:relayId',
   authGuard.isAuthenticated,
