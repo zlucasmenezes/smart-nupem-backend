@@ -1,6 +1,6 @@
 {
   "name": "monica-backend",
-  "version": "0.0.25",
+  "version": "0.0.26",
   "main": "dist/server.js",
   "repository": "https://github.com/zlucasmenezes/monica-backend.git",
   "author": "zlucasmenezes",
