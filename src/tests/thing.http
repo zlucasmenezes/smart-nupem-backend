@@ -38,6 +38,10 @@ Authorization: Bearer {{token}}
 GET {{baseUrl}}/{{thingId}}/board
 Authorization: Bearer {{token}}
 
+### GET BOARD CREDENTIALS
+GET {{baseUrl}}/{{thingId}}/credentials
+Authorization: Bearer {{token}}
+
 
 ### APPLY UPCOMING CHANGES AND SEND TO BOARD
 PATCH {{baseUrl}}/{{thingId}}/board/update

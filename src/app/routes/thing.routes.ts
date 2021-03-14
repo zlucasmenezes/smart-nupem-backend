@@ -13,6 +13,7 @@ routes.get('/', authGuard.isAuthenticated, projectGuard.isUser, thingController.
 routes.get('/types', authGuard.isAuthenticated, projectGuard.isUser, thingController.getTypes);
 routes.get('/:thingId', authGuard.isAuthenticated, projectGuard.isUser, thingGuard.isFromProject, thingController.findOne);
 routes.get('/:thingId/board', authGuard.isAuthenticated, projectGuard.isUser, thingGuard.isFromProject, thingController.getBoardStatus);
+routes.get('/:thingId/credentials', authGuard.isAuthenticated, projectGuard.isAdmin, thingGuard.isFromProject, boardController.getBoardCredentials);
 routes.put('/:thingId', authGuard.isAuthenticated, projectGuard.isAdmin, thingGuard.isFromProject, thingController.update);
 routes.delete('/:thingId', authGuard.isAuthenticated, projectGuard.isAdmin, thingGuard.isFromProject, thingController.delete);
 routes.patch(

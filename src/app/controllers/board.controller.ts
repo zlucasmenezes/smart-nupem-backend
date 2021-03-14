@@ -77,9 +77,24 @@ class BoardController {
         throw new Error(request.upcomingChanges.statusMessage);
       }
 
-      response.status(200).send(patternResponse(null, request.upcomingChanges.statusMessage));
+      return response.status(200).send(patternResponse(null, request.upcomingChanges.statusMessage));
     } catch (error) {
       return response.status(401).send(patternError(error, error.message));
+    }
+  }
+
+  public async getBoardCredentials(request: Request, response: Response<IResponsePattern>): Promise<Response> {
+    try {
+      const board = await Board.findById(request.params.thingId);
+
+      const boardCredentials = {
+        _id: request.params.thingId,
+        password: board?.password,
+      };
+
+      return response.status(200).send(patternResponse(boardCredentials));
+    } catch (error) {
+      return response.status(500).send(patternError(error, error.message));
     }
   }
 }
