@@ -17,6 +17,10 @@ const SensorTypeSchema = new Schema<ISensorType>(
       type: String,
       default: null,
     },
+    status: {
+      type: Boolean,
+      required: true,
+    },
     config: [
       {
         _id: false,

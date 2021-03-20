@@ -33,6 +33,7 @@ export interface ISensorSchema extends IBase {
 export interface ISensorType extends IBase {
   type: string;
   input: InputType;
+  status: boolean;
   function: string;
   config: ISensorConfig[];
 }

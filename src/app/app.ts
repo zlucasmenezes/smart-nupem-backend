@@ -6,6 +6,7 @@ import { environment, IEnvironment as Environment } from '../environments/enviro
 import { IRouteConfig, routes } from './routes/routes';
 import { EmailService } from './services/email.service';
 import { SocketIO } from './socket-io';
+import { startupTasks } from './tasks/tasks';
 
 class App {
   private app: Application;
@@ -22,6 +23,7 @@ class App {
   public async start(): Promise<Server> {
     await this.database();
 
+    await this.runStartupTasks();
     const server = this.app.listen(this.environment.port);
 
     server.on('listening', () =>
@@ -78,6 +80,14 @@ class App {
     };
 
     return await connect();
+  }
+
+  private async runStartupTasks() {
+    console.log('[APP] Running startup tasks');
+
+    return Promise.all(startupTasks.map(task => task())).then(() => {
+      console.log('[APP] Startup tasks complete');
+    });
   }
 }
 export default new App();
