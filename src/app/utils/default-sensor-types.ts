@@ -53,4 +53,34 @@ export const defaultSensorTypes: Partial<ISensorType>[] = [
       },
     ],
   },
+
+  /* YHDC SCT - Current sensor */
+  {
+    library: 0,
+    type: 'SCT - Current',
+    input: 'Analog',
+    status: true,
+    config: [
+      {
+        parameter: 'calibration',
+        description: 'The number of turns on secondary divided by the value of the burden resitor',
+        default: 111.111,
+      },
+    ],
+  },
+
+  /* YHDC SCT - Apparent power sensor */
+  {
+    library: 0,
+    type: 'SCT - Apparent power',
+    input: 'Analog',
+    status: true,
+    config: [
+      {
+        parameter: 'calibration',
+        description: 'The number of turns on secondary divided by the value of the burden resitor',
+        default: 111.111,
+      },
+    ],
+  },
 ];

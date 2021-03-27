@@ -7,5 +7,5 @@ export async function createDefaultSensorTypes(): Promise<void> {
     .then(() => {
       return;
     })
-    .catch(e => console.error(e.writeErrors.map((writeError: any) => writeError.err.errmsg)));
+    .catch(e => console.error(e.writeErrors.map((writeError: any) => `Sensor found: ${writeError.err.op.type}`)));
 }
