@@ -49,6 +49,7 @@ class BoardController {
           return {
             sensor: sensor._id,
             type: sensor.type.type,
+            library: sensor.type.library,
             input: sensor.type.input,
             pin: sensor.pin,
             pollTime: sensor.pollTime,

@@ -13,6 +13,10 @@ const SensorTypeSchema = new Schema<ISensorType>(
       type: String,
       required: true,
     },
+    library: {
+      type: Number,
+      default: null,
+    },
     function: {
       type: String,
       default: null,

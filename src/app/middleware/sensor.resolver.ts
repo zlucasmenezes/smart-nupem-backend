@@ -7,6 +7,10 @@ class SensorResolver {
     try {
       const sensor = await Sensor.findByIdAndPopulate(request.params.sensorId);
 
+      if (typeof sensor.type.library === 'number') {
+        return next();
+      }
+
       if (sensor.function) {
         const sensorFunction = new Function('value', 'resolution', sensor.function);
 

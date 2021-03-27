@@ -108,7 +108,7 @@ class TSController {
           },
         ],
       }).parse(
-        data.map(d => {
+        data.map((d: any) => {
           if (typeof d.value === 'boolean') {
             d.value = d.value ? 1 : 0;
           }

@@ -34,10 +34,10 @@ export interface ISensorType extends IBase {
   type: string;
   input: InputType;
   status: boolean;
+  library: number;
   function: string;
   config: ISensorConfig[];
 }
-
 export interface ISensorConfig {
   parameter: string;
   description: string;

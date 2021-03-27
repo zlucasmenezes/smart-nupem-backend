@@ -10,7 +10,8 @@
 @baseUrl = http://{{host}}:{{port}}/api/board
 @boardId = {{ login.response.body.$.data.boardId }}
 @token = {{ auth.response.body.$.data.token }}
-@sensorId = {{ devices.response.body.$.data.sensors[0].sensor }}
+# @sensorId = {{ devices.response.body.$.data.sensors[0].sensor }}
+@sensorId = 605a777cd499e0fe47df8bd4
 # @relayId = {{ devices.response.body.$.data.relays[0].relay }}
 @relayId = 5f5d430dcee4131df705241e
 
@@ -20,8 +21,8 @@ POST {{baseUrl}}/auth
 Content-Type: application/json
 
 {
-  "board": "5f4da2347c14b1d12aa9601f",
-	"password": "M09OJYWXf3A4&7vk"
+  "board": "605a717d8dc961db9ef17720",
+	"password": "bgwK7pDqFviZQBLv"
 }
 
 ### GET DEVICES
@@ -36,7 +37,7 @@ Authorization: Bearer {{token}}
 Content-Type: application/json
 
 { 
-  "value": 2000,
+  "value": 3000,
   "resolution": 4095
 }
 

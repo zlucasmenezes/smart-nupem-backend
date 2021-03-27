@@ -43,6 +43,7 @@ class SensorTypeController {
       }
 
       sensorType.type = updatedSensorType.type;
+      sensorType.status = updatedSensorType.status;
       sensorType.config = updatedSensorType.config;
       sensorType.function = updatedSensorType.function;
       sensorType.input = updatedSensorType.input;
